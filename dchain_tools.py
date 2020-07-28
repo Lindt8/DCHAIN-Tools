@@ -6,8 +6,6 @@ Created on Mar 9, 2020
 '''
 This script serves to function as a library of functions related to DCHAIN which can be easily
 imported into and used by scripts for processing DCHIAN output.
-Note that this library calls and makes use of functions from my similar collection of
-more general functions called Hunters_tools.py.
 
 --- General Purpose Functions ---
 Dname_to_ZAM ............................... converts a DCHAIN-formatted nuclide name to a ZZZAAAM number
