@@ -1,0 +1,102 @@
+[ T-Dchain ]
+    title = Test-calc
+    imode =    2            # Card[2]-1 control param.
+    jmode =    2            # Card[2]-2 control param.
+   itstep =    4            # (D=1) Card[3]-1 calc. condition
+    itout =   12            # (D=1) Card[3]-2 calc. condition
+    idivs =   50            # (D=50) Card[3]-3 calc. condition
+   iregon =    1            # (D=1) Card[3]-4 calc. condition
+   inmtcf =    1            # (D=1) Card[3]-5 calc. condition
+   ichain =  100            # (D=100) Card[3]-6 calc. condition
+   itdecs =    1            # (D=0) Card[3]-7 calc. condition
+   itdecn =    1            # (D=1) Card[3]-8 calc. condition
+   isomtr =    2            # (D=2) Card[3]-9 calc. condition
+   ifisyd =    0            # (D=1) Card[3]-10 calc. condition
+   ifisye =    0            # (D=0) Card[3]-11 calc. condition
+  ixsrall =    1            # (D=1) Card[3]-12 calc. condition
+  inxslib =  100            # (D=2) Card[3b]-1 data lib opt.
+  idcylib =    5            # (D=5) Card[3b]-2 data lib opt.
+    iyild =    2            # (D=0) Card[4]-1 output opt.
+    iggrp =    3            # (D=3) Card[4]-2 output opt.
+   ibetap =    1            # (D=1) Card[4]-3 output opt.
+    acmin = 1.0000000E-20   # (D=0.0) Card[4]-4 output opt.
+   istabl =    0            # (D=0) Card[4]-5 output opt.
+   igsdef =    1            # (D=1) Card[4]-6 output opt.
+C  iprtb1 =    1            # (D=1) Card[4]-7 output opt. -DISABLE!
+C  iprtb2 =    1            # (D=1) Card[4]-8 output opt. -DISABLE!
+C  rprtb2 =  10.00000       # (D=10.) Card[4]-9 output opt. -DISABLE!
+C  iprtb3 =    0            # (D=0) Card[4]-10 output opt. -DISABLE!
+   igsorg =    1            # (D=1) Card[4]-11 output opt.
+  iwrtchn =    1            # (D=1) Card[4]-12 output opt.
+  chrlvth = -1.000000       # (D=-1) Card[4]-13 output opt.
+  iwrchdt =    0            # (D=0) Card[4]-14 output opt.
+  iwrchss =    0            # (D=0) Card[4]-15 output opt.
+  idosecf =    1            # (D=1) Card[3]-12 calc. condition
+ ipltmode =    0            # (D=0) Card[9d]-1 xyz mesh plot condition
+ ipltaxis =    1            # (D=1) Card[9d]-2 xyz mesh plot condition
+  foamout =    0            # (D=0) Card[9d]-1 tet mesh OpenFoam option
+ foamvals =    0            # (D=1) Card[9d]-2 tet mesh OpenFoam option
+ iredufmt =    1            # (D=1) Card[8]-7 dtrk/dyld formatting flag
+ irdonce  =    1            # (D=1) Card[8]-8 dtrk/dyld parsing flag
+      amp = 1.0000000E+12   # (D=1.0) Source Intensity(source/sec)
+    ebeam =  3.000000       # (D=3.0) Card[5]-2 beam data
+   prodnp =  1.000000       # (D=1.0) Card[5]-3 beam data
+ dversion =    1            # version of DCHAIN OLD(0)/NEW(1)
+  timeevo =    4            # Card[6] time evolution
+     0.1000000E+02 h    1.000000    
+     0.5000000E+01 h    0.000000    
+     0.1000000E+02 h    1.000000    
+     0.1001000E+02 y    0.000000    
+  outtime =   12            # Card[7] output time
+    -0.1000000E+02 s
+    -0.1000000E+01 m
+    -0.1000000E+02 m
+    -0.1000000E+01 h
+    -0.1000000E+02 h
+    -0.1000000E+01 d
+    -0.1000000E+02 d
+    -0.1000000E+03 d
+    -0.1000000E+01 y
+    -0.2600000E+01 y
+    -0.5000000E+01 y
+    -0.1000000E+02 y
+C  Card[8] is disabled function for NEW DCHAIN.
+ iertdcho =    1            # (D=1) Card[9]-5 propagate err option
+     file = example_Na22.in  # file name of output for the above axis
+     mesh =  reg            # mesh type is region-wise
+      reg = 2 4
+   target =         4       # Card[10a] target nuclide 
+   non     reg      vol     # reg definition
+    1        2   1.0000E+00 # 2
+   tg-list =      1
+         F-19         1.5853070E-01
+    2        4   1.0000E+00 # 4
+   tg-list =     24
+         C-12         1.5872576E-04
+         C-13         1.7816320E-06
+        Si-28         7.9122391E-04
+        Si-29         4.0063056E-05
+        Si-30         2.6594320E-05
+         P-31         3.5785254E-05
+         S-32         2.1418650E-05
+         S-33         1.6905901E-07
+         S-34         9.4898458E-07
+         S-36         4.5082403E-09
+        Cr-50         7.6509476E-04
+        Cr-52         1.4754091E-02
+        Cr-53         1.6729955E-03
+        Cr-54         4.1644399E-04
+        Mn-55         8.7717726E-04
+        Fe-54         3.5392685E-03
+        Fe-56         5.5558946E-02
+        Fe-57         1.2830984E-03
+        Fe-58         1.7075684E-04
+        Ni-58         5.1700773E-03
+        Ni-60         1.9914940E-03
+        Ni-61         8.6576790E-05
+        Ni-62         2.7598250E-04
+        Ni-64         7.0324656E-05
+#    used :        main (  %)        temp (  %)       total (  %)
+#  memory :           0 (  0)           0 (  0)           0 (  0)
+
+#------------------------------------------------------------------------------

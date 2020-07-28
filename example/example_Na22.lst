@@ -1,0 +1,643 @@
+ ********************************************************
+ *                    DCHAIN-PHITS                      *
+ *                       (spd)                          *
+ *                     ---------                        *
+ *  transmutaion calculation code from PHITS yield data *
+ *  and/or target material irradiated by neutrons       *
+ ********************************************************
+ *  version: 3.20  Last Modified  (2020/04/09)          *
+ ********************************************************
+
+
+ echo-back print of input data -------------------------------------------------------------------------------------------------
+ line : input data card
+    1 :     htitle = Test-calc
+    2 :      imode =       2
+    3 :      jmode =       2
+    4 :      idivs =      50
+    5 :     ichain =     100
+    6 :     itdecs =       1
+    7 :     itdecn =       1
+    8 :     isomtr =       2
+    9 :     ifisyd =       0
+   10 :     ifisye =       0
+   11 :    ixsrall =       1
+   12 :    inxslib =     100
+   13 :    idcylib =       5
+   14 :      iyild =       2
+   15 :      iggrp =       3
+   16 :     ibetap =       1
+   17 :      acmin =  1.0000E-20
+   18 :     istabl =       0
+   19 :     igsdef =       1
+   20 :     igsorg =       1
+   21 :    iwrtchn =       1
+   22 :    chrlvth = -1.0000E+00
+   23 :    iwrchdt =       0
+   24 :    iwrchss =       0
+   25 :    idosecf =       1
+   26 :        amp =  1.6022E-04
+   27 :      ebeam =  3.0000E+00
+   28 :     prodnp =  1.0000E+00
+   29 :     itstep =       4
+   30 :       1.0000E+01 h  1.0000E+00
+   31 :       5.0000E+00 h  0.0000E+00
+   32 :       1.0000E+01 h  1.0000E+00
+   33 :       1.0010E+01 y  0.0000E+00
+   34 :      itout =      12
+   35 :      -1.0000E+01 s
+   36 :      -1.0000E+00 m
+   37 :      -1.0000E+01 m
+   38 :      -1.0000E+00 h
+   39 :      -1.0000E+01 h
+   40 :      -1.0000E+00 d
+   41 :      -1.0000E+01 d
+   42 :      -1.0000E+02 d
+   43 :      -1.0000E+00 y
+   44 :      -2.6000E+00 y
+   45 :      -5.0000E+00 y
+   46 :      -1.0000E+01 y
+   47 :     inmtcf =       1
+   48 :   itdchout =       1
+   49 :    hhnmtcf = example_Na22.dyld
+   50 :   iertdcho =       1
+   51 :    henmtcf = example_Na22_err.dyld
+   52 :   iredufmt =       1
+   53 :    irdonce =       1
+   54 :     iregon =      2
+   55 :    DUMMY001        2    1  5.5473E+09   example_Na22.dtrk  1.0000E+00
+   56 :    F-19      1.5853E-01
+   57 :    DUMMY002        4   24  2.2887E+05   example_Na22.dtrk  1.0000E+00
+   58 :    C-12      1.5873E-04
+   59 :    C-13      1.7816E-06
+   60 :   Si-28      7.9122E-04
+   61 :   Si-29      4.0063E-05
+   62 :   Si-30      2.6594E-05
+   63 :    P-31      3.5785E-05
+   64 :    S-32      2.1419E-05
+   65 :    S-33      1.6906E-07
+   66 :    S-34      9.4898E-07
+   67 :    S-36      4.5082E-09
+   68 :   Cr-50      7.6509E-04
+   69 :   Cr-52      1.4754E-02
+   70 :   Cr-53      1.6730E-03
+   71 :   Cr-54      4.1644E-04
+   72 :   Mn-55      8.7718E-04
+   73 :   Fe-54      3.5393E-03
+   74 :   Fe-56      5.5559E-02
+   75 :   Fe-57      1.2831E-03
+   76 :   Fe-58      1.7076E-04
+   77 :   Ni-58      5.1701E-03
+   78 :   Ni-60      1.9915E-03
+   79 :   Ni-61      8.6577E-05
+   80 :   Ni-62      2.7598E-04
+   81 :   Ni-64      7.0325E-05
+   82 :   angelout = 1
+   83 :   phitsout = 1
+   84 : end
+ -------------------------------------------------------------------------------------------------------------------------------
+
+ << start of input data >>
+
+ problem title: Test-calc                                                                                                                           
+
+ primary control data
+  (1) imode              2 : calculation mode
+                             0 = activity
+                             1 = activity and decay heat
+                             2 = activity, decay heat and gamma-ray spectrum
+  (2) jmode              2 : mode selection of particle beam and neutron irradiation
+                             0 = particle beam irradiation
+                             1 = irradiation with neutron flux below 20 [MeV]
+                             2 = particle beam and neutron irradiation
+                            -1 = decay (no irradiation)
+
+ first calculation condition data
+  (1) itstep             4 : number of time steps for irradiation and cooling (default=1)
+  (2) itout             12 : number of output time of result (default=1)
+  (3) idivs             50 : number of divisions of irradiation time step (default=50)
+  (4) iregon             2 : number of processing regions (or cells) (default=1; it must be greater than 1)
+  (5) inmtcf             1 : number of processing nmtc yield files (default=1; maximum=10) (if inmtcf>1, card 9 needs)
+  (6) ichain           100 : length and number of linear chains for decay (default=100)
+  (7) itdecs             1 : option of target decreasing by beam irradiation
+                             0 = no decrease (default)
+                             1 = decrease
+  (8) itdecn             1 : option of target decreasing by neutron irradiation
+                             0 = no decrease (default)
+                             1 = decrease
+  (9) isomtr             2 : option of isomeric state of nuclide reading from yield file
+                             0 = isomeric and ground state (default)
+                             1 = ground state
+                             2 = equal-probability division of isomeric and ground state
+  (-) ixsrall            1 : option of accelerating calculation by keeping cross section data always in system memory
+                             0 = no, reread xs lib once per region (default)
+                             1 = yes, read xs lib once, store it, and reuse in each
+                                region (faster for multi-region but uses more memory)
+ (10) ifisyd             0 : option of fission yield by neutron irradiation
+                             0 = no fission
+                             1 = (n,f) yield (default)
+                             2 = (n,f) and spontaneous fission yields
+ (11) ifisye             0 : option of use of fission yield from evaluated nuclear data file (if ifisyd>0, effective)
+                             0 = no use  (default)
+                             1 = thermal neutron field from endf/b-vi
+                             2 = fast    neutron field from endf/b-vi
+                             3 = fusion  neutron field from endf/b-vi
+                            11 = thermal neutron field from jndc-fp_v2
+                            12 = fast    neutron field from jndc-fp_v2
+                            13 = fusion  neutron field from jndc-fp_v2
+ (12) inxslib          100 : option of neutron reaction cross section data library
+                                  hnxslib   (h-JP-US-EU selected here)
+                            -1 = custom-lib = custom library specified by hnxslib parameter
+                             0,40 =            = (default) JEFF-3.1A (DCHAIN-SP 2010)
+                             1    = Legacy2001 = FENDL/A-2.0 (original library from DCHAIN-SP 2001)
+                             2,20 = JENDL-AD17 = JENDL/AD-2017 (added in 2019)
+                             21   = JENDL-4-0- = JENDL-4.0     (added in 2020)
+                             30   = ENDF-B-7-1 = ENDF/B-VII.1  (added in 2020)
+                             31   = ENDF-B-8-0 = ENDF/B-VIII.0 (added in 2020)
+                             41   = JEFF-3-3-- = JEFF-3.3      (added in 2020)
+                             50   = FENDL-A-30 = FENDL/A-3.0   (added in 2020)
+                             51   = EAF-2010-- = EAF-2010      (added in 2020)
+                             60   = BROND-3-1- = BROND-3.1     (added in 2020)
+                             70   = CENDL-3-1- = CENDL-3.1     (added in 2020)
+                             90   = TENDL-2017 = TENDL-2017    (added in 2020)
+                             100  = h-JP-US-EU = hybrid lib of JENDL/AD-2017 + JENDL-4.0 + ENDF/B-VIII.0 + JEFF-3.3 + FENDL/A-3.0    (added in 2020)
+                             101  = h-US-JP-EU = hybrid lib of ENDF/B-VIII.0 + JENDL/AD-2017 + JENDL-4.0 + JEFF-3.3 + FENDL/A-3.0    (added in 2020)
+                             102  = h-EU-US-JP = hybrid lib of JEFF-3.3 + FENDL/A-3.0 + ENDF/B-VIII.0 + JENDL/AD-2017 + JENDL-4.0    (added in 2020)
+                             120  = h-JENDLAD4 = hybrid lib of JENDL/AD-2017 + JENDL-4.0    (added in 2020)
+ (12) idcylib            5 : option of decay data library
+                                  hdcylib   (J15-EB8-ES selected here)
+                            -1 = custom-lib = custom library specified by hdcylib parameter
+                             0 =            = (default) revised original decay data library (DCHAIN-SP 2010)
+                             1 = Legacy2001 = original decay data library (DCHAIN-SP 2001)
+                             2 = JENDLDDF15 = JENDL/DDF-2015 (added in 2019)
+                             3 = ENDFBVIII0 = ENDF/B-VIII.0 (added in 2019)
+                             4 = EB8-J15-ES = hybrid library from ENDF/B-VIII.0, JENDL/DDF-2015, and ENSDF (added in 2019)
+                             5 = J15-EB8-ES = hybrid library from JENDL/DDF-2015, ENDF/B-VIII.0, and ENSDF (added in 2019)
+
+ output condition data
+  (1) iyild              2 : option of yield file output at last output time
+                             0 = no output
+                             1 = output of decayed nuclide yield file (default)
+                             2 = output of decayed nuclide yield file (including target nuclides)
+  (2) iggrp              3 : option of gamma-ray spectrum group (if imode>1, effective)
+                             0 = no effect (if imode<2)
+                             1 = hilo86    --- 22 groups   (20.0 to 0.0   MeV)
+                             2 = bermuda   --- 41+3 groups (20.0 to 0.0   MeV)
+                             3 = vitamin-j --- 42 groups   (50.0 to 0.001 MeV)
+                             4 = thida-2   --- 54 groups   ( 3.0 to 0.03  MeV)
+                             5 = thida-2   --- 78 groups   ( 7.6 to 0.03  MeV)
+                             6 = fns       --- 40 groups   (14.0 to 0.01  MeV)
+                            99 = fispact3  --- 23+1 groups (20.0 to 0.0   MeV)
+  (3) ibetap             1 : option of annihilation gamma-ray by beta(+) decay (if imode>1, effective)
+                             0 = no annihilation gamma-ray
+                             1 = include annihilation gamma-ray (default)
+  (4) acmin     1.0000E-20 : lower limitation value for printing on activation file
+                             0.0 = automatic lower limitation of activity (acmin=total*1.0e-10)(default)
+                             > 0., lower limitation of acitivity [Bq/cc]
+                             < 0., lower limitation of produced nuclides [n/cm**3]
+  (5) istabl             0 : option for printing of stable nuclides on activation file
+                             0 = no print (default)
+                             1 = print
+  (6) igsdef             1 : option for outputing the gamma-ray source cards for mcnp from residual activities
+                             (if imode>1 and iggrp>0, effective)
+                             0 = no output
+                             1 = output to "out-gsdef" file (default)
+  (7) iprtb1             0 : option for outputing of classification by half-life and radiation control
+                             0 = no output (Fixed)
+                             1 = output to "out-class" file (old default)
+  (8) iprtb2             0 : option for outputing of tabulated activation and decay heat for specified nuclides
+                             to "out-table-a" and "out-table-h" files
+                             0 = no output (Fixed)
+                             1 = output the specified number (rprtb2) of dominant nuclides selected automatically (old default)
+                             2 = output nuclides above the specified ratio (rprtb2)
+                             3 = output the number (rprtb2) of nuclides specified on card 8 (if negative, no sorting with za)
+  (9) rprtb2       0.00000 : sub-option for outputing of tabulated activation and decay heat for specified nuclides
+                             (if |iprtb2|>0, effective)
+                              iprtb2 =1 : the number of nuclides selected automatically
+                              iprtb2 =2 : the specified ratio to total activation and decay heat [%]
+                             |iprtb2|=3 : the number of nuclides specified on card 8
+ (10) iprtb3             0 : option for outputing of tabulated activation and decay heat in all regions for specified nuclides
+                             (if iregon>1, effective)
+                             0 = no output (Fixed)
+                             n = output the number (n) of nuclides specified on card 8
+                            -1 = output the nuclides as same as |iprtb2|=3
+ (11) igsorg             1 : option to survey the original nuclide produced decay gamma-ray spectrum
+                             0 = no effect
+                             1 = survey the origianl nuclide (default)
+  (-) iwrtchn            1 : option of writing output file containing decay chain information
+                             0 = file is NOT written (default)
+                             1 = decay chain info file is written
+  (-) chrlvth     -1.00000 : decay chain relevancy threshold
+                             This controls which decay chains are written to the file.
+                             There are often very many irrelevant chains contributing
+                             nothing or extremely little to a nuclide inventory, so 
+                             this option allows for restricting this behavior.
+                             This option only works when IWRTCHN=1.
+                             < 0.0 : threshold for change in each nuclides inventory in atoms/cm^3 (default = -1)
+                             = 0.0 : no threshold, all chains are listed regardless of relevancy (includes chains contributing nothing to inventory)
+                                 Note: This can significantly increase the .DCS filesize
+                             > 0.0 & <= 10.0 : threshold of fractional change in each nuclides inventory is specified
+                             > 10.0 : threshold of change in each nuclides totalactivity in Bq
+  (-) iwrchdt            0 : option of writing decay chain per nuclide inventory change information
+                             This option toggles printing of a breakdown of where
+                             the changes in a nuclides inventory are coming from,
+                             looking at the links in the chain and beam vs decay/reactions.
+                             This option only works when IWRTCHN=1.
+                             0 = this extra information is NOT written (default)
+                             1 = this extra decay chain information IS written
+  (-) iwrchss            0 : option of writing decay chain substep information
+                             Irradiation time steps are subdivided IDIVS times; this
+                             value allows toggling of decay chain output from the many
+                             time substeps during the irradiation time steps.
+                             This option only works when IWRTCHN=1.
+                             0 = decay chain info written for only final time steps/substeps (default)
+                             1 = decay chain info written for ALL time steps/substeps
+                                 Note: This can significantly increase the .DCS filesize
+  (-) iwrchnuc            0: option of writing only specified nuclides to decay chain scheme file
+                             This option only works when IWRTCHN=1.
+                             0 = all nuclides written (default)
+                             N = N nuclides listed on the next N lines are written
+  (-) idosecf            1 : option of photon fluence to dose coefficients
+                             Photon fluences from each nuclide are multiplied by these
+                             fluence to effective dose or ambient dose equivalent
+                             coefficients to obtain the final dose values reported.
+                             0 = legacy coefficients (default)
+                             1 = AP,     antero-posterior, effective dose, ICRP 116
+                             2 = PA,     postero-anterior, effective dose, ICRP 116
+                             3 = LLAT,   left lateral,     effective dose, ICRP 116
+                             4 = RLAT,   right lateral,    effective dose, ICRP 116
+                             5 = ROT,    rotational,       effective dose, ICRP 116
+                             6 = ISO,    isotropic,        effective dose, ICRP 116
+                             7 = H*(10),    ambient dose equivalent,       ICRP 74
+
+ spallation data
+  (1) amp       1.6022E-04 : proton beam current [mA]
+  (2) ebeam     3.0000E+00 : proton beam energy [GeV]
+  (3) prodnp    1.0000E+00 : the number of produced neutrons per a source proton (n/p ratio)
+
+ time histories of irradiation and cooling
+   no.       time      time step [s]    rel.beam
+    1          10 [h]    3.60000E+04  1.0000E+00
+    2          15 [h]    1.80000E+04  0.0000E+00
+    3  1.0417E+00 [d]    3.60000E+04  1.0000E+00
+    4  1.0013E+01 [y]    3.15892E+08  0.0000E+00
+
+ output times of result
+   no.      time [s]     input specification
+    1    9.00100E+04   :      -1.0000E+01 s
+    2    9.00600E+04   :      -1.0000E+00 m
+    3    9.06000E+04   :      -1.0000E+01 m
+    4    9.36000E+04   :      -1.0000E+00 h
+    5    1.26000E+05   :      -1.0000E+01 h
+    6    1.76400E+05   :      -1.0000E+00 d
+    7    9.54000E+05   :      -1.0000E+01 d
+    8    8.73000E+06   :      -1.0000E+02 d
+    9    3.16476E+07   :      -1.0000E+00 y
+   10    8.21398E+07   :      -2.6000E+00 y
+   11    1.57878E+08   :      -5.0000E+00 y
+   12    3.15666E+08   :      -1.0000E+01 y
+
+ description of regionwise calculation condition data
+  (1) hregcmm(*)           : label or comment for this region (default="reg.###"; maximum 10 characters)
+  (2) iregs(*)             : region number for calculating activity in yield file (default=0)
+                             (if zero, yield summed in all region is used.)
+                             (if -1, yield file is not used.)
+  (3) itgncls(*)           : number of nuclides in a target material (default=0) (if itgncls>0, card 10a needs)
+  (4) mcnptals(*)          : option of tally number in a mcnp output-list file
+                             0 = no use (Fixed)
+                             n = mcnp tally number given neutron spectrum
+  (5) mcnpcels(*)          : option of cell number for the mcnp tally (if mcnptals>0, effective)
+                             0 = no effect (Fixed)
+                             n = the cell, surface or detector number in the tally
+                            -n = sequential number of the cell, surface or detector in the tally
+  (6) mcnpvols(*)          : option of cell volume for the mcnp tally in mcnp list file
+                             0 = no effect and use volumes (Fixed)
+                             n = the cell number in mcnp calculation
+                            -1 = use the cell number as same as mcnpcels
+  (7) mcnpmats(*)          : option of mcnp cell material in mcnp list file as target material
+                             0 = no effect (Fixed)
+                             n = the cell number in mcnp calculation
+                            -1 = use the cell number as same as mcnpcels
+  (8) fluxs(*)             : neutron total flux intensity [n/cm**2/s]  (neutron below 20 [MeV])
+                             0 = no neutron flux (default)
+                            -1 = if use n.flux file: intensity uses it in the file
+                                 if use mcnp list file: intensity calculates from amp, prodnp (on card 4) and total flux
+                             0 < neutron total flux intensity
+
+  (-) itdchout           1 : Read file switching flag.
+                             0 = used nmtc_yield & n.flux files
+                             1 = used *.dyld & *.dtrak files
+  (9) hnfluxs              : name of neutron spectrum file with *.dtrk format (maximum 40 characters)
+ (10) volumes(*)           : volume of target region [cm**3] (default=1.0) (if mcnpvols.ne.0, ineffective)
+
+  (-) iertdcho           1 : Read file switching flag.
+                             0 = no uncertainty files to read
+                             1 = use *_err.dyld file (and err column in *.dtrak)
+
+  (-) iredufmt           1 : *.dtrk/*.dyld file syntax
+                             0 = T-Track axis=eng flux (default)
+                             1 = T-Track axis=dchain flux for reduced file size 
+                                 and T-Yield special reduced format
+
+  (-) irdonce           1  : *.dtrk file rereading flag
+                             0 = Flux file closed/reopened in each region (default)
+                             1 = Flux file only closed/reopened when filename changes
+
+                        itg  mcnp  mcnp  mcnp  mcnp
+  no.   hregcmm iregs  ncls  tals  cels  vols  mats        fluxs  hnfluxs                                       volumes
+   1 DUMMY001       2     1     0     0     0     0  5.54730E+09  example_Na22.dtrk                         1.00000E+00
+   2 DUMMY002       4    24     0     0     0     0  2.28870E+05  example_Na22.dtrk                         1.00000E+00
+
+ target nuclides  (positive: atomic number density [10**24/cm**3] ;  negative: activity [Bq/cc])
+   no.   1 region ...... no. of nuclides=   1
+     nuclide        za   no.density     nuclide        za   no.density     nuclide        za   no.density
+      F  19     9019.0  1.58530E-01
+   no.   2 region ...... no. of nuclides=  24
+     nuclide        za   no.density     nuclide        za   no.density     nuclide        za   no.density
+      C  12     6012.0  1.58730E-04      C  13     6013.0  1.78160E-06      Si 28    14028.0  7.91220E-04
+      Si 29    14029.0  4.00630E-05      Si 30    14030.0  2.65940E-05      P  31    15031.0  3.57850E-05
+      S  32    16032.0  2.14190E-05      S  33    16033.0  1.69060E-07      S  34    16034.0  9.48980E-07
+      S  36    16036.0  4.50820E-09      Cr 50    24050.0  7.65090E-04      Cr 52    24052.0  1.47540E-02
+      Cr 53    24053.0  1.67300E-03      Cr 54    24054.0  4.16440E-04      Mn 55    25055.0  8.77180E-04
+      Fe 54    26054.0  3.53930E-03      Fe 56    26056.0  5.55590E-02      Fe 57    26057.0  1.28310E-03
+      Fe 58    26058.0  1.70760E-04      Ni 58    28058.0  5.17010E-03      Ni 60    28060.0  1.99150E-03
+      Ni 61    28061.0  8.65770E-05      Ni 62    28062.0  2.75980E-04      Ni 64    28064.0  7.03250E-05
+
+ output data condition for PHITS
+ (1) phitsdm             0 : Specification method
+                             0 = off (default)
+                             1 = Specify by number of nuclides
+                             2 = Specify by Energy level
+
+ 2D plot output data condition for ANGEL
+ (1) iplotmode           0 : 2D plot mode
+                             0 = off (default)
+                             1,..3,..5,..7 = xy plot on
+                             ..2,3,....6,7 = xz plot on
+                             ......4,5,6,7 = yz plot on
+
+ regionwise output data condition for ANGEL
+ (1) angelout            1 : output mode
+                             0 = off (default)
+                             1 = on
+ (2) angelout_act        1 : activity [Bq]
+                             0 = off (default)
+                             1 = on
+ (3) angelout_heat       1 : decay heat [W]
+                             0 = off (default)
+                             1 = on
+ (4) angelout_heat_beta  1 : decay heat(beta) [W]
+                             0 = off (default)
+                             1 = on
+ (5) angelout_heat_gamma 1 : decay heat(gamma) [W]
+                             0 = off (default)
+                             1 = on
+ (6) angelout_heat_alpha 1 : decay heat(alpha) [W]
+                             0 = off (default)
+                             1 = on
+ (7) angelout_dose       1 : dose-rate [uSv/h*m^2]
+                             0 = off (default)
+                             1 = on
+ (8)                     2 : number of output regions
+                         1 : sum total of all regions
+                             0 = off
+                             1 = on (default)
+ output region name(s) 
+DUMMY001    DUMMY002  
+
+ gamma-ray source card output for PHITS
+ (1) phitsout            1 : output mode
+                             0 = off (default)
+                             1 = on (all data printed to single file)
+                             2 = on (separate files for each output time step)
+
+ << end of input data >>
+
+
+ information of variable dimension size
+   supplied size .....  3500000
+   used size .........  3328251
+
+ the number of nuclides in the decay data library =    4012
+
+ the number of nuclides in the dose-rate data =    4012
+ 
+ Reading in neutron reaction cross section library...
+ the number of reactions found =       19965
+
+
+
+ <>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>
+ <>-<>   no.     1  regionwise calculation data     <>-<>
+ <>-<>   region label : DUMMY001                    <>-<>
+ <>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>
+
+  region volume ............  1.00000E+00 [cm**3]        nmtc region number .......            2
+  mcnp tally data ..........            0 (mcnptal)                                            0 (mcnpcel)
+                                        0 (mcnpvol)                                            0 (mcnpmat)
+  no. of target materials ..            1
+  neutron flux .............  5.54730E+09 [n/cm**2/s]    flux file name ........... example_Na22.dtrk                       
+  target decreasing by p ...            1                target decreasing by n ...            1 (0/1=no/yes)
+  target nuclides  (positive: atomic number density [10**24/cm**3] ;  negative: activity [Bq/cc])
+     nuclide        za   no.density     nuclide        za   no.density     nuclide        za   no.density
+      F  19     9019.0  1.58530E-01
+
+ the number of kinds of produced nuclides by nmtc calculation =           12
+ total yield of produced nuclides per a source                =  6.66490E-01
+ nuclide     yield  nuclide     yield  nuclide     yield  nuclide     yield  nuclide     yield  nuclide     yield
+ -----------------  -----------------  -----------------  -----------------  -----------------  -----------------
+  H   2  1.100E-04   He  4  9.983E-01   O  18  2.000E-05   F  19 -3.340E-01   Ne 21  9.000E-04   Na 21  3.000E-05
+  H   3  3.000E-05   N  15  1.200E-04   F  18  1.100E-04   Ne 20  1.800E-04   Ne 22  2.900E-04   Na 22  4.000E-04
+Warning: Negative yield data was found.
+    F  19 : -3.340E-01
+  Please check about whether this entry is correct or not./
+ 
+ Reading neutron energy spectrum:         1968  groups
+
+ correction of target decreasing
+ macroscopic nonelastic cross section of target material =  5.5456E-02 [1/cm]
+ total nuclide numbers of target material                =  1.5853E+23
+
+
+ start of irradiation and cooling calculation   ... cpu time      0.00 [s]
+ --------------------------------------------
+    initial proton  flux =  1.00001E+12 [n/cm**2/s]
+    initial neutron flux =  5.54730E+09 [n/cm**2/s]  below 20 MeV
+  ratio of residual target nuclide to initial =  1.00000E+00
+  ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during cooling time ---
+  summation of activity     =  1.49170E+08 [Bq/cc] ( 1.49170E+08 [Bq])  at 1.0418E+00 [d]
+  summation of decay heat   =  4.63456E-05 [W/cc]  ( 4.63456E-05 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  1.14859E+08 [Bq/cc] ( 1.14859E+08 [Bq])  at 1.0424E+00 [d]
+  summation of decay heat   =  2.37878E-05 [W/cc]  ( 2.37878E-05 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  1.02716E+08 [Bq/cc] ( 1.02716E+08 [Bq])  at 1.0486E+00 [d]
+  summation of decay heat   =  2.02899E-05 [W/cc]  ( 2.02899E-05 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  7.49729E+07 [Bq/cc] ( 7.49729E+07 [Bq])  at 1.0833E+00 [d]
+  summation of decay heat   =  1.48216E-05 [W/cc]  ( 1.48216E-05 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  2.71598E+06 [Bq/cc] ( 2.71598E+06 [Bq])  at 1.4583E+00 [d]
+  summation of decay heat   =  5.79789E-07 [W/cc]  ( 5.79789E-07 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  2.59003E+05 [Bq/cc] ( 2.59003E+05 [Bq])  at 2.0417E+00 [d]
+  summation of decay heat   =  9.54998E-08 [W/cc]  ( 9.54998E-08 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  2.45139E+05 [Bq/cc] ( 2.45139E+05 [Bq])  at 1.1042E+01 [d]
+  summation of decay heat   =  9.24723E-08 [W/cc]  ( 9.24723E-08 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  2.29763E+05 [Bq/cc] ( 2.29763E+05 [Bq])  at 1.0104E+02 [d]
+  summation of decay heat   =  8.65987E-08 [W/cc]  ( 8.65987E-08 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  1.89883E+05 [Bq/cc] ( 1.89883E+05 [Bq])  at 1.0029E+00 [y]
+  summation of decay heat   =  7.13698E-08 [W/cc]  ( 7.13698E-08 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  1.24970E+05 [Bq/cc] ( 1.24970E+05 [Bq])  at 2.6029E+00 [y]
+  summation of decay heat   =  4.66074E-08 [W/cc]  ( 4.66074E-08 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  6.71251E+04 [Bq/cc] ( 6.71251E+04 [Bq])  at 5.0029E+00 [y]
+  summation of decay heat   =  2.45964E-08 [W/cc]  ( 2.45964E-08 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  1.91819E+04 [Bq/cc] ( 1.91819E+04 [Bq])  at 1.0003E+01 [y]
+  summation of decay heat   =  6.49564E-09 [W/cc]  ( 6.49564E-09 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+  summation of decay yields =  1.58530E+23 [n]
+
+ /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+ _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/   end of irradiation and decay calculation for this region  /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_
+ /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+
+
+ <>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>
+ <>-<>   no.     2  regionwise calculation data     <>-<>
+ <>-<>   region label : DUMMY002                    <>-<>
+ <>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>
+
+  region volume ............  1.00000E+00 [cm**3]        nmtc region number .......            4
+  mcnp tally data ..........            0 (mcnptal)                                            0 (mcnpcel)
+                                        0 (mcnpvol)                                            0 (mcnpmat)
+  no. of target materials ..           24
+  neutron flux .............  2.28870E+05 [n/cm**2/s]    flux file name ........... example_Na22.dtrk                       
+  target decreasing by p ...            1                target decreasing by n ...            1 (0/1=no/yes)
+  target nuclides  (positive: atomic number density [10**24/cm**3] ;  negative: activity [Bq/cc])
+     nuclide        za   no.density     nuclide        za   no.density     nuclide        za   no.density
+      C  12     6012.0  1.58730E-04      C  13     6013.0  1.78160E-06      Si 28    14028.0  7.91220E-04
+      Si 29    14029.0  4.00630E-05      Si 30    14030.0  2.65940E-05      P  31    15031.0  3.57850E-05
+      S  32    16032.0  2.14190E-05      S  33    16033.0  1.69060E-07      S  34    16034.0  9.48980E-07
+      S  36    16036.0  4.50820E-09      Cr 50    24050.0  7.65090E-04      Cr 52    24052.0  1.47540E-02
+      Cr 53    24053.0  1.67300E-03      Cr 54    24054.0  4.16440E-04      Mn 55    25055.0  8.77180E-04
+      Fe 54    26054.0  3.53930E-03      Fe 56    26056.0  5.55590E-02      Fe 57    26057.0  1.28310E-03
+      Fe 58    26058.0  1.70760E-04      Ni 58    28058.0  5.17010E-03      Ni 60    28060.0  1.99150E-03
+      Ni 61    28061.0  8.65770E-05      Ni 62    28062.0  2.75980E-04      Ni 64    28064.0  7.03250E-05
+
+ the number of kinds of produced nuclides by nmtc calculation =            0
+ total yield of produced nuclides per a source                =  0.00000E+00
+ nuclide     yield  nuclide     yield  nuclide     yield  nuclide     yield  nuclide     yield  nuclide     yield
+ -----------------  -----------------  -----------------  -----------------  -----------------  -----------------
+ 
+ Reading neutron energy spectrum:         1968  groups
+
+ correction of target decreasing
+ macroscopic nonelastic cross section of target material =  6.6082E-02 [1/cm]
+ total nuclide numbers of target material                =  8.7709E+22
+
+
+ start of irradiation and cooling calculation   ... cpu time      0.00 [s]
+ --------------------------------------------
+    initial proton  flux =  1.00001E+12 [n/cm**2/s]
+    initial neutron flux =  2.28870E+05 [n/cm**2/s]  below 20 MeV
+  ratio of residual target nuclide to initial =  1.00000E+00
+  ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during cooling time ---
+  summation of activity     =  1.09646E+02 [Bq/cc] ( 1.09646E+02 [Bq])  at 1.0418E+00 [d]
+  summation of decay heat   =  4.35848E-11 [W/cc]  ( 4.35848E-11 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  1.05388E+02 [Bq/cc] ( 1.05388E+02 [Bq])  at 1.0424E+00 [d]
+  summation of decay heat   =  4.18439E-11 [W/cc]  ( 4.18439E-11 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  8.60104E+01 [Bq/cc] ( 8.60104E+01 [Bq])  at 1.0486E+00 [d]
+  summation of decay heat   =  3.39452E-11 [W/cc]  ( 3.39452E-11 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  6.68275E+01 [Bq/cc] ( 6.68275E+01 [Bq])  at 1.0833E+00 [d]
+  summation of decay heat   =  2.62361E-11 [W/cc]  ( 2.62361E-11 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  8.21552E+00 [Bq/cc] ( 8.21552E+00 [Bq])  at 1.4583E+00 [d]
+  summation of decay heat   =  2.65452E-12 [W/cc]  ( 2.65452E-12 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  2.58774E+00 [Bq/cc] ( 2.58774E+00 [Bq])  at 2.0417E+00 [d]
+  summation of decay heat   =  3.94376E-13 [W/cc]  ( 3.94376E-13 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  2.14277E+00 [Bq/cc] ( 2.14277E+00 [Bq])  at 1.1042E+01 [d]
+  summation of decay heat   =  2.85714E-13 [W/cc]  ( 2.85714E-13 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  9.11283E-01 [Bq/cc] ( 9.11283E-01 [Bq])  at 1.0104E+02 [d]
+  summation of decay heat   =  1.29310E-13 [W/cc]  ( 1.29310E-13 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  1.89949E-01 [Bq/cc] ( 1.89949E-01 [Bq])  at 1.0029E+00 [y]
+  summation of decay heat   =  2.16783E-14 [W/cc]  ( 2.16783E-14 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  5.31582E-02 [Bq/cc] ( 5.31582E-02 [Bq])  at 2.6029E+00 [y]
+  summation of decay heat   =  4.11819E-15 [W/cc]  ( 4.11819E-15 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  1.76413E-02 [Bq/cc] ( 1.76413E-02 [Bq])  at 5.0029E+00 [y]
+  summation of decay heat   =  8.54556E-16 [W/cc]  ( 8.54556E-16 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  4.12697E-03 [Bq/cc] ( 4.12697E-03 [Bq])  at 1.0003E+01 [y]
+  summation of decay heat   =  1.81816E-16 [W/cc]  ( 1.81816E-16 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+  summation of decay yields =  8.77091E+22 [n]
+
+ /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+ _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/   end of irradiation and decay calculation for this region  /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_
+ /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+ end of spd calculation process
+ ------------------------------  good bye... .. .

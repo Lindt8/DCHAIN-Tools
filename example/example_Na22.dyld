@@ -1,0 +1,48 @@
+[ T-Yield ]
+    title = Test-calc
+     mesh =  reg            # mesh type is region-wise
+      reg = 2 4
+  special =        0        # (D=0) number of repeated nuclear reactions
+ material =  all            # (D=all) number of specific material
+   mother =  all            # (D=all) number of specific mother
+  nucleus =  all            # (D=all) number of detected nucleus
+     unit =    1            # unit is [1/source]
+    ndata =    1            # 0:no, 1:use ndata for 4He, 14N, 16O
+     axis = dchain          # axis of output
+     file = example_Na22.dyld   # file name of output for the above axis
+     info =    0            # 0-> no, 1-> write error
+     part =  all      
+# kf/name :  0        
+   output = cutoff          # (D=product) cutoff particles
+  elastic =   -1            # (D=1) without the same target
+#    used :        main (  %)        temp (  %)       total (  %)
+#  memory :       32098 (  0)           0 (  0)       32098 (  0)
+
+#------------------------------------------------------------------------------
+
+ regionwise nuclear yield (or production)
+ ----------------------------------------
+
+# num nucleusID yield r.err
+1   10020  1.100E-04  2.517E-01
+1   10030  3.000E-05  5.092E-01
+1   20040  9.983E-01  1.858E-04
+1   70150  1.200E-04  2.992E-01
+1   80180  2.000E-05  6.667E-01
+1   90180  1.100E-04  2.859E-01
+1   90190 -3.340E-01 -1.282E-01
+1  100200  1.800E-04  1.814E-01
+1  100210  9.000E-04  1.536E-01
+1  100220  2.900E-04  1.084E-01
+1  110210  3.000E-05  7.115E-01
+1  110220  4.000E-04  1.118E-01
+0       0  0.000E+00  0.000E+00
+ 
+# Information for Restart Calculation
+# This calculation was newly started
+# istdev =  1 # 1:Batch variance, 2:History variance
+# resc2  = 1.00000000000000000E+01 # Total source weight or Total source weight / maxcas
+# resc3  = 1.00000000000000000E+01 # Total history number or Total batch number
+# maxcas =       10000 # History / Batch, only used for istdev=1
+# rijklst=   1.0657080986680823E-169 # Next initial random number
+# bitrseed = 0001110011011001101111011000110011100000010010101010010011101100

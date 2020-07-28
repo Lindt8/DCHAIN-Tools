@@ -1,0 +1,118 @@
+    htitle = Test-calc
+ 
+! --- control parameters ---
+     imode =       2
+     jmode =       2
+ 
+! --- calculation parameters ---
+     idivs =      50
+    ichain =     100
+    itdecs =       1
+    itdecn =       1
+    isomtr =       2
+    ifisyd =       0
+    ifisye =       0
+   ixsrall =       1
+ 
+! --- data library parameters ---
+   inxslib =     100
+   idcylib =       5
+!   hnxslib = h-JP-US-EU                                                                      
+!   hdcylib = J15-EB8-ES                                                                      
+ 
+! --- output parameters ---
+     iyild =       2
+     iggrp =       3
+    ibetap =       1
+     acmin =  1.0000E-20
+    istabl =       0
+    igsdef =       1
+    igsorg =       1
+   iwrtchn =       1
+   chrlvth = -1.0000E+00
+   iwrchdt =       0
+   iwrchss =       0
+   idosecf =       1
+ 
+! --- Proton beam current and neutron flux ---
+       amp =  1.6022E-04
+     ebeam =  3.0000E+00
+    prodnp =  1.0000E+00
+ 
+! --- irradiation time ---
+    itstep =       4
+      1.0000E+01 h  1.0000E+00
+      5.0000E+00 h  0.0000E+00
+      1.0000E+01 h  1.0000E+00
+      1.0010E+01 y  0.0000E+00
+ 
+! --- output time ---
+     itout =      12
+     -1.0000E+01 s
+     -1.0000E+00 m
+     -1.0000E+01 m
+     -1.0000E+00 h
+     -1.0000E+01 h
+     -1.0000E+00 d
+     -1.0000E+01 d
+     -1.0000E+02 d
+     -1.0000E+00 y
+     -2.6000E+00 y
+     -5.0000E+00 y
+     -1.0000E+01 y
+ 
+! --- irradiation condition ---
+    inmtcf =       1
+!  ffnmtcf =    1.0
+  itdchout =       1
+   hhnmtcf = example_Na22.dyld
+  iertdcho =       1
+   henmtcf = example_Na22_err.dyld
+  iredufmt =       1
+   irdonce =       1
+ 
+! --- calculation region details ---
+ 
+    iregon =      2
+!1)HRGCMM 2)IREGS 3)ITGNCLS 4)FLUXS 5)HNFLUXS 6)VOLUMES
+   DUMMY001        2    1  5.5473E+09   example_Na22.dtrk  1.0000E+00
+   F-19      1.5853E-01
+!1)HRGCMM 2)IREGS 3)ITGNCLS 4)FLUXS 5)HNFLUXS 6)VOLUMES
+   DUMMY002        4   24  2.2887E+05   example_Na22.dtrk  1.0000E+00
+   C-12      1.5873E-04
+   C-13      1.7816E-06
+  Si-28      7.9122E-04
+  Si-29      4.0063E-05
+  Si-30      2.6594E-05
+   P-31      3.5785E-05
+   S-32      2.1419E-05
+   S-33      1.6906E-07
+   S-34      9.4898E-07
+   S-36      4.5082E-09
+  Cr-50      7.6509E-04
+  Cr-52      1.4754E-02
+  Cr-53      1.6730E-03
+  Cr-54      4.1644E-04
+  Mn-55      8.7718E-04
+  Fe-54      3.5393E-03
+  Fe-56      5.5559E-02
+  Fe-57      1.2831E-03
+  Fe-58      1.7076E-04
+  Ni-58      5.1701E-03
+  Ni-60      1.9915E-03
+  Ni-61      8.6577E-05
+  Ni-62      2.7598E-04
+  Ni-64      7.0325E-05
+ 
+! --- output option for ANGEL ---
+  angelout = 1
+!   angelout_act        = 0
+!   angelout_heat       = 0
+!   angelout_heat_alpha = 0
+!   angelout_heat_beta  = 0
+!   angelout_heat_gamma = 0
+!   angelout_dose       = 0
+!   angelout_region     = all, sum
+  phitsout = 1
+ 
+end

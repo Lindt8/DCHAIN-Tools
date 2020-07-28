@@ -1,0 +1,1842 @@
+ <>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>
+ <>-<>   no.     1  regionwise calculation data     <>-<>
+ <>-<>   region label : DUMMY001                    <>-<>
+ <>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>
+
+nmtc region=   2   mcnp cell=   0   output time=1.0418E+00 [d]  (after the last shutdown=        10 [s])
+--------------------------------------------------------------------------------------------------------
+
+ group   6 (energy range: 10.0000 -   8.0000 [MeV]) ..... energy intensity = 8.73303E+04
+       N  16      C  15 
+      100.00000%  9.13E-08%
+
+ group   7 (energy range:  8.0000 -   7.5000 [MeV]) ..... energy intensity = 2.88171E-11
+       Be 11 
+      100.00000%
+
+ group   8 (energy range:  7.5000 -   7.0000 [MeV]) ..... energy intensity = 4.51692E+06
+       N  16      C  15      Be 11 
+      100.00000%  2.10E-10%  9.89E-18%
+
+ group   9 (energy range:  7.0000 -   6.5000 [MeV]) ..... energy intensity = 3.40462E+04
+       N  16      Be 11 
+      100.00000%  1.71E-13%
+
+ group  10 (energy range:  6.5000 -   6.0000 [MeV]) ..... energy intensity = 5.31986E+07
+       N  16      C  15      N  18 
+      100.00000%  8.94E-12%  8.08E-18%
+
+ group  11 (energy range:  6.0000 -   5.5000 [MeV]) ..... energy intensity = 3.43067E-11
+       Be 11      N  18 
+       69.88848%  30.11152%
+
+ group  12 (energy range:  5.5000 -   5.0000 [MeV]) ..... energy intensity = 4.57881E-02
+       C  15      Be 11 
+      100.00000%  9.86E-09%
+
+ group  13 (energy range:  5.0000 -   4.5000 [MeV]) ..... energy intensity = 4.95335E-07
+       F  21      F  22      Be 11 
+       91.58593%   8.41078%   0.00329%
+
+ group  14 (energy range:  4.5000 -   4.0000 [MeV]) ..... energy intensity = 1.59272E+04
+       O  19      F  22      F  21      N  18      Be 11 
+      100.00000%  1.01E-08%  5.55E-09%  1.70E-14%  2.91E-15%
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 1.16130E+03
+       O  19      C  15      F  22      F  21      N  17      N  18 
+      100.00000%  5.34E-08%  1.23E-08%  4.41E-09%  2.71E-11%  4.41E-13%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 2.16344E+01
+       F  20      C  15      F  22      N  18 
+       99.99999%  7.81E-06%  1.76E-08%  1.14E-11%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 3.41130E+05
+       N  16      O  19      F  22      C  15      F  21      Ne 23      N  18      Be 11 
+       99.31163%   0.68837%  1.84E-10%  1.64E-10%  7.18E-12%  4.22E-13%  6.33E-16%  1.31E-16%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 2.04983E+02
+       O  19      F  22      N  17      Ne 23      Be 11      N  18 
+      100.00000%  4.61E-06%  7.41E-09%  8.10E-10%  7.07E-11%  2.33E-11%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 3.71339E+04
+       N  16      F  21      C  15      F  22      N  18      Be 11 
+      100.00000%  9.49E-09%  2.28E-09%  1.33E-09%  2.72E-13%  2.41E-15%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 2.33248E+05
+       F  20      O  19      Ne 23      N  18 
+       55.44751%  44.55249%  5.55E-12%  2.18E-14%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 3.47338E+06
+       O  19      F  21      F  22      N  18 
+      100.00000%  1.60E-09%  4.08E-13%  1.35E-17%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 3.10503E+05
+       Na 22      O  19      F  22      C  15      N  18 
+       99.67444%   0.32556%  1.23E-09%  8.02E-11%  2.16E-16%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 4.34738E+02
+       N  16      N  17      N  18 
+      100.00000%  1.35E-08%  5.70E-12%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 1.03276E-13
+       N  18      Be 11 
+       55.66802%  44.33198%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 7.56200E-13
+       N  18 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 1.30519E+08
+       F  18      Na 21      Na 22      N  13 
+       82.58478%  17.24326%   0.17196%  6.78E-17%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 1.14936E-07
+       Ne 23 
+      100.00000%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 3.91969E+05
+       Na 21      F  21 
+      100.00000%  2.09E-08%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 9.09558E+05
+       O  19 
+      100.00000%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 1.34289E+04
+       O  19 
+      100.00000%
+ 
+
+nmtc region=   2   mcnp cell=   0   output time=1.0424E+00 [d]  (after the last shutdown=        60 [s])
+--------------------------------------------------------------------------------------------------------
+
+ group   6 (energy range: 10.0000 -   8.0000 [MeV]) ..... energy intensity = 6.76324E+02
+       N  16      C  15 
+      100.00000%  8.43E-12%
+
+ group   7 (energy range:  8.0000 -   7.5000 [MeV]) ..... energy intensity = 2.34289E-12
+       Be 11 
+      100.00000%
+
+ group   8 (energy range:  7.5000 -   7.0000 [MeV]) ..... energy intensity = 3.49810E+04
+       N  16      C  15      Be 11 
+      100.00000%  1.94E-14%  1.04E-16%
+
+ group   9 (energy range:  7.0000 -   6.5000 [MeV]) ..... energy intensity = 2.63669E+02
+       N  16      Be 11 
+      100.00000%  1.80E-12%
+
+ group  10 (energy range:  6.5000 -   6.0000 [MeV]) ..... energy intensity = 4.11993E+05
+       N  16      C  15 
+      100.00000%  8.25E-16%
+
+ group  11 (energy range:  6.0000 -   5.5000 [MeV]) ..... energy intensity = 1.94933E-12
+       Be 11 
+      100.00000%
+
+ group  12 (energy range:  5.5000 -   5.0000 [MeV]) ..... energy intensity = 3.27175E-08
+       C  15      Be 11 
+       99.99888%   0.00112%
+
+ group  13 (energy range:  5.0000 -   4.5000 [MeV]) ..... energy intensity = 1.21697E-10
+       F  21      F  22      Be 11 
+       89.44556%   9.46633%   1.08810%
+
+ group  14 (energy range:  4.5000 -   4.0000 [MeV]) ..... energy intensity = 4.38721E+03
+       O  19      F  22      F  21      Be 11 
+      100.00000%  1.01E-11%  4.83E-12%  8.59E-16%
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 3.19884E+02
+       O  19      F  22      F  21      C  15      N  17 
+      100.00000%  1.24E-11%  3.84E-12%  1.39E-13%  2.43E-14%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 9.70076E-01
+       F  20      C  15      F  22 
+      100.00000%  1.24E-10%  1.09E-10%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 3.27050E+03
+       N  16      O  19      Ne 23      F  22      F  21      C  15      Be 11 
+       80.22244%  19.77756%  1.74E-11%  5.31E-12%  1.80E-13%  1.22E-14%  1.11E-15%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 5.64633E+01
+       O  19      F  22      Ne 23      Be 11      N  17 
+      100.00000%  4.63E-09%  1.16E-09%  2.09E-11%  6.65E-12%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 2.87581E+02
+       N  16      F  21      F  22      C  15      Be 11 
+      100.00000%  2.94E-10%  4.76E-11%  2.10E-13%  2.53E-14%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 3.44237E+04
+       O  19      F  20      Ne 23 
+       83.15368%  16.84632%  1.48E-11%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 9.56756E+05
+       O  19      F  21      F  22 
+      100.00000%  1.39E-12%  4.10E-16%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 3.09771E+05
+       Na 22      O  19      F  22      C  15 
+       99.91011%   0.08989%  3.41E-13%  5.74E-17%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 3.36680E+00
+       N  16      N  17 
+      100.00000%  4.31E-10%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 3.72235E-15
+       Be 11 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 1.12268E+08
+       F  18      Na 21      Na 22      N  13 
+       95.50683%   4.29325%   0.19992%  7.44E-17%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 4.53190E-08
+       Ne 23 
+      100.00000%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 8.39457E+04
+       Na 21      F  21 
+      100.00000%  2.34E-11%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 2.50541E+05
+       O  19 
+      100.00000%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 3.69904E+03
+       O  19 
+      100.00000%
+ 
+
+nmtc region=   2   mcnp cell=   0   output time=1.0486E+00 [d]  (after the last shutdown=        10 [m])
+--------------------------------------------------------------------------------------------------------
+
+ group   6 (energy range: 10.0000 -   8.0000 [MeV]) ..... energy intensity = 1.07461E-20
+       N  16 
+      100.00000%
+
+ group   7 (energy range:  8.0000 -   7.5000 [MeV]) ..... energy intensity = 3.97051E-24
+       Be 11 
+      100.00000%
+
+ group   8 (energy range:  7.5000 -   7.0000 [MeV]) ..... energy intensity = 5.55810E-19
+       N  16      Be 11 
+       99.99999%  1.11E-05%
+
+ group   9 (energy range:  7.0000 -   6.5000 [MeV]) ..... energy intensity = 4.19745E-21
+       N  16      Be 11 
+       99.80854%   0.19146%
+
+ group  10 (energy range:  6.5000 -   6.0000 [MeV]) ..... energy intensity = 6.54613E-18
+       N  16 
+      100.00000%
+
+ group  11 (energy range:  6.0000 -   5.5000 [MeV]) ..... energy intensity = 3.30355E-24
+       Be 11 
+      100.00000%
+
+ group  12 (energy range:  5.5000 -   5.0000 [MeV]) ..... energy intensity = 6.22344E-25
+       Be 11 
+      100.00000%
+
+ group  13 (energy range:  5.0000 -   4.5000 [MeV]) ..... energy intensity = 2.24411E-24
+       Be 11 
+      100.00000%
+
+ group  14 (energy range:  4.5000 -   4.0000 [MeV]) ..... energy intensity = 3.93289E-03
+       O  19 
+      100.00000%
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 2.86758E-04
+       O  19      Na 24 
+      100.00000%  1.29E-15%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 2.65921E-15
+       F  20 
+      100.00000%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 5.79841E-04
+       O  19      Ne 23      Na 24      N  16 
+      100.00000%  4.23E-09%  6.13E-13%  7.19E-15%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 5.06161E-05
+       O  19      Ne 23      Be 11 
+      100.00000%  5.58E-08%  3.94E-17%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 4.56948E-21
+       N  16      Be 11 
+       99.99731%   0.00269%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 2.56603E-02
+       O  19      F  20      Ne 23 
+      100.00000%  6.20E-08%  8.58E-10%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 8.57677E-01
+       O  19      Na 24 
+      100.00000%  2.06E-16%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 3.09491E+05
+       Na 22      O  19 
+      100.00000%  8.07E-08%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 8.05340E-23
+       N  16      Na 24 
+       66.42516%  33.57484%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 6.30829E-27
+       Be 11 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 1.01524E+08
+       F  18      Na 22      Na 21      N  13 
+       99.77892%   0.22107%  2.81E-07%  4.40E-17%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 1.95516E-12
+       Ne 23 
+      100.00000%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 4.96668E-03
+       Na 21 
+      100.00000%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 2.24596E-01
+       O  19 
+      100.00000%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 3.31598E-03
+       O  19 
+      100.00000%
+ 
+
+nmtc region=   2   mcnp cell=   0   output time=1.0833E+00 [d]  (after the last shutdown=        60 [m])
+--------------------------------------------------------------------------------------------------------
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 3.55667E-21
+       Na 24 
+      100.00000%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 3.41887E-18
+       Na 24 
+      100.00000%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 1.70125E-18
+       Na 24 
+      100.00000%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 3.09483E+05
+       Na 22 
+      100.00000%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 2.60175E-23
+       Na 24 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 7.40971E+07
+       F  18      Na 22      N  13 
+       99.69710%   0.30290%  1.86E-18%
+ 
+
+nmtc region=   2   mcnp cell=   0   output time=1.4583E+00 [d]  (after the last shutdown=        10 [h])
+--------------------------------------------------------------------------------------------------------
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 2.34635E-21
+       Na 24 
+      100.00000%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 2.25544E-18
+       Na 24 
+      100.00000%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 1.12232E-18
+       Na 24 
+      100.00000%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 3.09399E+05
+       Na 22 
+      100.00000%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 1.71638E-23
+       Na 24 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 2.66533E+06
+       F  18      Na 22 
+       91.58165%   8.41835%
+ 
+
+nmtc region=   2   mcnp cell=   0   output time=2.0417E+00 [d]  (after the last shutdown=        24 [h])
+--------------------------------------------------------------------------------------------------------
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 1.22851E-21
+       Na 24 
+      100.00000%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 1.18091E-18
+       Na 24 
+      100.00000%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 5.87630E-19
+       Na 24 
+      100.00000%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 3.09267E+05
+       Na 22 
+      100.00000%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 8.98672E-24
+       Na 24 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 2.36412E+05
+       Na 22      F  18 
+       94.86869%   5.13131%
+ 
+
+nmtc region=   2   mcnp cell=   0   output time=1.1042E+01 [d]  (after the last shutdown=        10 [d])
+--------------------------------------------------------------------------------------------------------
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 5.67211E-26
+       Na 24 
+      100.00000%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 5.45234E-23
+       Na 24 
+      100.00000%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 2.71312E-23
+       Na 24 
+      100.00000%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 3.07244E+05
+       Na 22 
+      100.00000%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 4.14922E-28
+       Na 24 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 2.22814E+05
+       Na 22 
+      100.00000%
+ 
+
+nmtc region=   2   mcnp cell=   0   output time=1.0104E+02 [d]  (after the last shutdown=       100 [d])
+--------------------------------------------------------------------------------------------------------
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 2.87728E+05
+       Na 22 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 2.08661E+05
+       Na 22 
+      100.00000%
+ 
+
+nmtc region=   2   mcnp cell=   0   output time=1.0029E+00 [y]  (after the last shutdown=3.6525E+02 [d])
+--------------------------------------------------------------------------------------------------------
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 2.37128E+05
+       Na 22 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 1.71966E+05
+       Na 22 
+      100.00000%
+ 
+
+nmtc region=   2   mcnp cell=   0   output time=2.6029E+00 [y]  (after the last shutdown=2.6000E+00 [y])
+--------------------------------------------------------------------------------------------------------
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 1.54851E+05
+       Na 22 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 1.12298E+05
+       Na 22 
+      100.00000%
+ 
+
+nmtc region=   2   mcnp cell=   0   output time=5.0029E+00 [y]  (after the last shutdown=         5 [y])
+--------------------------------------------------------------------------------------------------------
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 8.17169E+04
+       Na 22 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 5.92613E+04
+       Na 22 
+      100.00000%
+ 
+
+nmtc region=   2   mcnp cell=   0   output time=1.0003E+01 [y]  (after the last shutdown=        10 [y])
+--------------------------------------------------------------------------------------------------------
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 2.15761E+04
+       Na 22 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 1.56471E+04
+       Na 22 
+      100.00000%
+ 
+
+ /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+ _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/   end of irradiation and decay calculation for this region  /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_
+ /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+ 
+ <>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>
+ <>-<>   no.     2  regionwise calculation data     <>-<>
+ <>-<>   region label : DUMMY002                    <>-<>
+ <>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>
+
+nmtc region=   4   mcnp cell=   0   output time=1.0418E+00 [d]  (after the last shutdown=        10 [s])
+--------------------------------------------------------------------------------------------------------
+
+ group   6 (energy range: 10.0000 -   8.0000 [MeV]) ..... energy intensity = 7.05076E-28
+       C  15 
+      100.00000%
+
+ group   7 (energy range:  8.0000 -   7.5000 [MeV]) ..... energy intensity = 1.23328E-23
+       Be 11 
+      100.00000%
+
+ group   8 (energy range:  7.5000 -   7.0000 [MeV]) ..... energy intensity = 1.91337E-25
+       Be 11      C  15 
+       99.95619%   0.04381%
+
+ group   9 (energy range:  7.0000 -   6.5000 [MeV]) ..... energy intensity = 2.49623E-23
+       Be 11 
+      100.00000%
+
+ group  10 (energy range:  6.5000 -   6.0000 [MeV]) ..... energy intensity = 4.20382E-29
+       C  15 
+      100.00000%
+
+ group  11 (energy range:  6.0000 -   5.5000 [MeV]) ..... energy intensity = 1.02612E-23
+       Be 11 
+      100.00000%
+
+ group  12 (energy range:  5.5000 -   5.0000 [MeV]) ..... energy intensity = 2.33787E-24
+       Be 11      C  15 
+       82.68502%  17.31498%
+
+ group  13 (energy range:  5.0000 -   4.5000 [MeV]) ..... energy intensity = 4.59044E-10
+       Mn 52m     F  22      Mn 58m     Na 26      Be 11 
+      100.00000%  4.48E-10%  4.85E-12%  2.63E-12%  1.52E-12%
+
+ group  14 (energy range:  4.5000 -   4.0000 [MeV]) ..... energy intensity = 4.35052E-04
+       Co 62      P  34      S  37      Si 33      F  22      Mn 58m     Na 26 
+       99.30135%   0.69854%  6.54E-05%  3.95E-05%  1.82E-14%  1.25E-18%  1.08E-18%
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 6.87392E-04
+       V  52      Co 62      Co 56      S  37      Mn 52m     Si 33      Sc 50      F  22      Na 24      Mn 58m
+       86.38898%  13.60797%   0.00267%  3.24E-04%  3.77E-05%  2.24E-05%  2.15E-15%  1.03E-15%  1.80E-16%  2.40E-17%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 4.86586E-01
+       Mn 56      V  54      Co 62      Al 30      Fe 53      Ni 57      Fe 61      Co 56      S  37      P  36 
+       97.23641%   2.34589%   0.28574%   0.08644%   0.03321%   0.00983%   0.00211%  2.37E-04%  1.36E-04%  3.80E-06%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 4.34182E+00
+       Mn 56      V  54      Fe 53      Ni 57      Al 30      Fe 61      Co 56      Si 33      P  36      P  35 
+       99.75337%   0.21177%   0.02254%   0.01027%   0.00127%  7.46E-04%  2.39E-05%  5.94E-08%  5.57E-08%  4.27E-09%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 2.53882E+01
+       Mn 56      V  54      Al 29      Co 62      Fe 53      V  52      Al 30      Fe 61      P  34      Ni 57 
+       99.68016%   0.13059%   0.12917%   0.04963%   0.00460%   0.00217%   0.00210%  5.43E-04%  3.74E-04%  3.25E-04%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 5.01263E+01
+       Mn 56      Al 28      Ni 57      Co 58      V  54      V  52      Mn 57      Co 62      Ni 65      Al 29 
+       82.05012%  17.79201%   0.09129%   0.02970%   0.02365%   0.00691%   0.00303%   0.00250%  6.24E-04%  1.21E-04%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 3.59737E-02
+       V  52      Mn 57      Fe 53      Ni 65      Cr 55      Fe 61      Ni 57      Al 30      P  30      P  35 
+       77.70436%  16.83472%   2.98628%   1.02173%   0.89165%   0.53583%   0.02368%   0.00132%  3.37E-04%  5.79E-05%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 2.27496E+01
+       V  52      Ni 57      Ni 65      V  54      Mn 57      Fe 53      Mn 58      Cr 55      Fe 61      Mn 52m
+       99.23966%   0.67028%   0.06989%   0.01918%  7.25E-04%  6.79E-05%  6.77E-05%  4.66E-05%  4.42E-05%  2.36E-05%
+
+ group  22 (energy range:  1.3400 -   1.3300 [MeV]) ..... energy intensity = 1.26251E-01
+       V  52      Co 60      V  54      Al 30      Mn 52      Co 56      Mn 52m     Cr 57 
+       97.78382%   1.59996%   0.61258%   0.00360%  4.36E-05%  2.86E-06%  1.17E-06%  2.46E-15%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 1.18459E+00
+       V  53      Al 29      Mn 56      Co 62      Ni 65      Mg 27      Mn 57      Co 60      Fe 61      Fe 59 
+       68.72975%  15.10433%  11.52839%   2.96883%   0.66085%   0.26905%   0.19668%   0.14994%   0.11622%   0.10407%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 7.15812E+01
+       Mn 56      Co 58      Mn 54      V  54      V  52      Mg 27      Co 61      Mn 57      Ti 51      Ni 57 
+       97.70571%   1.95035%   0.25612%   0.05372%   0.01255%   0.00950%   0.00560%   0.00325%   0.00300%  1.05E-04%
+
+ group  25 (energy range:  0.8000 -   0.7000 [MeV]) ..... energy intensity = 1.37736E-03
+       Mn 57      Al 29      V  52      Ni 65      Fe 61      Ni 57      Co 57      Mn 52      Co 56      Mn 52m
+       62.26397%  19.37504%  14.49633%   2.64146%   0.73857%   0.40059%   0.04371%   0.03963%  6.45E-04%  5.46E-05%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 2.33148E-02
+       Mn 57      V  52      V  54      Ti 51      Ni 57      Ni 65      Co 57      Fe 61      Mn 52      Co 56 
+       83.79677%  10.49276%   4.15660%   1.03527%   0.19214%   0.18374%   0.07541%   0.06729%  1.72E-05%  4.97E-06%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 4.53161E-03
+       V  53      Mn 57      V  54      Ni 57      Co 57      Fe 61      P  36      Sc 50      Mn 59      Na 25 
+       54.43545%  33.37725%  12.07310%   0.05956%   0.03387%   0.02077%  2.80E-07%  8.99E-14%  1.58E-16%  5.27E-17%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 4.96119E-01
+       Co 58      Fe 53      Ni 57      Cr 49      P  30      Mn 52m     Co 56      Mn 52      Al 26      Ti 45 
+       52.75762%  26.25350%  12.16339%   8.35279%   0.47181%  7.46E-04%  8.98E-05%  4.97E-05%  2.13E-11%  3.72E-16%
+
+ group  29 (energy range:  0.5100 -   0.4500 [MeV]) ..... energy intensity = 6.75802E-05
+       Ni 65      Mn 52      Co 56      Cr 57      Ni 56      Mn 59      Ca 47      Mn 58m     Na 24m     Co 55 
+       99.99772%   0.00127%   0.00101%  2.58E-13%  1.49E-14%  7.49E-15%  5.88E-15%  2.16E-15%  8.25E-16%  3.90E-16%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 1.34860E-03
+       V  53      Fe 61      Mg 28      Si 33      Co 56      Mn 59 
+       99.90036%   0.09956%  3.84E-05%  2.12E-05%  1.75E-05%  1.91E-17%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 4.88123E-02
+       Fe 53      Cr 51      Ti 51      Mn 57      Ni 65      V  52      Ni 57      Al 29      Fe 61      Fe 59 
+       42.78530%  24.07669%  20.47912%   9.87978%   1.64011%   1.02712%   0.07230%   0.03258%   0.00374%   0.00208%
+
+ group  32 (energy range:  0.3000 -   0.2000 [MeV]) ..... energy intensity = 2.40292E-03
+       V  53      Mn 57      Fe 61      Co 56      Mn 52      Cr 57      Ni 56      Mn 59 
+       85.32429%  10.82115%   3.85455%  5.53E-06%  5.17E-06%  4.84E-14%  2.35E-16%  2.27E-17%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 2.05763E-03
+       Cr 49      Mg 27      Fe 59      Fe 61      Ni 57      Co 63      P  36      Sc 48      Ni 56      Sc 47 
+       98.45805%   0.74461%   0.30103%   0.24206%   0.24205%   0.01220%  1.23E-06%  1.05E-12%  4.37E-16%  7.55E-17%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 1.49799E-02
+       Mn 57      Ni 57      Co 57      Fe 61      Fe 59      Cr 55      Ti 52      Sc 46m
+       67.20613%  19.16772%  13.54794%   0.05975%   0.01016%   0.00830%  2.76E-07%  1.36E-15%
+
+ group  35 (energy range:  0.1000 -   0.0750 [MeV]) ..... energy intensity = 2.11082E-03
+       Cr 49      Co 63      Cr 56      Cr 57 
+       99.79757%   0.20235%  8.47E-05%  6.39E-14%
+
+ group  37 (energy range:  0.0700 -   0.0600 [MeV]) ..... energy intensity = 6.22656E-03
+       Co 61      Cr 49 
+       92.83905%   7.16095%
+
+ group  38 (energy range:  0.0600 -   0.0450 [MeV]) ..... energy intensity = 1.81620E-16
+       Co 60m
+      100.00000%
+
+ group  39 (energy range:  0.0450 -   0.0300 [MeV]) ..... energy intensity = 7.14350E-11
+       Mg 28      Ca 47 
+      100.00000%  4.40E-13%
+
+ group  40 (energy range:  0.0300 -   0.0200 [MeV]) ..... energy intensity = 2.62033E-10
+       Cr 56      Co 58m
+      100.00000%  2.23E-06%
+
+ group  41 (energy range:  0.0200 -   0.0100 [MeV]) ..... energy intensity = 8.03776E-04
+       Mn 57      Co 57      Ti 52 
+       97.20104%   2.79896%  1.28E-07%
+
+ group  42 (energy range:  0.0100 -   0.0010 [MeV]) ..... energy intensity = 7.73051E-05
+       Fe 55      Ni 59      Mn 53 
+       99.99922%  7.79E-04%  1.85E-06%
+ 
+
+nmtc region=   4   mcnp cell=   0   output time=1.0424E+00 [d]  (after the last shutdown=        60 [s])
+--------------------------------------------------------------------------------------------------------
+
+ group   7 (energy range:  8.0000 -   7.5000 [MeV]) ..... energy intensity = 1.00268E-24
+       Be 11 
+      100.00000%
+
+ group   8 (energy range:  7.5000 -   7.0000 [MeV]) ..... energy intensity = 1.55493E-26
+       Be 11 
+      100.00000%
+
+ group   9 (energy range:  7.0000 -   6.5000 [MeV]) ..... energy intensity = 2.02948E-24
+       Be 11 
+      100.00000%
+
+ group  11 (energy range:  6.0000 -   5.5000 [MeV]) ..... energy intensity = 8.34256E-25
+       Be 11 
+      100.00000%
+
+ group  12 (energy range:  5.5000 -   5.0000 [MeV]) ..... energy intensity = 1.57162E-25
+       Be 11 
+      100.00000%
+
+ group  13 (energy range:  5.0000 -   4.5000 [MeV]) ..... energy intensity = 4.46647E-10
+       Mn 52m     Mn 58m     F  22      Be 11 
+      100.00000%  2.93E-12%  1.27E-13%  1.27E-13%
+
+ group  14 (energy range:  4.5000 -   4.0000 [MeV]) ..... energy intensity = 2.94126E-04
+       Co 62      P  34      S  37      Si 33      F  22      Mn 58m
+       99.93634%   0.06358%  8.63E-05%  2.01E-07%  7.46E-18%  1.09E-18%
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 5.72583E-04
+       V  52      Co 62      Co 56      S  37      Mn 52m     Si 33      Sc 50      Na 24      Mn 58m
+       88.88113%  11.11528%   0.00320%  3.47E-04%  4.40E-05%  9.26E-08%  1.84E-15%  2.16E-16%  1.70E-17%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 4.78224E-01
+       Mn 56      V  54      Co 62      Fe 53      Ni 57      Fe 61      Co 56      S  37      Al 30      Mn 52m
+       98.56816%   1.19014%   0.19781%   0.03157%   0.01000%   0.00195%  2.41E-04%  1.23E-04%  6.11E-06%  6.05E-07%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 4.32095E+00
+       Mn 56      V  54      Fe 53      Ni 57      Fe 61      Co 56      Al 30      P  35      Si 33      P  36 
+       99.86171%   0.10610%   0.02116%   0.01032%  6.81E-04%  2.40E-05%  8.88E-08%  2.06E-09%  2.05E-10%  1.15E-10%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 2.52697E+01
+       Mn 56      Al 29      V  54      Co 62      Fe 53      V  52      Fe 61      Ni 57      Cr 55      P  34 
+       99.77461%   0.11885%   0.06542%   0.03393%   0.00432%   0.00187%  4.95E-04%  3.27E-04%  1.35E-04%  2.31E-05%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 4.79395E+01
+       Mn 56      Al 28      Ni 57      Co 58      V  54      V  52      Mn 57      Co 62      Ni 65      Al 29 
+       85.47314%  14.37716%   0.09542%   0.03105%   0.01233%   0.00619%   0.00211%   0.00178%  6.50E-04%  1.16E-04%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 2.98175E-02
+       V  52      Mn 57      Fe 53      Ni 65      Cr 55      Fe 61      Ni 57      P  30      P  35      Co 56 
+       80.34232%  13.53544%   3.36641%   1.22798%   0.91196%   0.58696%   0.02856%  3.22E-04%  3.36E-05%  9.08E-06%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 1.95189E+01
+       V  52      Ni 57      Ni 65      V  54      Mn 57      Fe 53      Fe 61      Cr 55      Mn 52m     Mn 52 
+       99.12593%   0.78101%   0.08115%   0.01115%  5.63E-04%  7.39E-05%  4.68E-05%  4.60E-05%  2.68E-05%  5.99E-06%
+
+ group  22 (energy range:  1.3400 -   1.3300 [MeV]) ..... energy intensity = 1.08206E-01
+       V  52      Co 60      V  54      Mn 52      Co 56      Mn 52m     Al 30      Cr 57 
+       97.77680%   1.86677%   0.35638%  5.09E-05%  3.34E-06%  1.33E-06%  2.92E-07%  5.55E-16%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 9.01991E-01
+       V  53      Al 29      Mn 56      Co 62      Ni 65      Mg 27      Co 60      Mn 57      Fe 61      Fe 59 
+       62.08220%  18.16625%  15.08388%   2.65284%   0.86458%   0.33241%   0.19692%   0.17214%   0.13859%   0.13667%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 7.12986E+01
+       Mn 56      Co 58      Mn 54      V  54      V  52      Mg 27      Co 61      Ti 51      Mn 57      Ni 57 
+       97.72745%   1.95807%   0.25714%   0.02689%   0.01080%   0.00897%   0.00559%   0.00272%   0.00217%  1.06E-04%
+
+ group  25 (energy range:  0.8000 -   0.7000 [MeV]) ..... energy intensity = 1.03919E-03
+       Mn 57      Al 29      V  52      Ni 65      Fe 61      Ni 57      Co 57      Mn 52      Co 56      Mn 52m
+       54.99741%  23.51762%  16.46629%   3.48767%   0.88883%   0.53081%   0.05793%   0.05252%  8.55E-04%  7.04E-05%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 1.59374E-02
+       Mn 57      V  52      V  54      Ti 51      Ni 57      Ni 65      Co 57      Fe 61      Mn 52      Co 56 
+       81.69470%  13.15493%   3.03188%   1.36999%   0.28101%   0.26776%   0.11031%   0.08938%  2.52E-05%  7.27E-06%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 2.98251E-03
+       V  53      Mn 57      V  54      Ni 57      Co 57      Fe 61      P  36      Sc 50      Na 25      Mn 58m
+       56.88640%  33.79663%   9.14639%   0.09047%   0.05146%   0.02865%  8.73E-10%  9.74E-14%  4.45E-17%  5.37E-18%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 4.86509E-01
+       Co 58      Fe 53      Ni 57      Cr 49      P  30      Mn 52m     Co 56      Mn 52      Al 26      Ti 45 
+       53.79949%  25.01524%  12.40032%   8.40227%   0.38180%  7.41E-04%  9.16E-05%  5.07E-05%  2.17E-11%  3.78E-16%
+
+ group  29 (energy range:  0.5100 -   0.4500 [MeV]) ..... energy intensity = 6.73223E-05
+       Ni 65      Mn 52      Co 56      Cr 57      Ni 56      Ca 47      Mn 58m     Na 24m     Co 55      Mn 59 
+       99.99771%   0.00128%   0.00101%  5.01E-14%  1.50E-14%  5.90E-15%  1.28E-15%  6.98E-16%  3.91E-16%  3.95E-18%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 9.27849E-04
+       V  53      Fe 61      Mg 28      Co 56      Si 33      Ti 45      Co 55 
+       99.86852%   0.13140%  5.58E-05%  2.54E-05%  1.06E-07%  1.38E-18%  1.30E-18%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 4.48028E-02
+       Fe 53      Cr 51      Ti 51      Mn 57      Ni 65      V  52      Ni 57      Al 29      Fe 61      Fe 59 
+       43.55523%  26.23096%  20.18289%   7.17338%   1.78007%   0.95903%   0.07875%   0.03251%   0.00370%   0.00227%
+
+ group  32 (energy range:  0.3000 -   0.2000 [MeV]) ..... energy intensity = 1.66755E-03
+       V  53      Mn 57      Fe 61      Co 56      Mn 52      Cr 57      Ni 56 
+       84.56503%  10.39172%   5.04323%  7.97E-06%  7.45E-06%  1.35E-14%  3.39E-16%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 2.02861E-03
+       Cr 49      Mg 27      Fe 59      Ni 57      Fe 61      Co 63      P  36      Sc 48      Ni 56      Sc 47 
+       98.51227%   0.71052%   0.30533%   0.24544%   0.22293%   0.00349%  2.55E-09%  1.07E-12%  4.43E-16%  7.67E-17%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 1.16199E-02
+       Mn 57      Ni 57      Co 57      Fe 61      Fe 59      Cr 55      Ti 52      Sc 46m
+       57.73878%  24.70352%  17.46560%   0.06994%   0.01309%   0.00907%  2.54E-07%  2.76E-16%
+
+ group  35 (energy range:  0.1000 -   0.0750 [MeV]) ..... energy intensity = 2.07919E-03
+       Cr 49      Co 63      Cr 56      Cr 57 
+       99.94193%   0.05799%  7.80E-05%  1.25E-14%
+
+ group  37 (energy range:  0.0700 -   0.0600 [MeV]) ..... energy intensity = 6.18732E-03
+       Co 61      Cr 49 
+       92.89138%   7.10862%
+
+ group  38 (energy range:  0.0600 -   0.0450 [MeV]) ..... energy intensity = 1.79464E-16
+       Co 60m
+      100.00000%
+
+ group  39 (energy range:  0.0450 -   0.0300 [MeV]) ..... energy intensity = 7.14021E-11
+       Mg 28      Ca 47 
+      100.00000%  4.40E-13%
+
+ group  40 (energy range:  0.0300 -   0.0200 [MeV]) ..... energy intensity = 2.37726E-10
+       Cr 56      Co 58m
+      100.00000%  2.45E-06%
+
+ group  41 (energy range:  0.0200 -   0.0100 [MeV]) ..... energy intensity = 5.43163E-04
+       Mn 57      Co 57      Ti 52 
+       95.85803%   4.14197%  1.35E-07%
+
+ group  42 (energy range:  0.0100 -   0.0010 [MeV]) ..... energy intensity = 7.73050E-05
+       Fe 55      Ni 59      Mn 53 
+       99.99922%  7.79E-04%  1.85E-06%
+ 
+
+nmtc region=   4   mcnp cell=   0   output time=1.0486E+00 [d]  (after the last shutdown=        10 [m])
+--------------------------------------------------------------------------------------------------------
+
+ group  13 (energy range:  5.0000 -   4.5000 [MeV]) ..... energy intensity = 3.32325E-10
+       Mn 52m     Mn 58m
+      100.00000%  1.29E-14%
+
+ group  14 (energy range:  4.5000 -   4.0000 [MeV]) ..... energy intensity = 4.59287E-06
+       Co 62      S  37      P  34 
+       99.99839%   0.00161%  3.40E-13%
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 9.71502E-05
+       V  52      Co 62      Co 56      S  37      Mn 52m     Na 24      Sc 50 
+       98.95673%   1.02361%   0.01887%  5.94E-04%  1.93E-04%  1.27E-15%  2.81E-16%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 4.52893E-01
+       Mn 56      Fe 53      Ni 57      Co 62      Fe 61      V  54      Co 56      S  37      Mn 52m
+       99.96849%   0.01602%   0.01053%   0.00326%  7.26E-04%  6.84E-04%  2.54E-04%  3.78E-05%  4.76E-07%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 4.14536E+00
+       Mn 56      Ni 57      Fe 53      Fe 61      V  54      Co 56      P  35      Al 26      Na 24 
+       99.97834%   0.01072%   0.01060%  2.50E-04%  6.02E-05%  2.50E-05%  7.85E-13%  2.15E-14%  2.85E-17%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 2.42289E+01
+       Mn 56      Al 29      Fe 53      Co 62      V  52      Ni 57      Fe 61      V  54      Cr 55      Cr 49 
+       99.94838%   0.04794%   0.00217%  5.53E-04%  3.69E-04%  3.40E-04%  1.82E-04%  3.71E-05%  2.36E-05%  5.30E-06%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 3.98439E+01
+       Mn 56      Al 28      Ni 57      Co 58      V  52      Ni 65      Al 29      Co 62      Mn 57      Fe 61 
+       98.77624%   1.06962%   0.11448%   0.03736%   0.00141%  7.50E-04%  5.39E-05%  3.34E-05%  3.17E-05%  1.81E-05%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 5.52528E-03
+       V  52      Fe 53      Ni 65      Fe 61      Mn 57      Cr 55      Ni 57      P  30      Co 56      Mn 52m
+       81.90360%   8.72812%   6.35872%   1.11667%   0.91227%   0.82670%   0.15367%  1.43E-04%  4.90E-05%  3.53E-05%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 3.82220E+00
+       V  52      Ni 57      Ni 65      Fe 53      Mn 52m     Fe 61      Cr 55      Mn 57      V  54      Mn 52 
+       95.62507%   3.97675%   0.39765%  1.81E-04%  1.02E-04%  8.42E-05%  3.95E-05%  3.59E-05%  3.10E-05%  3.06E-05%
+
+ group  22 (energy range:  1.3400 -   1.3300 [MeV]) ..... energy intensity = 2.20063E-02
+       V  52      Co 60      V  54      Mn 52      Co 56      Mn 52m
+       90.81981%   9.17897%  9.54E-04%  2.50E-04%  1.64E-05%  4.85E-06%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 2.17547E-01
+       Mn 56      Al 29      V  53      Ni 65      Co 60      Mg 27      Fe 59      Fe 61      Co 62      Ni 57 
+       60.06941%  29.12968%   4.52012%   3.43968%   0.81647%   0.71265%   0.56661%   0.20257%   0.17186%   0.14252%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 6.85136E+01
+       Mn 56      Co 58      Mn 54      Co 61      Mg 27      V  52      Ti 51      Ni 57      Ni 65      Mn 57 
+       97.68128%   2.03754%   0.26758%   0.00546%   0.00483%   0.00212%  9.59E-04%  1.10E-04%  5.33E-05%  2.83E-05%
+
+ group  25 (energy range:  0.8000 -   0.7000 [MeV]) ..... energy intensity = 1.78669E-04
+       Al 29      Ni 65      V  52      Mn 57      Ni 57      Fe 61      Co 57      Mn 52      Co 56      Mn 52m
+       52.90044%  19.46443%  18.09182%   3.99502%   3.07831%   1.82248%   0.33697%   0.30525%   0.00497%  3.05E-04%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 7.41055E-04
+       V  52      Mn 57      Ti 51      Ni 57      Ni 65      Co 57      Fe 61      V  54      Mn 52      Co 56 
+       53.44387%  21.94287%   9.97528%   6.02590%   5.52556%   2.37267%   0.67766%   0.03549%  5.42E-04%  1.56E-04%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 4.70579E-05
+       V  53      Mn 57      Ni 57      Co 57      Fe 61      V  54      Sc 50      Ca 47      Ti 45      Co 55 
+       63.31286%  26.75192%   5.71740%   3.26217%   0.64015%   0.31551%  1.60E-13%  1.33E-16%  2.54E-17%  2.48E-17%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 4.15775E-01
+       Co 58      Ni 57      Fe 53      Cr 49      P  30      Mn 52m     Co 56      Mn 52      Al 26      Ti 45 
+       62.94833%  14.46762%  14.06288%   8.48360%   0.03677%  6.45E-04%  1.07E-04%  5.92E-05%  2.54E-11%  4.28E-16%
+
+ group  29 (energy range:  0.5100 -   0.4500 [MeV]) ..... energy intensity = 6.45982E-05
+       Ni 65      Mn 52      Co 56      Ni 56      Ca 47      Co 55      Na 24m     Mn 58m
+       99.99762%   0.00133%   0.00105%  1.56E-14%  6.14E-15%  4.05E-16%  1.15E-16%  4.36E-18%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 1.67025E-05
+       V  53      Fe 61      Mg 28      Co 56      Ti 45      Co 55 
+       97.42227%   2.57323%   0.00308%   0.00141%  7.43E-17%  7.18E-17%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 2.51166E-02
+       Cr 51      Fe 53      Ti 51      Ni 65      V  52      Mn 57      Ni 57      Al 29      Fe 59      Fe 61 
+       46.78334%  37.32691%  12.18902%   3.04679%   0.32316%   0.15981%   0.14006%   0.02242%   0.00405%   0.00232%
+
+ group  32 (energy range:  0.3000 -   0.2000 [MeV]) ..... energy intensity = 5.65747E-05
+       Fe 61      V  53      Mn 57      Co 56      Mn 52      Ni 56 
+       52.40376%  43.77040%   3.82539%  2.35E-04%  2.19E-04%  9.97E-15%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 1.74461E-03
+       Cr 49      Mg 27      Fe 59      Ni 57      Fe 61      Co 63      Sc 48      Ni 56      Sc 47 
+       98.84184%   0.42720%   0.35500%   0.28457%   0.09138%  4.74E-09%  1.24E-12%  5.14E-16%  9.02E-17%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 4.98022E-03
+       Ni 57      Co 57      Mn 57      Fe 61      Fe 59      Cr 55      Ti 52 
+       57.47044%  40.75544%   1.68249%   0.05753%   0.03054%   0.00355%  1.51E-08%
+
+ group  35 (energy range:  0.1000 -   0.0750 [MeV]) ..... energy intensity = 1.79305E-03
+       Cr 49      Cr 56      Co 63 
+       99.99997%  3.16E-05%  7.85E-08%
+
+ group  37 (energy range:  0.0700 -   0.0600 [MeV]) ..... energy intensity = 5.77873E-03
+       Co 61      Cr 49 
+       93.43239%   6.56761%
+
+ group  38 (energy range:  0.0600 -   0.0450 [MeV]) ..... energy intensity = 1.62406E-16
+       Co 60m
+      100.00000%
+
+ group  39 (energy range:  0.0450 -   0.0300 [MeV]) ..... energy intensity = 7.10480E-11
+       Mg 28      Ca 47 
+      100.00000%  4.42E-13%
+
+ group  40 (energy range:  0.0300 -   0.0200 [MeV]) ..... energy intensity = 8.30728E-11
+       Cr 56      Co 58m
+       99.99999%  6.94E-06%
+
+ group  41 (energy range:  0.0200 -   0.0100 [MeV]) ..... energy intensity = 2.90028E-05
+       Co 57      Mn 57      Ti 52 
+       77.57920%  22.42080%  6.42E-08%
+
+ group  42 (energy range:  0.0100 -   0.0010 [MeV]) ..... energy intensity = 7.73047E-05
+       Fe 55      Ni 59      Mn 53 
+       99.99922%  7.79E-04%  1.85E-06%
+ 
+
+nmtc region=   4   mcnp cell=   0   output time=1.0833E+00 [d]  (after the last shutdown=        60 [m])
+--------------------------------------------------------------------------------------------------------
+
+ group  13 (energy range:  5.0000 -   4.5000 [MeV]) ..... energy intensity = 6.43017E-11
+       Mn 52m
+      100.00000%
+
+ group  14 (energy range:  4.5000 -   4.0000 [MeV]) ..... energy intensity = 7.76137E-14
+       S  37      Co 62 
+       99.45323%   0.54677%
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 2.75300E-08
+       Co 56      V  52      Mn 52m     S  37      Co 62      Na 24      Cl 38 
+       66.58472%  33.28136%   0.13172%   0.00219%  3.34E-07%  4.30E-12%  1.10E-18%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 3.61946E-01
+       Mn 56      Ni 57      Fe 53      Co 56      Fe 61      Mn 52m     S  37      Co 62 
+       99.98638%   0.01296%  3.41E-04%  3.18E-04%  2.77E-06%  1.15E-07%  4.95E-08%  3.77E-13%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 3.31324E+00
+       Mn 56      Ni 57      Fe 53      Co 56      Fe 61      Al 26      Na 24 
+       99.98654%   0.01320%  2.26E-04%  3.13E-05%  9.55E-07%  2.69E-14%  3.43E-17%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 1.93571E+01
+       Mn 56      Ni 57      Al 29      Fe 53      Cr 49      Co 56      Fe 61      Co 60      V  52      V  48 
+       99.99922%  4.19E-04%  3.06E-04%  4.62E-05%  2.92E-06%  2.88E-06%  6.96E-07%  2.03E-07%  4.40E-08%  3.90E-08%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 3.15187E+01
+       Mn 56      Ni 57      Co 58      Ni 65      Co 56      Al 29      Al 28      V  52      Fe 61      Mn 52m
+       99.80965%   0.14239%   0.04721%  7.54E-04%  2.18E-06%  3.48E-07%  2.80E-07%  1.70E-07%  6.97E-08%  6.32E-09%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 2.96491E-04
+       Ni 65      Ni 57      Fe 53      V  52      Fe 61      Co 56      Cr 55      Mn 52      Mn 52m     Mg 28 
+       94.20064%   2.81768%   2.77063%   0.14547%   0.06349%  9.13E-04%  7.65E-04%  2.12E-04%  1.27E-04%  8.25E-05%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 1.61987E-01
+       Ni 57      Ni 65      V  52      Mn 52      Fe 59      Mn 52m     Co 56      Fe 53      Fe 61      Mg 28 
+       92.32416%   7.45889%   0.21504%  7.18E-04%  5.64E-04%  4.65E-04%  8.77E-05%  7.29E-05%  6.06E-06%  1.63E-06%
+
+ group  22 (energy range:  1.3400 -   1.3300 [MeV]) ..... energy intensity = 2.02189E-03
+       Co 60      V  52      Mn 52      Co 56      Mn 52m
+       99.90289%   0.09421%   0.00271%  1.79E-04%  1.02E-05%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 1.14334E-01
+       Mn 56      Ni 65      Co 60      Fe 59      Al 29      Ni 57      Si 31      Mg 27      Co 56      Fe 61 
+       91.36050%   5.20282%   1.55351%   1.07752%   0.28288%   0.26681%   0.21732%   0.03475%   0.00202%   0.00118%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 5.50768E+01
+       Mn 56      Co 58      Mn 54      Co 61      Mg 27      Ni 57      Ni 65      Co 56      Ti 51      Mn 52 
+       97.12826%   2.53377%   0.33284%   0.00479%  1.54E-04%  1.34E-04%  5.27E-05%  3.59E-06%  2.91E-06%  1.34E-06%
+
+ group  25 (energy range:  0.8000 -   0.7000 [MeV]) ..... energy intensity = 3.47076E-05
+       Ni 65      Ni 57      Co 57      Mn 52      Al 29      Fe 61      Co 56      V  52      Mn 52m     Mn 57 
+       79.65449%  15.59164%   1.73574%   1.56485%   1.38989%   0.02862%   0.02559%   0.00888%  3.04E-04%  5.47E-10%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 9.43197E-05
+       Ni 57      Ni 65      Co 57      Ti 51      V  52      Fe 61      Mn 52      Co 56      Mg 28      Mn 57 
+       46.58255%  34.51170%  18.65300%   0.19101%   0.04002%   0.01624%   0.00424%   0.00123%  2.20E-07%  4.59E-09%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 4.18414E-06
+       Ni 57      Co 57      Fe 61      V  53      Mn 57      Ca 47      Co 55      Ti 45      V  54 
+       63.26707%  36.71097%   0.02197%  1.26E-07%  8.01E-09%  1.49E-15%  2.70E-16%  2.37E-16%  2.60E-18%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 3.37362E-01
+       Co 58      Ni 57      Cr 49      Fe 53      Mn 52m     Co 56      Mn 52      P  30      Al 26      Ti 45 
+       77.55304%  17.54335%   4.60803%   0.29522%  1.54E-04%  1.32E-04%  7.27E-05%  4.27E-08%  3.13E-11%  4.37E-16%
+
+ group  29 (energy range:  0.5100 -   0.4500 [MeV]) ..... energy intensity = 5.13530E-05
+       Ni 65      Mn 52      Co 56      Ni 56      Ca 47      Co 55 
+       99.99701%   0.00166%   0.00132%  1.95E-14%  7.69E-15%  4.93E-16%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 2.04821E-09
+       Fe 61      Mg 28      Co 56      V  53      Co 55      Ti 45      K  43 
+       64.01982%  24.47033%  11.50970%  1.40E-04%  5.66E-13%  5.02E-13%  9.39E-18%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 1.25518E-02
+       Cr 51      Ni 65      Fe 53      Ni 57      Ti 51      Fe 59      Co 57      Co 60      Al 29      V  52 
+       93.53338%   4.84660%   1.27230%   0.27576%   0.05944%   0.00810%   0.00374%  3.14E-04%  2.29E-04%  6.16E-05%
+
+ group  32 (energy range:  0.3000 -   0.2000 [MeV]) ..... energy intensity = 9.07075E-08
+       Fe 61      Co 56      Mn 52      V  53      Mn 57      Ni 56      Sc 44m     V  47      K  43 
+       99.71728%   0.14644%   0.13627%  4.83E-06%  6.35E-08%  6.20E-12%  1.05E-17%  7.79E-18%  1.52E-18%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 7.71268E-04
+       Cr 49      Fe 59      Ni 57      Mg 27      Fe 61      Sc 48      Ni 56      Sc 47 
+       98.53869%   0.80258%   0.63333%   0.02476%  6.31E-04%  2.76E-12%  1.16E-15%  2.16E-16%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 4.84857E-03
+       Ni 57      Co 57      Fe 59      Fe 61      Cr 55      Mn 57      Ti 52 
+       58.08092%  41.88754%   0.03136%  1.80E-04%  1.81E-07%  4.60E-11%  2.17E-17%
+
+ group  35 (energy range:  0.1000 -   0.0750 [MeV]) ..... energy intensity = 7.90251E-04
+       Cr 49      Cr 56 
+      100.00000%  2.08E-07%
+
+ group  37 (energy range:  0.0700 -   0.0600 [MeV]) ..... energy intensity = 3.97288E-03
+       Co 61      Cr 49 
+       95.78977%   4.21023%
+
+ group  38 (energy range:  0.0600 -   0.0450 [MeV]) ..... energy intensity = 1.42236E-16
+       Co 60m
+      100.00000%
+
+ group  39 (energy range:  0.0450 -   0.0300 [MeV]) ..... energy intensity = 6.91126E-11
+       Mg 28      Ca 47 
+      100.00000%  4.52E-13%
+
+ group  40 (energy range:  0.0300 -   0.0200 [MeV]) ..... energy intensity = 2.41379E-13
+       Cr 56      Co 58m
+       99.99776%   0.00224%
+
+ group  41 (energy range:  0.0200 -   0.0100 [MeV]) ..... energy intensity = 2.25138E-05
+       Co 57      Mn 57      Ti 52 
+      100.00000%  7.69E-10%  1.16E-16%
+
+ group  42 (energy range:  0.0100 -   0.0010 [MeV]) ..... energy intensity = 7.73028E-05
+       Fe 55      Ni 59      Mn 53 
+       99.99922%  7.79E-04%  1.85E-06%
+ 
+
+nmtc region=   4   mcnp cell=   0   output time=1.4583E+00 [d]  (after the last shutdown=        10 [h])
+--------------------------------------------------------------------------------------------------------
+
+ group  13 (energy range:  5.0000 -   4.5000 [MeV]) ..... energy intensity = 1.27097E-18
+       Mn 52m
+      100.00000%
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 1.82692E-08
+       Co 56      Mn 52m     Na 24 
+      100.00000%  3.92E-09%  4.27E-12%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 3.22532E-02
+       Mn 56      Ni 57      Co 56      Mn 52m
+       99.87438%   0.12206%   0.00356%  2.55E-14%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 2.95243E-01
+       Mn 56      Ni 57      Co 56      Al 26      Na 24 
+       99.87533%   0.12432%  3.50E-04%  3.02E-13%  2.54E-16%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 1.72305E+00
+       Mn 56      Ni 57      Co 56      Co 60      V  48      Cr 49      Mn 52      Mn 52m
+       99.99602%   0.00395%  3.23E-05%  2.28E-06%  4.31E-07%  4.71E-09%  2.74E-09%  1.97E-16%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 2.85267E+00
+       Mn 56      Ni 57      Co 58      Ni 65      Co 56      Al 28      Mn 52      Al 26      Sc 49      Mn 52m
+       98.15924%   1.32032%   0.51971%  6.99E-04%  2.40E-05%  1.58E-07%  2.08E-08%  8.00E-12%  4.51E-15%  1.38E-15%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 3.04442E-05
+       Ni 65      Ni 57      Co 56      Mn 52      Mg 28      Sc 49      Mn 52m     Ni 56      Co 55      Fe 53 
+       76.95847%  23.03011%   0.00886%   0.00197%  5.97E-04%  7.79E-11%  2.45E-11%  3.93E-14%  8.72E-18%  2.13E-18%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 1.26530E-01
+       Ni 57      Ni 65      Mn 52      Fe 59      Co 56      Mg 28      V  48      Mn 52m     Na 24      Cu 64 
+       99.19725%   0.80104%  8.77E-04%  7.18E-04%  1.12E-04%  1.54E-06%  1.92E-07%  1.18E-11%  2.95E-16%  6.09E-18%
+
+ group  22 (energy range:  1.3400 -   1.3300 [MeV]) ..... energy intensity = 2.01971E-03
+       Co 60      Mn 52      Co 56      Mn 52m
+       99.99723%   0.00259%  1.78E-04%  2.02E-13%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 1.30790E-02
+       Mn 56      Co 60      Fe 59      Ni 65      Ni 57      Si 31      Co 56      V  48      Mn 52      Sc 46 
+       71.08877%  13.57864%   9.36456%   3.81534%   1.95746%   0.17591%   0.01758%   0.00139%  3.43E-04%  1.35E-06%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 6.33535E+00
+       Mn 56      Co 58      Mn 54      Ni 57      Co 61      Ni 65      Co 56      Mn 52      V  48      Co 60 
+       75.16000%  21.94683%   2.89116%  9.78E-04%  9.49E-04%  3.85E-05%  3.11E-05%  1.12E-05%  2.37E-06%  1.50E-06%
+
+ group  25 (energy range:  0.8000 -   0.7000 [MeV]) ..... energy intensity = 7.99408E-06
+       Ni 57      Ni 65      Co 57      Mn 52      Co 56      Mn 52m     Ni 56      Ti 45      Ca 47 
+       56.81253%  29.01083%   7.58027%   6.48562%   0.11074%  2.61E-11%  2.54E-13%  3.21E-15%  2.37E-15%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 5.73067E-05
+       Ni 57      Co 57      Ni 65      Mn 52      Co 56      Mg 28      Ti 45 
+       64.34540%  30.88098%   4.76495%   0.00666%   0.00201%  2.69E-07%  1.70E-17%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 3.76674E-06
+       Ni 57      Co 57      Ca 47      Co 55      Ti 45 
+       58.98138%  41.01862%  1.56E-15%  2.10E-16%  3.47E-17%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 3.10350E-01
+       Co 58      Ni 57      Cr 49      Co 56      Mn 52      Al 26      Mn 52m     Cu 64      Ti 45 
+       83.99416%  16.00490%  7.19E-04%  1.43E-04%  7.55E-05%  3.40E-11%  3.30E-12%  6.98E-17%  6.27E-17%
+
+ group  29 (energy range:  0.5100 -   0.4500 [MeV]) ..... energy intensity = 4.30921E-06
+       Ni 65      Mn 52      Co 56      Ni 56      Ca 47      Co 55 
+       99.96533%   0.01894%   0.01573%  2.23E-13%  8.65E-14%  4.11E-15%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 6.06888E-10
+       Mg 28      Co 56      Co 55      Ti 45      K  43 
+       61.28601%  38.71399%  1.34E-12%  2.24E-13%  2.40E-17%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 1.17121E-02
+       Cr 51      Ni 65      Ni 57      Fe 59      Co 57      Co 60      Mn 52      Mn 52m
+       99.30323%   0.43572%   0.24803%   0.00863%   0.00403%  3.37E-04%  2.96E-05%  5.72E-13%
+
+ group  32 (energy range:  0.3000 -   0.2000 [MeV]) ..... energy intensity = 2.50385E-10
+       Co 56      Mn 52      Ni 56      Sc 44m     K  43 
+       52.87381%  47.12619%  2.15E-09%  3.42E-15%  4.17E-16%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 1.03627E-05
+       Fe 59      Ni 57      Cr 49      Sc 48      Ni 56      Sc 47      Mg 27 
+       59.38649%  39.56057%   1.05294%  1.78E-10%  8.27E-14%  2.53E-14%  1.20E-17%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 4.40783E-03
+       Ni 57      Co 57      Fe 59 
+       53.61904%  46.34666%   0.03429%
+
+ group  35 (energy range:  0.1000 -   0.0750 [MeV]) ..... energy intensity = 1.13456E-07
+       Cr 49      Co 55 
+      100.00000%  1.73E-15%
+
+ group  37 (energy range:  0.0700 -   0.0600 [MeV]) ..... energy intensity = 8.68088E-05
+       Co 61      Cr 49 
+       99.97234%   0.02766%
+
+ group  38 (energy range:  0.0600 -   0.0450 [MeV]) ..... energy intensity = 1.41473E-16
+       Co 60m
+      100.00000%
+
+ group  39 (energy range:  0.0450 -   0.0300 [MeV]) ..... energy intensity = 5.12877E-11
+       Mg 28      Ca 47 
+      100.00000%  5.75E-13%
+
+ group  40 (energy range:  0.0300 -   0.0200 [MeV]) ..... energy intensity = 2.73040E-18
+       Co 58m
+      100.00000%
+
+ group  41 (energy range:  0.0200 -   0.0100 [MeV]) ..... energy intensity = 2.26461E-05
+       Co 57 
+      100.00000%
+
+ group  42 (energy range:  0.0100 -   0.0010 [MeV]) ..... energy intensity = 7.72828E-05
+       Fe 55      Ni 59      Mn 53 
+       99.99922%  7.79E-04%  1.85E-06%
+ 
+
+nmtc region=   4   mcnp cell=   0   output time=2.0417E+00 [d]  (after the last shutdown=        24 [h])
+--------------------------------------------------------------------------------------------------------
+
+ group  13 (energy range:  5.0000 -   4.5000 [MeV]) ..... energy intensity = 1.31827E-30
+       Mn 52m
+      100.00000%
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 1.81738E-08
+       Co 56      Na 24 
+      100.00000%  2.25E-12%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 7.78990E-04
+       Mn 56      Ni 57      Co 56 
+       96.00546%   3.84795%   0.14659%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 7.12650E-03
+       Mn 56      Ni 57      Co 56      Al 26      Na 24 
+       96.06411%   3.92148%   0.01441%  1.25E-11%  5.51E-15%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 4.00542E-02
+       Mn 56      Ni 57      Co 56      Co 60      V  48      Mn 52      Cr 49 
+       99.86921%   0.12930%   0.00138%  9.80E-05%  1.81E-05%  1.10E-07%  2.13E-13%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 1.08431E-01
+       Mn 56      Ni 57      Co 58      Co 56      Ni 65      Al 28      Mn 52      Al 26      Sc 49 
+       59.95559%  26.44820%  13.59519%  6.28E-04%  3.89E-04%  2.62E-06%  5.08E-07%  2.10E-10%  4.49E-18%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 5.83786E-06
+       Ni 57      Ni 65      Co 56      Mn 52      Mg 28      Ni 56      Sc 49      Co 55 
+       91.44576%   8.49677%   0.04598%   0.00954%   0.00196%  1.92E-13%  1.54E-14%  2.62E-17%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 9.55909E-02
+       Ni 57      Ni 65      Mn 52      Fe 59      Co 56      Mg 28      V  48      Na 24      Cu 64 
+       99.97538%   0.02245%   0.00108%  9.41E-04%  1.47E-04%  1.29E-06%  2.48E-07%  2.04E-16%  3.75E-18%
+
+ group  22 (energy range:  1.3400 -   1.3300 [MeV]) ..... energy intensity = 2.01928E-03
+       Co 60      Mn 52      Co 56 
+       99.99741%   0.00241%  1.77E-04%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 3.41372E-03
+       Co 60      Fe 59      Mn 56      Ni 57      Ni 65      Co 56      Si 31      V  48      Mn 52      Sc 46 
+       52.01294%  35.55390%   6.32335%   5.71027%   0.30948%   0.06700%   0.01664%   0.00519%   0.00122%  5.14E-06%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 1.67602E+00
+       Co 58      Mn 54      Mn 56      Ni 57      Co 56      Mn 52      Co 61      V  48      Co 60      Ni 65 
+       82.48667%  10.91438%   6.59595%   0.00282%  1.17E-04%  3.92E-05%  1.00E-05%  8.75E-06%  5.68E-06%  3.08E-06%
+
+ group  25 (energy range:  0.8000 -   0.7000 [MeV]) ..... energy intensity = 4.60844E-06
+       Ni 57      Co 57      Mn 52      Ni 65      Co 56      Ni 56      Ca 47      Ti 45 
+       75.03708%  13.24089%  10.46552%   1.06542%   0.19109%  4.13E-13%  3.76E-15%  2.39E-16%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 4.59591E-05
+       Ni 57      Co 57      Ni 65      Mn 52      Co 56      Mg 28 
+       61.08979%  38.77420%   0.12579%   0.00772%   0.00250%  2.11E-07%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 3.24744E-06
+       Ni 57      Co 57      Ca 47      Co 55      Ti 45 
+       52.09029%  47.90971%  1.66E-15%  1.40E-16%  1.73E-18%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 2.97014E-01
+       Co 58      Ni 57      Co 56      Mn 52      Cr 49      Al 26      Cu 64      Ti 45 
+       87.26632%  12.73345%  1.49E-04%  7.33E-05%  7.91E-10%  3.56E-11%  3.40E-17%  2.81E-18%
+
+ group  29 (energy range:  0.5100 -   0.4500 [MeV]) ..... energy intensity = 9.26335E-08
+       Ni 65      Mn 52      Co 56      Ni 56      Ca 47      Co 55 
+       98.45234%   0.81954%   0.72812%  9.69E-12%  3.68E-12%  1.10E-13%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 4.67585E-10
+       Mg 28      Co 56      Co 55      Ti 45      K  43 
+       50.01462%  49.98538%  9.99E-13%  1.24E-14%  2.01E-17%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 1.14867E-02
+       Cr 51      Ni 57      Ni 65      Fe 59      Co 57      Co 60      Mn 52 
+       99.78481%   0.19256%   0.00941%   0.00872%   0.00414%  3.44E-04%  2.81E-05%
+
+ group  32 (energy range:  0.3000 -   0.2000 [MeV]) ..... energy intensity = 2.41462E-10
+       Co 56      Mn 52      Ni 56      Sc 44m     K  43 
+       54.54139%  45.45861%  2.09E-09%  3.01E-15%  2.80E-16%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 9.21976E-06
+       Fe 59      Ni 57      Cr 49      Sc 48      Ni 56      Sc 47 
+       66.14433%  33.85567%  1.25E-06%  1.60E-10%  8.69E-14%  4.18E-14%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 3.85816E-03
+       Co 57      Ni 57      Fe 59 
+       53.31882%  46.64236%   0.03882%
+
+ group  35 (energy range:  0.1000 -   0.0750 [MeV]) ..... energy intensity = 1.19379E-13
+       Cr 49      Co 55 
+      100.00000%  9.48E-10%
+
+ group  37 (energy range:  0.0700 -   0.0600 [MeV]) ..... energy intensity = 2.42242E-07
+       Co 61      Cr 49 
+       99.99999%  1.04E-05%
+
+ group  38 (energy range:  0.0600 -   0.0450 [MeV]) ..... energy intensity = 1.41473E-16
+       Co 60m
+      100.00000%
+
+ group  39 (energy range:  0.0450 -   0.0300 [MeV]) ..... energy intensity = 3.22478E-11
+       Mg 28      Ca 47 
+      100.00000%  8.37E-13%
+
+ group  40 (energy range:  0.0300 -   0.0200 [MeV]) ..... energy intensity = 9.41169E-19
+       Co 58m
+      100.00000%
+
+ group  41 (energy range:  0.0200 -   0.0100 [MeV]) ..... energy intensity = 2.28040E-05
+       Co 57 
+      100.00000%
+
+ group  42 (energy range:  0.0100 -   0.0010 [MeV]) ..... energy intensity = 7.72516E-05
+       Fe 55      Ni 59      Mn 53 
+       99.99922%  7.79E-04%  1.85E-06%
+ 
+
+nmtc region=   4   mcnp cell=   0   output time=1.1042E+01 [d]  (after the last shutdown=        10 [d])
+--------------------------------------------------------------------------------------------------------
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 1.67636E-08
+       Co 56      Na 24 
+      100.00000%  1.13E-16%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 1.50029E-06
+       Co 56      Ni 57 
+       70.20724%  29.79276%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 5.11437E-06
+       Ni 57      Co 56      Al 26      Na 24 
+       81.48166%  18.51834%  1.74E-08%  3.55E-16%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 1.32642E-06
+       Ni 57      Co 56      Co 60      V  48      Mn 52 
+       58.22093%  38.45852%   2.95031%   0.36916%   0.00108%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 1.39273E-02
+       Co 58      Ni 57      Co 56      Mn 52      Al 28      Al 26 
+       96.92499%   3.07050%   0.00451%  1.30E-06%  1.59E-08%  1.64E-09%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 8.22640E-08
+       Ni 57      Co 56      Mn 52      Mg 28      Ni 56 
+       96.76839%   3.00963%   0.22187%  1.08E-04%  4.87E-12%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 1.42632E-03
+       Ni 57      Fe 59      Mn 52      Co 56      V  48      Mg 28 
+       99.91232%   0.05484%   0.02372%   0.00911%  1.13E-05%  6.70E-08%
+
+ group  22 (energy range:  1.3400 -   1.3300 [MeV]) ..... energy intensity = 2.01271E-03
+       Co 60      Mn 52      Co 56 
+       99.99904%  7.93E-04%  1.64E-04%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 2.82992E-03
+       Co 60      Fe 59      Ni 57      Co 56      V  48      Mn 52      Sc 46      Al 26      Mg 28      Sc 48 
+       62.54003%  37.27798%   0.10272%   0.07455%   0.00424%  4.83E-04%  5.75E-06%  1.26E-10%  3.11E-12%  3.04E-12%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 1.44529E+00
+       Co 58      Mn 54      Co 56      Ni 57      Mn 52      V  48      Co 60      Sc 46      Mg 28      Sc 48 
+       87.59353%  12.40627%  1.25E-04%  4.87E-05%  1.49E-05%  6.86E-06%  6.56E-06%  8.94E-09%  3.10E-11%  2.49E-15%
+
+ group  25 (energy range:  0.8000 -   0.7000 [MeV]) ..... energy intensity = 8.29926E-07
+       Co 57      Mn 52      Ni 57      Co 56      Ni 56      Ca 47 
+       73.76496%  19.04305%   6.21322%   0.97877%  8.20E-13%  5.28E-15%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 1.82994E-05
+       Co 57      Ni 57      Mn 52      Co 56      Mg 28 
+       97.70000%   2.28785%   0.00636%   0.00579%  4.12E-10%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 1.58615E-06
+       Co 57      Ni 57      Ca 47 
+       98.40970%   1.59030%  8.57E-16%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 2.37913E-01
+       Co 58      Ni 57      Co 56      Mn 52      Al 26 
+       99.76275%   0.23704%  1.71E-04%  3.00E-05%  4.44E-11%
+
+ group  29 (energy range:  0.5100 -   0.4500 [MeV]) ..... energy intensity = 8.70912E-10
+       Co 56      Mn 52      Ni 56      Ca 47      Co 55 
+       71.43561%  28.56439%  3.69E-10%  9.89E-11%  2.29E-15%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 2.15770E-10
+       Co 56      Mg 28      Co 55 
+       99.91568%   0.08432%  4.23E-16%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 9.15245E-03
+       Cr 51      Fe 59      Co 57      Ni 57      Co 60      Mn 52 
+       99.98123%   0.00951%   0.00521%   0.00360%  4.30E-04%  1.15E-05%
+
+ group  32 (energy range:  0.3000 -   0.2000 [MeV]) ..... energy intensity = 1.57446E-10
+       Co 56      Mn 52      Ni 56 
+       77.15488%  22.84512%  1.15E-09%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 5.34713E-06
+       Fe 59      Ni 57      Sc 48      Sc 47      Ni 56 
+       99.12952%   0.87048%  8.96E-12%  1.01E-13%  5.37E-14%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 2.09199E-03
+       Co 57      Ni 57      Fe 59 
+       98.65506%   1.28271%   0.06223%
+
+ group  35 (energy range:  0.1000 -   0.0750 [MeV]) ..... energy intensity = 2.21015E-28
+       Co 55 
+      100.00000%
+
+ group  38 (energy range:  0.0600 -   0.0450 [MeV]) ..... energy intensity = 1.41473E-16
+       Co 60m
+      100.00000%
+
+ group  39 (energy range:  0.0450 -   0.0300 [MeV]) ..... energy intensity = 2.50867E-14
+       Mg 28      Ca 47 
+      100.00000%  2.72E-10%
+
+ group  40 (energy range:  0.0300 -   0.0200 [MeV]) ..... energy intensity = 6.87154E-26
+       Co 58m
+      100.00000%
+
+ group  41 (energy range:  0.0200 -   0.0100 [MeV]) ..... energy intensity = 2.28786E-05
+       Co 57 
+      100.00000%
+
+ group  42 (energy range:  0.0100 -   0.0010 [MeV]) ..... energy intensity = 7.67723E-05
+       Fe 55      Ni 59      Mn 53 
+       99.99921%  7.84E-04%  1.87E-06%
+ 
+
+nmtc region=   4   mcnp cell=   0   output time=1.0104E+02 [d]  (after the last shutdown=       100 [d])
+--------------------------------------------------------------------------------------------------------
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 7.47435E-09
+       Co 56 
+      100.00000%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 4.69640E-07
+       Co 56      Ni 57 
+      100.00000%  5.17E-17%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 4.22281E-07
+       Co 56      Al 26      Ni 57 
+      100.00000%  2.11E-07%  5.36E-16%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 2.65431E-07
+       Co 56      Co 60      V  48      Mn 52      Ni 57 
+       85.68957%  14.27329%   0.03714%  7.73E-08%  1.58E-16%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 5.59712E-03
+       Co 58      Co 56      Al 26      Mn 52      Ni 57 
+       99.99499%   0.00501%  4.08E-09%  4.61E-11%  4.15E-18%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 1.10390E-09
+       Co 56      Mn 52      Ni 56      Ni 57 
+       99.99976%  2.36E-04%  1.26E-14%  3.92E-15%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 2.50426E-07
+       Fe 59      Co 56      Mn 52      V  48      Ni 57 
+       76.86721%  23.12957%   0.00193%   0.00129%  3.09E-13%
+
+ group  22 (energy range:  1.3400 -   1.3300 [MeV]) ..... energy intensity = 1.94853E-03
+       Co 60      Co 56      Mn 52 
+       99.99992%  7.56E-05%  1.17E-08%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 1.97397E-03
+       Co 60      Fe 59      Co 56      V  48      Sc 46      Mn 52      Al 26 
+       86.80002%  13.15219%   0.04766%  1.22E-04%  3.92E-06%  9.89E-09%  1.81E-10%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 6.71707E-01
+       Co 58      Mn 54      Co 56      Co 60      V  48      Sc 46      Mn 52 
+       78.14263%  21.85724%  1.20E-04%  1.37E-05%  2.97E-07%  9.14E-09%  4.58E-10%
+
+ group  25 (energy range:  0.8000 -   0.7000 [MeV]) ..... energy intensity = 4.90436E-07
+       Co 57      Co 56      Mn 52      Ni 56      Ni 57 
+       99.26105%   0.73849%  4.60E-04%  4.82E-17%  5.72E-18%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 1.42173E-05
+       Co 57      Co 56      Mn 52      Ni 57 
+       99.99668%   0.00332%  1.17E-07%  1.60E-18%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 1.24124E-06
+       Co 57      Ni 57 
+      100.00000%  1.10E-18%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 9.84074E-02
+       Co 58      Co 56      Mn 52      Al 26 
+       99.99982%  1.85E-04%  1.04E-09%  1.07E-10%
+
+ group  29 (energy range:  0.5100 -   0.4500 [MeV]) ..... energy intensity = 2.77397E-10
+       Co 56      Mn 52      Ni 56      Ca 47 
+       99.99872%   0.00128%  4.02E-14%  3.31E-16%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 9.61237E-11
+       Co 56 
+      100.00000%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 9.63167E-04
+       Cr 51      Co 57      Fe 59      Co 60      Mn 52 
+       99.93441%   0.03940%   0.02224%   0.00395%  1.57E-09%
+
+ group  32 (energy range:  0.3000 -   0.2000 [MeV]) ..... energy intensity = 5.41634E-11
+       Co 56      Mn 52      Ni 56 
+       99.99905%  9.48E-04%  1.16E-13%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 1.30447E-06
+       Fe 59      Ni 56      Ni 57      Sc 47 
+      100.00000%  7.64E-18%  1.94E-18%  1.01E-18%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 1.64148E-03
+       Co 57      Fe 59 
+       99.98048%   0.01952%
+
+ group  38 (energy range:  0.0600 -   0.0450 [MeV]) ..... energy intensity = 1.41473E-16
+       Co 60m
+      100.00000%
+
+ group  39 (energy range:  0.0450 -   0.0300 [MeV]) ..... energy intensity = 7.25888E-32
+       Ca 47 
+      100.00000%
+
+ group  41 (energy range:  0.0200 -   0.0100 [MeV]) ..... energy intensity = 1.81929E-05
+       Co 57 
+      100.00000%
+
+ group  42 (energy range:  0.0100 -   0.0010 [MeV]) ..... energy intensity = 7.21398E-05
+       Fe 55      Ni 59      Mn 53 
+       99.99916%  8.34E-04%  1.99E-06%
+ 
+
+nmtc region=   4   mcnp cell=   0   output time=1.0029E+00 [y]  (after the last shutdown=3.6525E+02 [d])
+--------------------------------------------------------------------------------------------------------
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 6.91365E-10
+       Co 56 
+      100.00000%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 4.34409E-08
+       Co 56 
+      100.00000%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 3.90602E-08
+       Co 56      Al 26 
+      100.00000%  2.28E-06%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 5.54736E-08
+       Co 60      Co 56      V  48 
+       62.07487%  37.92513%  1.78E-06%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 4.17897E-04
+       Co 58      Co 56      Al 26 
+       99.99380%   0.00620%  5.46E-08%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 1.02109E-10
+       Co 56      Mn 52 
+      100.00000%  1.34E-17%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 8.44726E-09
+       Co 56      Fe 59      V  48      Mn 52 
+       63.42567%  36.57433%  3.84E-07%  3.00E-16%
+
+ group  22 (energy range:  1.3400 -   1.3300 [MeV]) ..... energy intensity = 1.77106E-03
+       Co 60      Co 56 
+       99.99999%  7.69E-06%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 1.56160E-03
+       Co 60      Fe 59      Co 56      Sc 46      V  48      Al 26 
+       99.72759%   0.26683%   0.00557%  5.52E-07%  1.55E-09%  2.29E-10%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 1.20639E-01
+       Mn 54      Co 58      Co 60      Co 56      Sc 46      V  48 
+       67.51524%  32.48463%  6.92E-05%  6.18E-05%  5.67E-09%  1.66E-11%
+
+ group  25 (energy range:  0.8000 -   0.7000 [MeV]) ..... energy intensity = 2.47802E-07
+       Co 57      Co 56      Mn 52 
+       99.86481%   0.13519%  4.77E-18%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 7.22707E-06
+       Co 57      Co 56 
+       99.99940%  6.04E-04%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 6.30972E-07
+       Co 57 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 7.34729E-03
+       Co 58      Co 56      Al 26 
+       99.99977%  2.29E-04%  1.44E-09%
+
+ group  29 (energy range:  0.5100 -   0.4500 [MeV]) ..... energy intensity = 2.56584E-11
+       Co 56      Mn 52 
+      100.00000%  7.26E-17%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 8.89128E-12
+       Co 56 
+      100.00000%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 1.49256E-06
+       Cr 51      Co 57      Co 60      Fe 59 
+       84.52537%  12.92536%   2.31894%   0.23032%
+
+ group  32 (energy range:  0.3000 -   0.2000 [MeV]) ..... energy intensity = 5.00998E-12
+       Co 56      Mn 52 
+      100.00000%  5.37E-17%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 2.09366E-08
+       Fe 59 
+      100.00000%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 8.34274E-04
+       Co 57      Fe 59 
+       99.99938%  6.16E-04%
+
+ group  38 (energy range:  0.0600 -   0.0450 [MeV]) ..... energy intensity = 1.41473E-16
+       Co 60m
+      100.00000%
+
+ group  41 (energy range:  0.0200 -   0.0100 [MeV]) ..... energy intensity = 9.24819E-06
+       Co 57 
+      100.00000%
+
+ group  42 (energy range:  0.0100 -   0.0010 [MeV]) ..... energy intensity = 6.00498E-05
+       Fe 55      Ni 59      Mn 53 
+       99.99900%   0.00100%  2.39E-06%
+ 
+
+nmtc region=   4   mcnp cell=   0   output time=2.6029E+00 [y]  (after the last shutdown=2.6000E+00 [y])
+--------------------------------------------------------------------------------------------------------
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 3.64660E-12
+       Co 56 
+      100.00000%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 2.29129E-10
+       Co 56 
+      100.00000%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 2.06024E-10
+       Co 56      Al 26 
+       99.99957%  4.33E-04%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 2.80125E-08
+       Co 60      Co 56      V  48 
+       99.60386%   0.39614%  3.42E-17%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 1.37497E-06
+       Co 58      Co 56      Al 26 
+       99.99004%   0.00994%  1.66E-05%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 5.38573E-13
+       Co 56 
+      100.00000%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 2.86031E-11
+       Co 56      Fe 59      V  48 
+       98.79838%   1.20162%  1.10E-15%
+
+ group  22 (energy range:  1.3400 -   1.3300 [MeV]) ..... energy intensity = 1.43502E-03
+       Co 60      Co 56 
+      100.00000%  5.01E-08%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 1.26186E-03
+       Co 60      Fe 59      Co 56      Sc 46      Al 26 
+       99.99993%  3.67E-05%  3.64E-05%  5.43E-09%  2.83E-10%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 2.23686E-02
+       Mn 54      Co 58      Co 60      Co 56      Sc 46 
+       99.42328%   0.57642%  3.02E-04%  1.76E-06%  2.43E-10%
+
+ group  25 (energy range:  0.8000 -   0.7000 [MeV]) ..... energy intensity = 5.57353E-08
+       Co 57      Co 56 
+       99.99683%   0.00317%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 1.62764E-06
+       Co 57      Co 56 
+       99.99999%  1.42E-05%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 1.42105E-07
+       Co 57 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 2.41733E-05
+       Co 58      Co 56      Al 26      Na 22 
+       99.99963%  3.67E-04%  4.37E-07%  1.22E-17%
+
+ group  29 (energy range:  0.5100 -   0.4500 [MeV]) ..... energy intensity = 1.35335E-13
+       Co 56 
+      100.00000%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 4.68971E-14
+       Co 56 
+      100.00000%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 7.14938E-08
+       Co 57      Co 60      Cr 51      Fe 59 
+       60.77234%  39.22634%  7.87E-04%  5.35E-04%
+
+ group  32 (energy range:  0.3000 -   0.2000 [MeV]) ..... energy intensity = 2.64252E-14
+       Co 56 
+      100.00000%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 2.32913E-12
+       Fe 59 
+      100.00000%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 1.87891E-04
+       Co 57      Fe 59 
+      100.00000%  3.04E-07%
+
+ group  38 (energy range:  0.0600 -   0.0450 [MeV]) ..... energy intensity = 1.41473E-16
+       Co 60m
+      100.00000%
+
+ group  41 (energy range:  0.0200 -   0.0100 [MeV]) ..... energy intensity = 2.08284E-06
+       Co 57 
+      100.00000%
+
+ group  42 (energy range:  0.0100 -   0.0010 [MeV]) ..... energy intensity = 4.00865E-05
+       Fe 55      Ni 59      Mn 53 
+       99.99850%   0.00150%  3.57E-06%
+ 
+
+nmtc region=   4   mcnp cell=   0   output time=5.0029E+00 [y]  (after the last shutdown=         5 [y])
+--------------------------------------------------------------------------------------------------------
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 1.39689E-15
+       Co 56 
+      100.00000%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 8.77713E-14
+       Co 56 
+      100.00000%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 7.98118E-14
+       Co 56      Al 26 
+       98.88306%   1.11694%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 2.03501E-08
+       Co 60      Co 56 
+       99.99979%  2.09E-04%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 2.59735E-10
+       Co 58      Al 26      Co 56 
+       99.89201%   0.08782%   0.02016%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 2.06309E-16
+       Co 56 
+      100.00000%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 1.08256E-14
+       Co 56      Fe 59 
+       99.99627%   0.00373%
+
+ group  22 (energy range:  1.3400 -   1.3300 [MeV]) ..... energy intensity = 1.04663E-03
+       Co 60      Co 56 
+      100.00000%  2.63E-11%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 9.20342E-04
+       Co 60      Co 56      Al 26      Fe 59      Sc 46 
+      100.00000%  1.91E-08%  3.88E-10%  5.91E-11%  5.27E-12%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 3.17315E-03
+       Mn 54      Co 60      Co 58      Co 56      Sc 46 
+       99.99768%   0.00155%  7.67E-04%  4.75E-09%  1.21E-12%
+
+ group  25 (energy range:  0.8000 -   0.7000 [MeV]) ..... energy intensity = 5.95685E-09
+       Co 57      Co 56 
+       99.99999%  1.14E-05%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 1.73964E-07
+       Co 57      Co 56 
+      100.00000%  5.07E-08%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 1.51883E-08
+       Co 57 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 4.56204E-09
+       Co 58      Al 26      Co 56      Na 22 
+       99.99694%   0.00231%  7.44E-04%  3.41E-14%
+
+ group  29 (energy range:  0.5100 -   0.4500 [MeV]) ..... energy intensity = 5.18422E-17
+       Co 56 
+      100.00000%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 1.79646E-17
+       Co 56 
+      100.00000%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 2.50981E-08
+       Co 60      Co 57      Fe 59      Cr 51 
+       81.49734%  18.50266%  1.79E-09%  6.67E-13%
+
+ group  32 (energy range:  0.3000 -   0.2000 [MeV]) ..... energy intensity = 1.01226E-17
+       Co 56 
+      100.00000%
+
+ group  33 (energy range:  0.2000 -   0.1500 [MeV]) ..... energy intensity = 2.73290E-18
+       Fe 59 
+      100.00000%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 2.00820E-05
+       Co 57      Fe 59 
+      100.00000%  3.34E-12%
+
+ group  38 (energy range:  0.0600 -   0.0450 [MeV]) ..... energy intensity = 1.41472E-16
+       Co 60m
+      100.00000%
+
+ group  41 (energy range:  0.0200 -   0.0100 [MeV]) ..... energy intensity = 2.22616E-07
+       Co 57 
+      100.00000%
+
+ group  42 (energy range:  0.0100 -   0.0010 [MeV]) ..... energy intensity = 2.18640E-05
+       Fe 55      Ni 59      Mn 53 
+       99.99724%   0.00275%  6.55E-06%
+ 
+
+nmtc region=   4   mcnp cell=   0   output time=1.0003E+01 [y]  (after the last shutdown=        10 [y])
+--------------------------------------------------------------------------------------------------------
+
+ group  15 (energy range:  4.0000 -   3.5000 [MeV]) ..... energy intensity = 1.06409E-22
+       Co 56 
+      100.00000%
+
+ group  16 (energy range:  3.5000 -   3.0000 [MeV]) ..... energy intensity = 6.68606E-21
+       Co 56 
+      100.00000%
+
+ group  17 (energy range:  3.0000 -   2.5000 [MeV]) ..... energy intensity = 8.91447E-16
+       Al 26      Co 56 
+       99.99933%  6.74E-04%
+
+ group  18 (energy range:  2.5000 -   2.0000 [MeV]) ..... energy intensity = 1.05443E-08
+       Co 60      Co 56 
+      100.00000%  3.07E-11%
+
+ group  19 (energy range:  2.0000 -   1.6600 [MeV]) ..... energy intensity = 2.28113E-13
+       Al 26      Co 58      Co 56 
+       99.99802%   0.00198%  1.75E-06%
+
+ group  20 (energy range:  1.6600 -   1.5000 [MeV]) ..... energy intensity = 1.57157E-23
+       Co 56 
+      100.00000%
+
+ group  21 (energy range:  1.5000 -   1.3400 [MeV]) ..... energy intensity = 8.24617E-22
+       Co 56 
+      100.00000%
+
+ group  22 (energy range:  1.3400 -   1.3300 [MeV]) ..... energy intensity = 5.42311E-04
+       Co 60      Co 56 
+      100.00000%  3.87E-18%
+
+ group  23 (energy range:  1.3300 -   1.0000 [MeV]) ..... energy intensity = 4.76873E-04
+       Co 60      Al 26      Co 56      Sc 46 
+      100.00000%  7.49E-10%  2.81E-15%  2.79E-18%
+
+ group  24 (energy range:  1.0000 -   0.8000 [MeV]) ..... energy intensity = 5.49437E-05
+       Mn 54      Co 60      Co 58      Co 56      Sc 46 
+       99.95348%   0.04652%  7.72E-10%  2.09E-14%  1.92E-17%
+
+ group  25 (energy range:  0.8000 -   0.7000 [MeV]) ..... energy intensity = 5.64797E-11
+       Co 57      Co 56 
+      100.00000%  9.13E-11%
+
+ group  26 (energy range:  0.7000 -   0.6000 [MeV]) ..... energy intensity = 1.64943E-09
+       Co 57      Co 56 
+      100.00000%  4.08E-13%
+
+ group  27 (energy range:  0.6000 -   0.5120 [MeV]) ..... energy intensity = 1.44008E-10
+       Co 57 
+      100.00000%
+
+ group  28 (energy range:  0.5120 -   0.5100 [MeV]) ..... energy intensity = 1.05679E-13
+       Al 26      Co 58      Co 56      Na 22 
+       99.92476%   0.07524%  2.45E-06%  3.88E-10%
+
+ group  29 (energy range:  0.5100 -   0.4500 [MeV]) ..... energy intensity = 3.94912E-24
+       Co 56 
+      100.00000%
+
+ group  30 (energy range:  0.4500 -   0.4000 [MeV]) ..... energy intensity = 1.36847E-24
+       Co 56 
+      100.00000%
+
+ group  31 (energy range:  0.4000 -   0.3000 [MeV]) ..... energy intensity = 1.06424E-08
+       Co 60      Co 57 
+       99.58627%   0.41373%
+
+ group  32 (energy range:  0.3000 -   0.2000 [MeV]) ..... energy intensity = 7.71094E-25
+       Co 56 
+      100.00000%
+
+ group  34 (energy range:  0.1500 -   0.1000 [MeV]) ..... energy intensity = 1.90407E-07
+       Co 57 
+      100.00000%
+
+ group  38 (energy range:  0.0600 -   0.0450 [MeV]) ..... energy intensity = 1.41472E-16
+       Co 60m
+      100.00000%
+
+ group  41 (energy range:  0.0200 -   0.0100 [MeV]) ..... energy intensity = 2.11073E-09
+       Co 57 
+      100.00000%
+
+ group  42 (energy range:  0.0100 -   0.0010 [MeV]) ..... energy intensity = 6.18407E-06
+       Fe 55      Ni 59      Mn 53 
+       99.99025%   0.00973%  2.32E-05%
+ 
+
+ /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+ _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/   end of irradiation and decay calculation for this region  /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_
+ /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
