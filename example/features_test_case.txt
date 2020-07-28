@@ -24,7 +24,7 @@ Test case of 19F(a,n)22Na reaction
  e-mode   =           0     # (D=0) 0: Normal, 1: Event generator mode  [REQUIRED FOR DCHAIN, =0 is suggested value]
  file(6)  = phits-22Na_JENDL.out       # (D=phits.out) general output file name
  file(7)  = c:/phits/data/xsdir.jnd      # (D=xdirs) nuclear data input file name
- file(21) = c:/JAEA_work_environment/lib/dchain/ENDF-B-VIII0       # Path to DCHAIN data library folder [REQUIRED FOR DCHAIN]
+ file(21) = c:/phits/dchain-sp/data       # Path to DCHAIN data library folder [REQUIRED FOR DCHAIN]
  file(22) = batch-22Na_JENDL.out       # (D=batch.out) batch output file name
  jmout    =           1     # (D=0) Density echo, 0:input, 1:number density [REQUIRED FOR DCHAIN]
  itall    = 1
@@ -91,22 +91,6 @@ reg    vol
   4    1.0
  10    1.0
  99    1.0
-
-[ T - T r a c k ] off
- mesh   = reg
- reg    = 1
-  volume
-   non reg vol
-   1   1   1.0
- part   = alpha
- e-type = 3
- ne     = 1
- emin   = 1e-1
- emax   = 1e5
- unit   = 1
- axis   = eng
- file   = test_T-Track_JENDL.out
- epsout = 0 
 
 [ T - D c h a i n ] 
  mesh   = reg
