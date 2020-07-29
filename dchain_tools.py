@@ -6,11 +6,14 @@ Created on Mar 9, 2020
 '''
 This script serves to function as a library of functions related to DCHAIN which can be easily
 imported into and used by scripts for processing DCHIAN output.
+Note that this library calls and makes use of functions from my similar collection of
+more general functions called Hunters_tools.py.
 
 --- General Purpose Functions ---
 Dname_to_ZAM ............................... converts a DCHAIN-formatted nuclide name to a ZZZAAAM number
 ZAM_to_Dname ............................... converts a ZZZAAAM number to a DCHAIN-formatted nuclide name
 Dname_to_Latex ............................. converts a DCHAIN-formatted nuclide name to pretty LaTeX formatting
+nuclide_plain_str_to_Dname ................. converts a plaintext string for a nuclide to a DCHAIN-formatted nuclide name string
 
 --- Relating to DCHAIN data libraries ---
 rxn_to_dchain_str .......................... converts a reaction to the format used by the neutron reaction cross section libraries
@@ -129,6 +132,29 @@ def Dname_to_Latex(Dname):
     latex_str = r"$^{{{}{}}}$".format(AAA,m) + "{}".format(symbol)
     return latex_str
 
+
+def nuclide_plain_str_to_Dname(nuc_str):
+    '''
+    Description:
+        Converts a plaintext string of a nuclide to a DCHAIN-formatted nuclide string
+    
+    Dependencies:
+        nuclide_plain_str_ZZZAAAM 
+        ZAM_to_Dname 
+    
+    Input (required):
+        nuc_str = string to be converted; a huge variety of formats are supported, but they all must follow the following rules:
+          + Isomeric/metastable state characters must always immediately follow the atomic mass characters
+              Isomeric state labels MUST either:
+                1) be a single lower-case character
+                2) begin with any non-numeric character and end with a number
+          + Atomic mass numbers must be nonnegative integers OR the string "nat" (in which case no metastable states can be written)
+          + Elemental symbols MUST begin with an upper-case character
+    
+    Output:
+        DCHAIN-formatted string of nuclide name
+    '''
+    return ZAM_to_Dname(nuclide_plain_str_ZZZAAAM(nuc_str))
 
 def rxn_to_dchain_str(target,reaction=None,product=None):
     '''
@@ -2695,8 +2721,8 @@ def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis
         for entry in plot_dicts:
             ax1.plot(entry['xdata'],entry['ydata'],marker=entry['marker'],markersize=entry['markersize'],ls='')
         
-        plt.xlabel(xstr)
-        plt.ylabel(ystr)
+        plt.xlabel(xstr,fontsize=14)
+        plt.ylabel(ystr,fontsize=14)
         plt.xscale(xscale)
         fig1.tight_layout()
         fig1.set_size_inches(6.5,6.5*(rank_cutoff/10)+0.1*(10-rank_cutoff))
@@ -3332,7 +3358,7 @@ def seconds_to_ydhms(t_sec):
 
 show_output_from_example = False
 if show_output_from_example:   
-    test_folder = r'example\\'
+    test_folder = r'C:\JAEA_work_environment\JAEA postdoc\Induced_Activity_Project\dchain_tools_distro\example\\'
     test_basename = 'example_Na22'
     
     output = process_dchain_simulation_output(test_folder,test_basename)
