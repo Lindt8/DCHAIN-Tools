@@ -3,7 +3,7 @@
     imode =    2            # Card[2]-1 control param.
     jmode =    2            # Card[2]-2 control param.
    itstep =    4            # (D=1) Card[3]-1 calc. condition
-    itout =   12            # (D=1) Card[3]-2 calc. condition
+    itout =   19            # (D=1) Card[3]-2 calc. condition
     idivs =   50            # (D=50) Card[3]-3 calc. condition
    iregon =    1            # (D=1) Card[3]-4 calc. condition
    inmtcf =    1            # (D=1) Card[3]-5 calc. condition
@@ -47,7 +47,14 @@ C  iprtb3 =    0            # (D=0) Card[4]-10 output opt. -DISABLE!
      0.5000000E+01 h    0.000000    
      0.1000000E+02 h    1.000000    
      0.1001000E+02 y    0.000000    
-  outtime =   12            # Card[7] output time
+  outtime =   19            # Card[7] output time
+     0.1000000E+01 h
+     0.5000000E+01 h
+     0.1000000E+02 h
+     0.1250000E+02 h
+     0.1500000E+02 h
+     0.2000000E+02 h
+     0.2500000E+02 h
     -0.1000000E+02 s
     -0.1000000E+01 m
     -0.1000000E+02 m

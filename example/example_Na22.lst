@@ -44,57 +44,64 @@
    31 :       5.0000E+00 h  0.0000E+00
    32 :       1.0000E+01 h  1.0000E+00
    33 :       1.0010E+01 y  0.0000E+00
-   34 :      itout =      12
-   35 :      -1.0000E+01 s
-   36 :      -1.0000E+00 m
-   37 :      -1.0000E+01 m
-   38 :      -1.0000E+00 h
-   39 :      -1.0000E+01 h
-   40 :      -1.0000E+00 d
-   41 :      -1.0000E+01 d
-   42 :      -1.0000E+02 d
-   43 :      -1.0000E+00 y
-   44 :      -2.6000E+00 y
-   45 :      -5.0000E+00 y
-   46 :      -1.0000E+01 y
-   47 :     inmtcf =       1
-   48 :   itdchout =       1
-   49 :    hhnmtcf = example_Na22.dyld
-   50 :   iertdcho =       1
-   51 :    henmtcf = example_Na22_err.dyld
-   52 :   iredufmt =       1
-   53 :    irdonce =       1
-   54 :     iregon =      2
-   55 :    DUMMY001        2    1  5.5473E+09   example_Na22.dtrk  1.0000E+00
-   56 :    F-19      1.5853E-01
-   57 :    DUMMY002        4   24  2.2887E+05   example_Na22.dtrk  1.0000E+00
-   58 :    C-12      1.5873E-04
-   59 :    C-13      1.7816E-06
-   60 :   Si-28      7.9122E-04
-   61 :   Si-29      4.0063E-05
-   62 :   Si-30      2.6594E-05
-   63 :    P-31      3.5785E-05
-   64 :    S-32      2.1419E-05
-   65 :    S-33      1.6906E-07
-   66 :    S-34      9.4898E-07
-   67 :    S-36      4.5082E-09
-   68 :   Cr-50      7.6509E-04
-   69 :   Cr-52      1.4754E-02
-   70 :   Cr-53      1.6730E-03
-   71 :   Cr-54      4.1644E-04
-   72 :   Mn-55      8.7718E-04
-   73 :   Fe-54      3.5393E-03
-   74 :   Fe-56      5.5559E-02
-   75 :   Fe-57      1.2831E-03
-   76 :   Fe-58      1.7076E-04
-   77 :   Ni-58      5.1701E-03
-   78 :   Ni-60      1.9915E-03
-   79 :   Ni-61      8.6577E-05
-   80 :   Ni-62      2.7598E-04
-   81 :   Ni-64      7.0325E-05
-   82 :   angelout = 1
-   83 :   phitsout = 1
-   84 : end
+   34 :      itout =      19
+   35 :       1.0000E+00 h
+   36 :       5.0000E+00 h
+   37 :       1.0000E+01 h
+   38 :       1.2500E+01 h
+   39 :       1.5000E+01 h
+   40 :       2.0000E+01 h
+   41 :       2.5000E+01 h
+   42 :      -1.0000E+01 s
+   43 :      -1.0000E+00 m
+   44 :      -1.0000E+01 m
+   45 :      -1.0000E+00 h
+   46 :      -1.0000E+01 h
+   47 :      -1.0000E+00 d
+   48 :      -1.0000E+01 d
+   49 :      -1.0000E+02 d
+   50 :      -1.0000E+00 y
+   51 :      -2.6000E+00 y
+   52 :      -5.0000E+00 y
+   53 :      -1.0000E+01 y
+   54 :     inmtcf =       1
+   55 :   itdchout =       1
+   56 :    hhnmtcf = example_Na22.dyld
+   57 :   iertdcho =       1
+   58 :    henmtcf = example_Na22_err.dyld
+   59 :   iredufmt =       1
+   60 :    irdonce =       1
+   61 :     iregon =      2
+   62 :    DUMMY001        2    1  5.5473E+09   example_Na22.dtrk  1.0000E+00
+   63 :    F-19      1.5853E-01
+   64 :    DUMMY002        4   24  2.2887E+05   example_Na22.dtrk  1.0000E+00
+   65 :    C-12      1.5873E-04
+   66 :    C-13      1.7816E-06
+   67 :   Si-28      7.9122E-04
+   68 :   Si-29      4.0063E-05
+   69 :   Si-30      2.6594E-05
+   70 :    P-31      3.5785E-05
+   71 :    S-32      2.1419E-05
+   72 :    S-33      1.6906E-07
+   73 :    S-34      9.4898E-07
+   74 :    S-36      4.5082E-09
+   75 :   Cr-50      7.6509E-04
+   76 :   Cr-52      1.4754E-02
+   77 :   Cr-53      1.6730E-03
+   78 :   Cr-54      4.1644E-04
+   79 :   Mn-55      8.7718E-04
+   80 :   Fe-54      3.5393E-03
+   81 :   Fe-56      5.5559E-02
+   82 :   Fe-57      1.2831E-03
+   83 :   Fe-58      1.7076E-04
+   84 :   Ni-58      5.1701E-03
+   85 :   Ni-60      1.9915E-03
+   86 :   Ni-61      8.6577E-05
+   87 :   Ni-62      2.7598E-04
+   88 :   Ni-64      7.0325E-05
+   89 :   angelout = 1
+   90 :   phitsout = 1
+   91 : end
  -------------------------------------------------------------------------------------------------------------------------------
 
  << start of input data >>
@@ -114,7 +121,7 @@
 
  first calculation condition data
   (1) itstep             4 : number of time steps for irradiation and cooling (default=1)
-  (2) itout             12 : number of output time of result (default=1)
+  (2) itout             19 : number of output time of result (default=1)
   (3) idivs             50 : number of divisions of irradiation time step (default=50)
   (4) iregon             2 : number of processing regions (or cells) (default=1; it must be greater than 1)
   (5) inmtcf             1 : number of processing nmtc yield files (default=1; maximum=10) (if inmtcf>1, card 9 needs)
@@ -284,18 +291,25 @@
 
  output times of result
    no.      time [s]     input specification
-    1    9.00100E+04   :      -1.0000E+01 s
-    2    9.00600E+04   :      -1.0000E+00 m
-    3    9.06000E+04   :      -1.0000E+01 m
-    4    9.36000E+04   :      -1.0000E+00 h
-    5    1.26000E+05   :      -1.0000E+01 h
-    6    1.76400E+05   :      -1.0000E+00 d
-    7    9.54000E+05   :      -1.0000E+01 d
-    8    8.73000E+06   :      -1.0000E+02 d
-    9    3.16476E+07   :      -1.0000E+00 y
-   10    8.21398E+07   :      -2.6000E+00 y
-   11    1.57878E+08   :      -5.0000E+00 y
-   12    3.15666E+08   :      -1.0000E+01 y
+    1    3.60000E+03   :       1.0000E+00 h
+    2    1.80000E+04   :       5.0000E+00 h
+    3    3.60000E+04   :       1.0000E+01 h
+    4    4.50000E+04   :       1.2500E+01 h
+    5    5.40000E+04   :       1.5000E+01 h
+    6    7.20000E+04   :       2.0000E+01 h
+    7    9.00000E+04   :       2.5000E+01 h
+    8    9.00100E+04   :      -1.0000E+01 s
+    9    9.00600E+04   :      -1.0000E+00 m
+   10    9.06000E+04   :      -1.0000E+01 m
+   11    9.36000E+04   :      -1.0000E+00 h
+   12    1.26000E+05   :      -1.0000E+01 h
+   13    1.76400E+05   :      -1.0000E+00 d
+   14    9.54000E+05   :      -1.0000E+01 d
+   15    8.73000E+06   :      -1.0000E+02 d
+   16    3.16476E+07   :      -1.0000E+00 y
+   17    8.21398E+07   :      -2.6000E+00 y
+   18    1.57878E+08   :      -5.0000E+00 y
+   19    3.15666E+08   :      -1.0000E+01 y
 
  description of regionwise calculation condition data
   (1) hregcmm(*)           : label or comment for this region (default="reg.###"; maximum 10 characters)
@@ -464,7 +478,45 @@ Warning: Negative yield data was found.
     initial proton  flux =  1.00001E+12 [n/cm**2/s]
     initial neutron flux =  5.54730E+09 [n/cm**2/s]  below 20 MeV
   ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during irradiation time ---
+  summation of activity     =  1.05737E+08 [Bq/cc] ( 1.05737E+08 [Bq])  at         60 [m]
+  summation of decay heat   =  5.98114E-05 [W/cc]  ( 5.98114E-05 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
   ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during irradiation time ---
+  summation of activity     =  1.65243E+08 [Bq/cc] ( 1.65243E+08 [Bq])  at          5 [h]
+  summation of decay heat   =  7.15489E-05 [W/cc]  ( 7.15489E-05 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+  ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during irradiation time ---
+  summation of activity     =  1.79526E+08 [Bq/cc] ( 1.79526E+08 [Bq])  at         10 [h]
+  summation of decay heat   =  7.43753E-05 [W/cc]  ( 7.43753E-05 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  4.23102E+07 [Bq/cc] ( 4.23102E+07 [Bq])  at 1.2500E+01 [h]
+  summation of decay heat   =  8.36158E-06 [W/cc]  ( 8.36158E-06 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  1.64844E+07 [Bq/cc] ( 1.64844E+07 [Bq])  at         15 [h]
+  summation of decay heat   =  3.27131E-06 [W/cc]  ( 3.27131E-06 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+  ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during irradiation time ---
+  summation of activity     =  1.67827E+08 [Bq/cc] ( 1.67827E+08 [Bq])  at         20 [h]
+  summation of decay heat   =  7.20805E-05 [W/cc]  ( 7.20805E-05 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+  ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during irradiation time ---
+  summation of activity     =  1.80020E+08 [Bq/cc] ( 1.80020E+08 [Bq])  at 1.0417E+00 [d]
+  summation of decay heat   =  7.44948E-05 [W/cc]  ( 7.44948E-05 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
   summation of activity     =  1.49170E+08 [Bq/cc] ( 1.49170E+08 [Bq])  at 1.0418E+00 [d]
@@ -572,7 +624,45 @@ Warning: Negative yield data was found.
     initial proton  flux =  1.00001E+12 [n/cm**2/s]
     initial neutron flux =  2.28870E+05 [n/cm**2/s]  below 20 MeV
   ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during irradiation time ---
+  summation of activity     =  4.49956E+01 [Bq/cc] ( 4.49956E+01 [Bq])  at         60 [m]
+  summation of decay heat   =  1.81983E-11 [W/cc]  ( 1.81983E-11 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
   ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during irradiation time ---
+  summation of activity     =  9.01777E+01 [Bq/cc] ( 9.01777E+01 [Bq])  at          5 [h]
+  summation of decay heat   =  3.62455E-11 [W/cc]  ( 3.62455E-11 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+  ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during irradiation time ---
+  summation of activity     =  1.07905E+02 [Bq/cc] ( 1.07905E+02 [Bq])  at         10 [h]
+  summation of decay heat   =  4.32165E-11 [W/cc]  ( 4.32165E-11 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  4.34750E+01 [Bq/cc] ( 4.34750E+01 [Bq])  at 1.2500E+01 [h]
+  summation of decay heat   =  1.71685E-11 [W/cc]  ( 1.71685E-11 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  2.28160E+01 [Bq/cc] ( 2.28160E+01 [Bq])  at         15 [h]
+  summation of decay heat   =  8.85563E-12 [W/cc]  ( 8.85563E-12 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+  ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during irradiation time ---
+  summation of activity     =  9.70571E+01 [Bq/cc] ( 9.70571E+01 [Bq])  at         20 [h]
+  summation of decay heat   =  3.86871E-11 [W/cc]  ( 3.86871E-11 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+  ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during irradiation time ---
+  summation of activity     =  1.10622E+02 [Bq/cc] ( 1.10622E+02 [Bq])  at 1.0417E+00 [d]
+  summation of decay heat   =  4.39836E-11 [W/cc]  ( 4.39836E-11 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
   summation of activity     =  1.09646E+02 [Bq/cc] ( 1.09646E+02 [Bq])  at 1.0418E+00 [d]

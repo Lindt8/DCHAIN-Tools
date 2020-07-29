@@ -2725,7 +2725,7 @@ def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis
         plt.ylabel(ystr,fontsize=14)
         plt.xscale(xscale)
         fig1.tight_layout()
-        fig1.set_size_inches(6.5,6.5*(rank_cutoff/10)+0.1*(10-rank_cutoff))
+        fig1.set_size_inches(0.2+6.3*(len(plot_dicts[0]['xdata'])/12),6.5*(rank_cutoff/10)+0.1*(10-rank_cutoff))
         
         '''
         fig1, ax1 = fancy_plot(
@@ -3358,7 +3358,7 @@ def seconds_to_ydhms(t_sec):
 
 show_output_from_example = False
 if show_output_from_example:   
-    test_folder = r'C:\JAEA_work_environment\JAEA postdoc\Induced_Activity_Project\dchain_tools_distro\example\\'
+    test_folder = r'example\\'
     test_basename = 'example_Na22'
     
     output = process_dchain_simulation_output(test_folder,test_basename)

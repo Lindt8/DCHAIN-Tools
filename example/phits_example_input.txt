@@ -1,0 +1,144 @@
+[ T i t l e ]
+Test case of 19F(a,n)22Na reaction
+
+[ P a r a m e t e r s ]
+ icntl    =          0      # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =      10000     # (D=10) number of particles per one batch
+ maxbch   =      10         # (D=10) number of batches
+ emin(1)  = 1.000000000E-01 # (D=1.0) cut-off energy of proton (MeV)
+ emin(2)  = 1.000000000E-01 # (D=1.0) cut-off energy of neutron (MeV)
+ dmax(2)  =  20.0000000     # (D=emin(2)) data max. energy of neutron (MeV)
+ emin(12) = 1.000000000E-01 # (D=1.d9) cut-off energy of electron (MeV)
+ emin(13) = 1.000000000E-01 # (D=1.d9) cut-off energy of positron (MeV)
+ emin(14) = 1.000000000E-01 # (D=1.d9) cut-off energy of photon (MeV)
+ dmax(12) =  1000.00000     # (D=emin(12) or 1000 if negs=1) data max. energy of electron (MeV)
+ dmax(13) =  1000.00000     # (D=emin(13) or 1000 if negs=1) data max. energy of positron (MeV)
+ dmax(14) =  1000.00000     # (D=emin(14) or 1000 if negs=1) data max. energy of photon (MeV)
+ emin(15) = 1.000000000E-01 # (D=1.0) cut-off energy of deuteron (MeV/u)
+ emin(16) = 1.000000000E-01 # (D=1.0) cut-off energy of triton (MeV/u)
+ emin(17) = 1.000000000E-01 # (D=1.0) cut-off energy of 3He (MeV/u)
+ emin(18) = 1.000000000E-01 # (D=1.0) cut-off energy of Alpha (MeV/u)
+ emin(19) = 1.000000000E-01 # (D=1.0) cut-off energy of Nucleus (MeV/u)
+ ipnint   =           1     # (D=0) 0: photo-nuclear rxn off, 1: photo-nuclear rxn on
+ negs     =           1     # (D=-1) -1: photon, 0: none, 1: photon/electron/positron transport on
+ e-mode   =           0     # (D=0) 0: Normal, 1: Event generator mode  [REQUIRED FOR DCHAIN, =0 is suggested value]
+ file(6)  = phits-22Na.out       # (D=phits.out) general output file name
+ file(7)  = c:/phits/data/xsdir.jnd      # (D=xdirs) nuclear data input file name
+ file(21) = c:/phits/dchain-sp/data/       # Path to DCHAIN data library folder [REQUIRED FOR DCHAIN]
+ file(22) = batch-22Na.out       # (D=batch.out) batch output file name
+ jmout    =           1     # (D=0) Density echo, 0:input, 1:number density [REQUIRED FOR DCHAIN]
+ itall    = 1
+ istdev   = -1
+ maxbnk   = 100000
+ mdbatima = 2000
+ dbcutoff = 0.1
+ icommat  = 1               # (D=0) 1 allows use of 'c' as comment character in materials section
+c iMeVperu = 1               # (D=0) 1 outputs tallies in units of MeV/n, 0 just MeV
+
+[ S o u r c e ]
+   s-type =   1             $ sperical shell source with energy distribution (should be =10 if using version before 2.94)
+     proj =   alpha       
+       e0 =   7.0           $ mono energetic
+	   z0 =   -20.0
+	   z1 =   -20.0
+
+[ M a t e r i a l ]
+c F-19, Density = 5? g/cc
+ M1    9019   -1
+c H2O, density = 0.998207 g/cc
+ M2    1000  0.666657
+       8000  0.333343
+c Air (Dry, Near Sea Level), density = 0.001205 g/cc
+ M3    6000  0.000150 
+       7014  0.784431 
+       8016  0.210748 
+      18000  0.004671
+c Earth (US average), density= 1.52 g/cc
+ M4    8016  0.670604
+      11023  0.005578
+      12000  0.011432
+      13027  0.053073
+      14000  0.201665
+      19000  0.007653
+      20000  0.026664
+      22000  0.002009
+      25055  0.000272
+      26000  0.021050
+c Steel, Stainless 304, density = 8.00 g/cc
+ M5    6000  0.001830 
+      14000  0.009781 
+      15031  0.000408 
+      16000  0.000257 
+      24000  0.200762 
+      25055  0.010001 
+      26000  0.690375 
+      28000  0.086587 
+
+[ S u r f a c e ]
+1 so 5
+2 so 5.00005
+99 so 50
+
+[ C e l l ]
+2 1 -5.0 -1    $ F-19 sphere (highly pressurized)
+4 5 -8.0 1 -2  $ Stainless steel shell 
+10 0 2 -99     $ vacuum surroundings
+99  -1  99     $ graveyard
+
+[ V o l u m e ]
+reg    vol 
+  2    1.0
+  4    1.0
+ 10    1.0
+ 99    1.0
+
+[ T - T r a c k ] off
+ mesh   = reg
+ reg    = 1
+  volume
+   non reg vol
+   1   1   1.0
+ part   = alpha
+ e-type = 3
+ ne     = 1
+ emin   = 1e-1
+ emax   = 1e5
+ unit   = 1
+ axis   = eng
+ file   = test_T-Track_JENDL.out
+ epsout = 0 
+
+[ T - D c h a i n ] 
+ mesh   = reg
+ reg    = 2 4 
+file    = example_Na22.in
+title   = Test-calc 
+amp     = 1.0E12      $ source intensity in source particles per second of irradiation
+timeevo = 4       $ number of irradiation and cooling steps
+  10.00 h  1.0    $ 10 hour irradiation
+   5.00 h  0.0    $ 5 hour cooling
+  10.00 h  1.0    $ 10 hour irradiation
+  10.01 y  0.0    $ 10 years cooling (almost 4 times the half life for 22Na)
+outtime = 19      $ number of "measurement"/output times requested
+      1.0 h
+      5.0 h
+     10.0 h
+     12.5 h
+     15.0 h
+     20.0 h
+     25.0 h
+    -10.0 s       $ after end of final irradiation
+     -1.0 m
+    -10.0 m   
+     -1.0 h    
+    -10.0 h   
+     -1.0 d    
+    -10.0 d       
+   -100.0 d       
+    -1.00 y       
+    -2.60 y   
+    -5.00 y 
+    -10.0 y    
+
+
+

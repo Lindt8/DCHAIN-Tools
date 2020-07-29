@@ -2,7 +2,388 @@ c <>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>
 c <>-<>   no.     1  regionwise calculation data     <>-<>
 c <>-<>   region label : DUMMY001                    <>-<>
 c <>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>
-c      no.  1   region=       2   output time=1.0418E+00 [d]  (after the last shutdown=        10 [s])
+c      no.  1   region=       2   output time=        60 [m]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   1.6425E+08  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        2 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     37
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  0.0000E+00
+      0.0100  0.0000E+00
+      0.0200  0.0000E+00
+      0.0300  0.0000E+00
+      0.0450  0.0000E+00
+      0.0600  0.0000E+00
+      0.0700  0.0000E+00
+      0.0750  0.0000E+00
+      0.1000  1.3903E+05
+      0.1500  6.7264E+06
+      0.2000  0.0000E+00
+      0.3000  1.5242E+06
+      0.4000  1.6049E-08
+      0.4500  4.7756E-21
+      0.5100  1.2787E+08
+      0.5120  1.5717E-09
+      0.6000  1.0222E-10
+      0.7000  9.5319E-16
+      0.8000  1.2770E+03
+      1.0000  1.4411E+04
+      1.3300  0.0000E+00
+      1.3400  3.1656E+06
+      1.5000  2.3742E+05
+      1.6600  5.3644E+04
+      2.0000  1.1790E+02
+      2.5000  3.2678E+05
+      3.0000  1.2386E+01
+      3.5000  4.0078E+02
+      4.0000  4.8500E+03
+      4.5000  2.7498E-08
+      5.0000  1.4776E-01
+      5.5000  2.0765E-09
+      6.0000  2.2502E+07
+      6.5000  1.3334E+04
+      7.0000  1.6470E+06
+      7.5000  3.0735E-13
+      8.0000  2.5652E+04
+     10.0000
+ 
+c      no.  2   region=       2   output time=         5 [h]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   2.7942E+08  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        2 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     37
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  0.0000E+00
+      0.0100  0.0000E+00
+      0.0200  0.0000E+00
+      0.0300  0.0000E+00
+      0.0450  0.0000E+00
+      0.0600  0.0000E+00
+      0.0700  0.0000E+00
+      0.0750  0.0000E+00
+      0.1000  1.3903E+05
+      0.1500  6.7264E+06
+      0.2000  0.0000E+00
+      0.3000  1.5242E+06
+      0.4000  8.1224E-08
+      0.4500  1.1943E-19
+      0.5100  2.4298E+08
+      0.5120  1.5955E-08
+      0.6000  1.0376E-09
+      0.7000  9.6804E-16
+      0.8000  1.2770E+03
+      1.0000  6.7558E+04
+      1.3300  0.0000E+00
+      1.3400  3.1656E+06
+      1.5000  2.3742E+05
+      1.6600  5.3644E+04
+      2.0000  1.1790E+02
+      2.5000  3.2678E+05
+      3.0000  1.2386E+01
+      3.5000  4.0078E+02
+      4.0000  4.8500E+03
+      4.5000  1.3770E-07
+      5.0000  1.4777E-01
+      5.5000  2.1077E-08
+      6.0000  2.2502E+07
+      6.5000  1.3334E+04
+      7.0000  1.6470E+06
+      7.5000  1.5356E-12
+      8.0000  2.5652E+04
+     10.0000
+ 
+c      no.  3   region=       2   output time=        10 [h]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   3.0711E+08  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        2 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     37
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  0.0000E+00
+      0.0100  0.0000E+00
+      0.0200  0.0000E+00
+      0.0300  0.0000E+00
+      0.0450  0.0000E+00
+      0.0600  0.0000E+00
+      0.0700  0.0000E+00
+      0.0750  0.0000E+00
+      0.1000  1.3903E+05
+      0.1500  6.7264E+06
+      0.2000  0.0000E+00
+      0.3000  1.5242E+06
+      0.4000  1.6271E-07
+      0.4500  4.7776E-19
+      0.5100  2.7060E+08
+      0.5120  3.9945E-08
+      0.6000  2.5978E-09
+      0.7000  2.5285E-15
+      0.8000  1.2770E+03
+      1.0000  1.3398E+05
+      1.3300  0.0000E+00
+      1.3400  3.1656E+06
+      1.5000  2.3742E+05
+      1.6600  5.3644E+04
+      2.0000  1.1790E+02
+      2.5000  3.2678E+05
+      3.0000  1.2386E+01
+      3.5000  4.0078E+02
+      4.0000  4.8500E+03
+      4.5000  2.7547E-07
+      5.0000  1.4779E-01
+      5.5000  5.2768E-08
+      6.0000  2.2502E+07
+      6.5000  1.3334E+04
+      7.0000  1.6470E+06
+      7.5000  3.0718E-12
+      8.0000  2.5652E+04
+     10.0000
+ 
+c      no.  4   region=       2   output time=1.2500E+01 [h]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   8.1967E+07  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        2 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     28
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  0.0000E+00
+      0.0100  0.0000E+00
+      0.0200  0.0000E+00
+      0.0300  0.0000E+00
+      0.0450  0.0000E+00
+      0.0600  0.0000E+00
+      0.0700  0.0000E+00
+      0.0750  0.0000E+00
+      0.1000  0.0000E+00
+      0.1500  0.0000E+00
+      0.2000  0.0000E+00
+      0.3000  0.0000E+00
+      0.4000  0.0000E+00
+      0.4500  0.0000E+00
+      0.5100  8.1834E+07
+      0.5120  0.0000E+00
+      0.6000  0.0000E+00
+      0.7000  0.0000E+00
+      0.8000  3.8108E-24
+      1.0000  1.3285E+05
+      1.3300  0.0000E+00
+      1.3400  1.5793E-19
+      1.5000  0.0000E+00
+      1.6600  0.0000E+00
+      2.0000  0.0000E+00
+      2.5000  1.6389E-19
+      3.0000  0.0000E+00
+      3.5000  1.2503E-22
+      4.0000
+ 
+c      no.  5   region=       2   output time=        15 [h]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   3.2004E+07  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        2 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     28
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  0.0000E+00
+      0.0100  0.0000E+00
+      0.0200  0.0000E+00
+      0.0300  0.0000E+00
+      0.0450  0.0000E+00
+      0.0600  0.0000E+00
+      0.0700  0.0000E+00
+      0.0750  0.0000E+00
+      0.1000  0.0000E+00
+      0.1500  0.0000E+00
+      0.2000  0.0000E+00
+      0.3000  0.0000E+00
+      0.4000  0.0000E+00
+      0.4500  0.0000E+00
+      0.5100  3.1871E+07
+      0.5120  0.0000E+00
+      0.6000  0.0000E+00
+      0.7000  0.0000E+00
+      0.8000  3.3949E-24
+      1.0000  1.3284E+05
+      1.3300  0.0000E+00
+      1.3400  1.4070E-19
+      1.5000  0.0000E+00
+      1.6600  0.0000E+00
+      2.0000  0.0000E+00
+      2.5000  1.4600E-19
+      3.0000  0.0000E+00
+      3.5000  1.1138E-22
+      4.0000
+ 
+c      no.  6   region=       2   output time=        20 [h]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   2.8453E+08  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        2 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     37
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  0.0000E+00
+      0.0100  0.0000E+00
+      0.0200  0.0000E+00
+      0.0300  0.0000E+00
+      0.0450  0.0000E+00
+      0.0600  0.0000E+00
+      0.0700  0.0000E+00
+      0.0750  0.0000E+00
+      0.1000  1.3903E+05
+      0.1500  6.7264E+06
+      0.2000  0.0000E+00
+      0.3000  1.5242E+06
+      0.4000  2.4424E-07
+      0.4500  1.0749E-18
+      0.5100  2.4796E+08
+      0.5120  6.6534E-08
+      0.6000  4.3269E-09
+      0.7000  5.0637E-15
+      0.8000  1.2770E+03
+      1.0000  2.0038E+05
+      1.3300  0.0000E+00
+      1.3400  3.1656E+06
+      1.5000  2.3742E+05
+      1.6600  5.3644E+04
+      2.0000  1.1790E+02
+      2.5000  3.2678E+05
+      3.0000  1.2386E+01
+      3.5000  4.0078E+02
+      4.0000  4.8500E+03
+      4.5000  4.1323E-07
+      5.0000  1.4782E-01
+      5.5000  8.7892E-08
+      6.0000  2.2502E+07
+      6.5000  1.3334E+04
+      7.0000  1.6470E+06
+      7.5000  4.6086E-12
+      8.0000  2.5652E+04
+     10.0000
+ 
+c      no.  7   region=       2   output time=1.0417E+00 [d]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   3.0817E+08  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        2 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     37
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  0.0000E+00
+      0.0100  0.0000E+00
+      0.0200  0.0000E+00
+      0.0300  0.0000E+00
+      0.0450  0.0000E+00
+      0.0600  0.0000E+00
+      0.0700  0.0000E+00
+      0.0750  0.0000E+00
+      0.1000  1.3903E+05
+      0.1500  6.7264E+06
+      0.2000  0.0000E+00
+      0.3000  1.5242E+06
+      0.4000  3.2576E-07
+      0.4500  1.9108E-18
+      0.5100  2.7154E+08
+      0.5120  9.0733E-08
+      0.6000  5.9007E-09
+      0.7000  7.5990E-15
+      0.8000  1.2770E+03
+      1.0000  2.6678E+05
+      1.3300  0.0000E+00
+      1.3400  3.1656E+06
+      1.5000  2.3742E+05
+      1.6600  5.3644E+04
+      2.0000  1.1790E+02
+      2.5000  3.2678E+05
+      3.0000  1.2386E+01
+      3.5000  4.0078E+02
+      4.0000  4.8500E+03
+      4.5000  5.5100E-07
+      5.0000  1.4784E-01
+      5.5000  1.1986E-07
+      6.0000  2.2502E+07
+      6.5000  1.3334E+04
+      7.0000  1.6470E+06
+      7.5000  6.1454E-12
+      8.0000  2.5652E+04
+     10.0000
+ 
+c      no.  8   region=       2   output time=1.0418E+00 [d]  (after the last shutdown=        10 [s])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   2.7400E+08  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -36,7 +417,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       0.4500  0.0000E+00
       0.5100  2.5542E+08
       0.5120  1.3601E-12
-      0.6000  1.5889E-13
+      0.6000  1.5887E-13
       0.7000  0.0000E+00
       0.8000  4.8304E+02
       1.0000  2.6653E+05
@@ -51,15 +432,15 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       4.0000  3.7476E+03
       4.5000  1.0428E-07
       5.0000  8.7215E-03
-      5.5000  5.9664E-12
+      5.5000  5.9655E-12
       6.0000  8.5118E+06
       6.5000  5.0439E+03
       7.0000  6.2302E+05
-      7.5000  3.7183E-12
+      7.5000  3.7175E-12
       8.0000  9.7034E+03
      10.0000
  
-c      no.  2   region=       2   output time=1.0424E+00 [d]  (after the last shutdown=        60 [s])
+c      no.  9   region=       2   output time=1.0424E+00 [d]  (after the last shutdown=        60 [s])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   2.2244E+08  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -93,7 +474,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       0.4500  0.0000E+00
       0.5100  2.1970E+08
       0.5120  0.0000E+00
-      0.6000  5.7267E-15
+      0.6000  5.7254E-15
       0.7000  0.0000E+00
       0.8000  3.7409E+00
       1.0000  2.6590E+05
@@ -108,15 +489,15 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       4.0000  1.0323E+03
       4.5000  2.5620E-11
       5.0000  6.2319E-09
-      5.5000  3.3901E-13
+      5.5000  3.3894E-13
       6.0000  6.5919E+04
       6.5000  3.9062E+01
       7.0000  4.8250E+03
-      7.5000  3.0231E-13
+      7.5000  3.0224E-13
       8.0000  7.5147E+01
      10.0000
  
-c      no.  3   region=       2   output time=1.0486E+00 [d]  (after the last shutdown=        10 [m])
+c      no. 10   region=       2   output time=1.0486E+00 [d]  (after the last shutdown=        10 [m])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   1.9894E+08  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -150,9 +531,9 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       0.4500  0.0000E+00
       0.5100  1.9868E+08
       0.5120  0.0000E+00
-      0.6000  9.7051E-27
+      0.6000  9.7029E-27
       0.7000  0.0000E+00
-      0.8000  8.9482E-23
+      0.8000  8.9562E-23
       1.0000  2.6566E+05
       1.3300  0.0000E+00
       1.3400  6.0400E-01
@@ -163,17 +544,17 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       3.0000  8.1822E-16
       3.5000  7.6469E-05
       4.0000  9.2538E-04
-      4.5000  4.7245E-25
-      5.0000  1.1854E-25
-      5.5000  5.7453E-25
+      4.5000  4.7234E-25
+      5.0000  1.1852E-25
+      5.5000  5.7440E-25
       6.0000  1.0474E-18
       6.5000  6.2184E-22
       7.0000  7.6663E-20
-      7.5000  5.1232E-25
+      7.5000  5.1221E-25
       8.0000  1.1940E-21
      10.0000
  
-c      no.  4   region=       2   output time=1.0833E+00 [d]  (after the last shutdown=        60 [m])
+c      no. 11   region=       2   output time=1.0833E+00 [d]  (after the last shutdown=        60 [m])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   1.4527E+08  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -209,19 +590,19 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       0.5120  0.0000E+00
       0.6000  0.0000E+00
       0.7000  0.0000E+00
-      0.8000  2.8908E-23
+      0.8000  2.8985E-23
       1.0000  2.6565E+05
       1.3300  0.0000E+00
-      1.3400  1.1981E-18
+      1.3400  1.2012E-18
       1.5000  0.0000E+00
       1.6600  0.0000E+00
       2.0000  0.0000E+00
-      2.5000  1.2432E-18
+      2.5000  1.2465E-18
       3.0000  0.0000E+00
-      3.5000  9.4845E-22
+      3.5000  9.5097E-22
       4.0000
  
-c      no.  5   region=       2   output time=1.4583E+00 [d]  (after the last shutdown=        10 [h])
+c      no. 12   region=       2   output time=1.4583E+00 [d]  (after the last shutdown=        10 [h])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   5.4815E+06  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -257,19 +638,19 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       0.5120  0.0000E+00
       0.6000  0.0000E+00
       0.7000  0.0000E+00
-      0.8000  1.9071E-23
+      0.8000  1.9122E-23
       1.0000  2.6558E+05
       1.3300  0.0000E+00
-      1.3400  7.9037E-19
+      1.3400  7.9247E-19
       1.5000  0.0000E+00
       1.6600  0.0000E+00
       2.0000  0.0000E+00
-      2.5000  8.2016E-19
+      2.5000  8.2234E-19
       3.0000  0.0000E+00
-      3.5000  6.2569E-22
+      3.5000  6.2736E-22
       4.0000
  
-c      no.  6   region=       2   output time=2.0417E+00 [d]  (after the last shutdown=        24 [h])
+c      no. 13   region=       2   output time=2.0417E+00 [d]  (after the last shutdown=        24 [h])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   7.2811E+05  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -305,19 +686,19 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       0.5120  0.0000E+00
       0.6000  0.0000E+00
       0.7000  0.0000E+00
-      0.8000  9.9852E-24
+      0.8000  1.0012E-23
       1.0000  2.6547E+05
       1.3300  0.0000E+00
-      1.3400  4.1382E-19
+      1.3400  4.1492E-19
       1.5000  0.0000E+00
       1.6600  0.0000E+00
       2.0000  0.0000E+00
-      2.5000  4.2942E-19
+      2.5000  4.3056E-19
       3.0000  0.0000E+00
-      3.5000  3.2760E-22
+      3.5000  3.2847E-22
       4.0000
  
-c      no.  7   region=       2   output time=1.1042E+01 [d]  (after the last shutdown=        10 [d])
+c      no. 14   region=       2   output time=1.1042E+01 [d]  (after the last shutdown=        10 [d])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   6.9976E+05  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -353,19 +734,19 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       0.5120  0.0000E+00
       0.6000  0.0000E+00
       0.7000  0.0000E+00
-      0.8000  4.6102E-28
+      0.8000  4.6225E-28
       1.0000  2.6373E+05
       1.3300  0.0000E+00
-      1.3400  1.9106E-23
+      1.3400  1.9157E-23
       1.5000  0.0000E+00
       1.6600  0.0000E+00
       2.0000  0.0000E+00
-      2.5000  1.9827E-23
+      2.5000  1.9879E-23
       3.0000  0.0000E+00
-      3.5000  1.5126E-26
+      3.5000  1.5166E-26
       4.0000
  
-c      no.  8   region=       2   output time=1.0104E+02 [d]  (after the last shutdown=       100 [d])
+c      no. 15   region=       2   output time=1.0104E+02 [d]  (after the last shutdown=       100 [d])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   6.5532E+05  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -405,7 +786,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       1.0000  2.4698E+05
       1.3300
  
-c      no.  9   region=       2   output time=1.0029E+00 [y]  (after the last shutdown=3.6525E+02 [d])
+c      no. 16   region=       2   output time=1.0029E+00 [y]  (after the last shutdown=3.6525E+02 [d])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   5.4007E+05  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -445,7 +826,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       1.0000  2.0354E+05
       1.3300
  
-c      no. 10   region=       2   output time=2.6029E+00 [y]  (after the last shutdown=2.6000E+00 [y])
+c      no. 17   region=       2   output time=2.6029E+00 [y]  (after the last shutdown=2.6000E+00 [y])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   3.5268E+05  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -485,7 +866,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       1.0000  1.3292E+05
       1.3300
  
-c      no. 11   region=       2   output time=5.0029E+00 [y]  (after the last shutdown=         5 [y])
+c      no. 18   region=       2   output time=5.0029E+00 [y]  (after the last shutdown=         5 [y])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   1.8611E+05  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -525,7 +906,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       1.0000  7.0143E+04
       1.3300
  
-c      no. 12   region=       2   output time=1.0003E+01 [y]  (after the last shutdown=        10 [y])
+c      no. 19   region=       2   output time=1.0003E+01 [y]  (after the last shutdown=        10 [y])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   4.9141E+04  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -571,7 +952,392 @@ c <>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>
 c <>-<>   no.     2  regionwise calculation data     <>-<>
 c <>-<>   region label : DUMMY002                    <>-<>
 c <>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>-<>
-c      no.  1   region=       4   output time=1.0418E+00 [d]  (after the last shutdown=        10 [s])
+c      no.  1   region=       4   output time=        60 [m]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   5.1727E+01  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        4 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     37
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  7.0302E-04
+      0.0100  5.6563E-02
+      0.0200  1.0678E-08
+      0.0300  1.3689E-10
+      0.0450  1.3225E-16
+      0.0600  3.5202E-02
+      0.0700  0.0000E+00
+      0.0750  1.5173E-02
+      0.1000  8.9670E-02
+      0.1500  7.3877E-03
+      0.2000  1.0344E-02
+      0.3000  1.0791E-01
+      0.4000  3.4196E-03
+      0.4500  3.5649E-05
+      0.5100  3.4523E-01
+      0.5120  8.8650E-03
+      0.6000  3.8619E-02
+      0.7000  1.9029E-03
+      0.8000  1.9486E+01
+      1.0000  9.8118E-01
+      1.3300  9.6135E-02
+      1.3400  1.6411E+01
+      1.5000  2.3483E-02
+      1.6600  1.0733E+01
+      2.0000  2.8374E+00
+      2.5000  3.9600E-01
+      3.0000  4.1633E-02
+      3.5000  1.9129E-04
+      4.0000  1.1104E-04
+      4.5000  8.3634E-11
+      5.0000  2.3975E-25
+      5.5000  8.4553E-25
+      6.0000  5.6954E-30
+      6.5000  1.7522E-24
+      7.0000  1.2509E-26
+      7.5000  1.2178E-08
+      8.0000  2.4172E-08
+     10.0000
+ 
+c      no.  2   region=       4   output time=         5 [h]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   1.1254E+02  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        4 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     37
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  3.5149E-03
+      0.0100  5.6861E-02
+      0.0200  1.0687E-08
+      0.0300  6.4125E-10
+      0.0450  8.3386E-16
+      0.0600  8.6001E-02
+      0.0700  0.0000E+00
+      0.0750  2.4028E-02
+      0.1000  9.8358E-02
+      0.1500  1.1661E-02
+      0.2000  1.0344E-02
+      0.3000  1.1641E-01
+      0.4000  3.4196E-03
+      0.4500  1.1072E-04
+      0.5100  5.0793E-01
+      0.5120  8.8667E-03
+      0.6000  3.8676E-02
+      0.7000  1.9314E-03
+      0.8000  6.1121E+01
+      1.0000  1.0481E+00
+      1.3300  9.6440E-02
+      1.3400  1.6442E+01
+      1.5000  2.3614E-02
+      1.6600  2.2680E+01
+      2.0000  8.8123E+00
+      2.5000  1.2327E+00
+      3.0000  1.1897E-01
+      3.5000  1.9129E-04
+      4.0000  1.1104E-04
+      4.5000  9.7166E-11
+      5.0000  5.9248E-25
+      5.5000  1.2881E-24
+      6.0000  2.8499E-29
+      6.5000  2.6694E-24
+      7.0000  1.9090E-26
+      7.5000  1.2178E-08
+      8.0000  2.4172E-08
+     10.0000
+ 
+c      no.  3   region=       4   output time=        10 [h]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   1.3626E+02  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        4 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     37
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  7.0293E-03
+      0.0100  5.7235E-02
+      0.0200  1.0687E-08
+      0.0300  1.1846E-09
+      0.0450  1.7119E-15
+      0.0600  9.5751E-02
+      0.0700  0.0000E+00
+      0.0750  2.4204E-02
+      0.1000  1.0866E-01
+      0.1500  1.1762E-02
+      0.2000  1.0344E-02
+      0.3000  1.2533E-01
+      0.4000  3.4196E-03
+      0.4500  1.3867E-04
+      0.5100  6.6900E-01
+      0.5120  8.8688E-03
+      0.6000  3.8715E-02
+      0.7000  1.9435E-03
+      0.8000  7.7369E+01
+      1.0000  1.0740E+00
+      1.3300  9.6818E-02
+      1.3400  1.6474E+01
+      1.5000  2.3661E-02
+      1.6600  2.7260E+01
+      2.0000  1.1100E+01
+      2.5000  1.5531E+00
+      3.0000  1.4859E-01
+      3.5000  1.9129E-04
+      4.0000  1.1104E-04
+      4.5000  9.7171E-11
+      5.0000  1.0334E-24
+      5.5000  1.8414E-24
+      6.0000  5.7004E-29
+      6.5000  3.8158E-24
+      7.0000  2.7318E-26
+      7.5000  1.2178E-08
+      8.0000  2.4172E-08
+     10.0000
+ 
+c      no.  4   region=       4   output time=1.2500E+01 [h]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   5.8260E+01  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        4 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     30
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  7.0287E-03
+      0.0100  7.4736E-04
+      0.0200  3.2474E-16
+      0.0300  1.0904E-09
+      0.0450  1.3474E-15
+      0.0600  3.1710E-02
+      0.0700  0.0000E+00
+      0.0750  2.0667E-03
+      0.1000  2.0623E-02
+      0.1500  1.0270E-03
+      0.2000  5.3180E-10
+      0.3000  1.8066E-02
+      0.4000  9.7577E-10
+      0.4500  6.9664E-05
+      0.5100  3.2799E-01
+      0.5120  4.0229E-06
+      0.6000  8.3675E-05
+      0.7000  2.8794E-05
+      0.8000  3.9905E+01
+      1.0000  6.3773E-02
+      1.3300  7.5662E-04
+      1.3400  6.4101E-02
+      1.5000  1.1805E-04
+      1.6600  1.1304E+01
+      2.0000  5.6484E+00
+      2.5000  7.9100E-01
+      3.0000  7.3117E-02
+      3.5000  2.4501E-09
+      4.0000  7.8393E-20
+      4.5000  7.0391E-13
+      5.0000
+ 
+c      no.  5   region=       4   output time=        15 [h]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   3.0384E+01  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        4 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     30
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  7.0282E-03
+      0.0100  7.4885E-04
+      0.0200  5.1745E-17
+      0.0300  1.0037E-09
+      0.0450  1.3474E-15
+      0.0600  1.0938E-02
+      0.0700  0.0000E+00
+      0.0750  1.7692E-04
+      0.1000  2.0044E-02
+      0.1500  1.1758E-04
+      0.2000  5.1756E-10
+      0.3000  1.7456E-02
+      0.4000  9.1994E-10
+      0.4500  3.4998E-05
+      0.5100  3.1830E-01
+      0.5120  3.8999E-06
+      0.6000  6.5689E-05
+      0.7000  1.6655E-05
+      0.8000  2.0809E+01
+      1.0000  3.3240E-02
+      1.3300  7.5659E-04
+      1.3400  5.8562E-02
+      1.5000  6.0628E-05
+      1.6600  5.7813E+00
+      2.0000  2.8847E+00
+      2.5000  4.0402E-01
+      3.0000  3.7346E-02
+      3.5000  2.4473E-09
+      4.0000  8.9700E-29
+      4.5000  5.0991E-15
+      5.0000
+ 
+c      no.  6   region=       4   output time=        20 [h]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   1.2142E+02  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        4 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     37
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  1.0542E-02
+      0.0100  5.7613E-02
+      0.0200  1.0687E-08
+      0.0300  1.4917E-09
+      0.0450  2.5899E-15
+      0.0600  8.7334E-02
+      0.0700  0.0000E+00
+      0.0750  2.4029E-02
+      0.1000  1.1733E-01
+      0.1500  1.1692E-02
+      0.2000  1.0344E-02
+      0.3000  1.3335E-01
+      0.4000  3.4196E-03
+      0.4500  1.1956E-04
+      0.5100  8.1943E-01
+      0.5120  8.8704E-03
+      0.6000  3.8726E-02
+      0.7000  1.9387E-03
+      0.8000  6.7197E+01
+      1.0000  1.0578E+00
+      1.3300  9.7196E-02
+      1.3400  1.6494E+01
+      1.5000  2.3631E-02
+      1.6600  2.4199E+01
+      2.0000  9.5647E+00
+      2.5000  1.3381E+00
+      3.0000  1.2872E-01
+      3.5000  1.9129E-04
+      4.0000  1.1104E-04
+      4.5000  9.7166E-11
+      5.0000  1.4743E-24
+      5.5000  2.3946E-24
+      6.0000  8.5509E-29
+      6.5000  4.9623E-24
+      7.0000  3.5545E-26
+      7.5000  1.2178E-08
+      8.0000  2.4172E-08
+     10.0000
+ 
+c      no.  7   region=       4   output time=1.0417E+00 [d]
+c      -------------------------------------------------------------------------------------------------------
+[ S o u r c e ]
+ totfact =   1.3953E+02  $ total number of gamma-rays (n/sec/cc) x volume (cc)
+  s-type =   5
+    proj = photon
+     reg =        4 $ This cell ID  should be revised for lattice  or combined cell case
+      x0 =        $ Input minimum x of the region here
+      x1 =        $ Input maximum x of the region here
+      y0 =        $ Input minimum y of the region here
+      y1 =        $ Input maximum y of the region here
+      z0 =        $ Input minimum z of the region here
+      z1 =        $ Input maximum z of the region here
+     dir = all
+  e-type = 4
+      ne =     37
+$     Energy  Flux (arbitrary unit)
+$             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq/cc)
+      0.0010  1.4055E-02
+      0.0100  5.7989E-02
+      0.0200  1.0687E-08
+      0.0300  1.9051E-09
+      0.0450  3.4679E-15
+      0.0600  9.5914E-02
+      0.0700  0.0000E+00
+      0.0750  2.4204E-02
+      0.1000  1.2665E-01
+      0.1500  1.1792E-02
+      0.2000  1.0344E-02
+      0.3000  1.4207E-01
+      0.4000  3.4196E-03
+      0.4500  1.4090E-04
+      0.5100  9.7481E-01
+      0.5120  8.8722E-03
+      0.6000  3.8759E-02
+      0.7000  1.9481E-03
+      0.8000  7.9600E+01
+      1.0000  1.0776E+00
+      1.3300  9.7574E-02
+      1.3400  1.6520E+01
+      1.5000  2.3667E-02
+      1.6600  2.7667E+01
+      2.0000  1.1297E+01
+      2.5000  1.5806E+00
+      3.0000  1.5114E-01
+      3.5000  1.9129E-04
+      4.0000  1.1104E-04
+      4.5000  9.7171E-11
+      5.0000  1.9152E-24
+      5.5000  2.9479E-24
+      6.0000  1.1401E-28
+      6.5000  6.1088E-24
+      7.0000  4.3772E-26
+      7.5000  1.2178E-08
+      8.0000  2.4172E-08
+     10.0000
+ 
+c      no.  8   region=       4   output time=1.0418E+00 [d]  (after the last shutdown=        10 [s])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   1.3858E+02  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -620,7 +1386,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       4.0000  1.0237E-04
       4.5000  9.6641E-11
       5.0000  4.4531E-25
-      5.5000  1.7846E-24
+      5.5000  1.7845E-24
       6.0000  6.7261E-30
       6.5000  3.6981E-24
       7.0000  2.6391E-26
@@ -628,7 +1394,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       8.0000  7.8342E-29
      10.0000
  
-c      no.  2   region=       4   output time=1.0424E+00 [d]  (after the last shutdown=        60 [s])
+c      no.  9   region=       4   output time=1.0424E+00 [d]  (after the last shutdown=        60 [s])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   1.3438E+02  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -676,7 +1442,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       3.5000  1.5269E-04
       4.0000  6.9206E-05
       4.5000  9.4031E-11
-      5.0000  2.9936E-26
+      5.0000  2.9935E-26
       5.5000  1.4509E-25
       6.0000  0.0000E+00
       6.5000  3.0066E-25
@@ -684,7 +1450,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       7.5000  1.2938E-25
       8.0000
  
-c      no.  3   region=       4   output time=1.0486E+00 [d]  (after the last shutdown=        10 [m])
+c      no. 10   region=       4   output time=1.0486E+00 [d]  (after the last shutdown=        10 [m])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   1.1427E+02  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -734,7 +1500,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       4.5000  6.9963E-11
       5.0000
  
-c      no.  4   region=       4   output time=1.0833E+00 [d]  (after the last shutdown=        60 [m])
+c      no. 11   region=       4   output time=1.0833E+00 [d]  (after the last shutdown=        60 [m])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   8.9378E+01  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -784,7 +1550,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       4.5000  1.3537E-11
       5.0000
  
-c      no.  5   region=       4   output time=1.4583E+00 [d]  (after the last shutdown=        10 [h])
+c      no. 12   region=       4   output time=1.4583E+00 [d]  (after the last shutdown=        10 [h])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   1.0276E+01  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -834,7 +1600,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       4.5000  2.6757E-19
       5.0000
  
-c      no.  6   region=       4   output time=2.0417E+00 [d]  (after the last shutdown=        24 [h])
+c      no. 13   region=       4   output time=2.0417E+00 [d]  (after the last shutdown=        24 [h])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   2.6745E+00  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -884,7 +1650,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       4.5000  2.7753E-31
       5.0000
  
-c      no.  7   region=       4   output time=1.1042E+01 [d]  (after the last shutdown=        10 [d])
+c      no. 14   region=       4   output time=1.1042E+01 [d]  (after the last shutdown=        10 [d])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   2.1425E+00  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -932,7 +1698,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       3.5000  4.4703E-09
       4.0000
  
-c      no.  8   region=       4   output time=1.0104E+02 [d]  (after the last shutdown=       100 [d])
+c      no. 15   region=       4   output time=1.0104E+02 [d]  (after the last shutdown=       100 [d])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   9.7538E-01  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -980,7 +1746,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       3.5000  1.9932E-09
       4.0000
  
-c      no.  9   region=       4   output time=1.0029E+00 [y]  (after the last shutdown=3.6525E+02 [d])
+c      no. 16   region=       4   output time=1.0029E+00 [y]  (after the last shutdown=3.6525E+02 [d])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   1.6954E-01  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -1028,7 +1794,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       3.5000  1.8436E-10
       4.0000
  
-c      no. 10   region=       4   output time=2.6029E+00 [y]  (after the last shutdown=2.6000E+00 [y])
+c      no. 17   region=       4   output time=2.6029E+00 [y]  (after the last shutdown=2.6000E+00 [y])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   3.5994E-02  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -1076,7 +1842,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       3.5000  9.7243E-13
       4.0000
  
-c      no. 11   region=       4   output time=5.0029E+00 [y]  (after the last shutdown=         5 [y])
+c      no. 18   region=       4   output time=5.0029E+00 [y]  (after the last shutdown=         5 [y])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   9.2509E-03  $ total number of gamma-rays (n/sec/cc) x volume (cc)
@@ -1124,7 +1890,7 @@ $             ^^^^ Energy spectra (n/sec/cc) based on activity concentration (Bq
       3.5000  3.7250E-16
       4.0000
  
-c      no. 12   region=       4   output time=1.0003E+01 [y]  (after the last shutdown=        10 [y])
+c      no. 19   region=       4   output time=1.0003E+01 [y]  (after the last shutdown=        10 [y])
 c      -------------------------------------------------------------------------------------------------------
 [ S o u r c e ]
  totfact =   2.0027E-03  $ total number of gamma-rays (n/sec/cc) x volume (cc)
