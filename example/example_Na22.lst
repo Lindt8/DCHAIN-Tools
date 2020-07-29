@@ -72,9 +72,9 @@
    59 :   iredufmt =       1
    60 :    irdonce =       1
    61 :     iregon =      2
-   62 :    DUMMY001        2    1  5.5473E+09   example_Na22.dtrk  1.0000E+00
+   62 :    DUMMY001        2    1  6.3948E+09   example_Na22.dtrk  1.0000E+00
    63 :    F-19      1.5853E-01
-   64 :    DUMMY002        4   24  2.2887E+05   example_Na22.dtrk  1.0000E+00
+   64 :    DUMMY002        4   24  2.8552E+05   example_Na22.dtrk  1.0000E+00
    65 :    C-12      1.5873E-04
    66 :    C-13      1.7816E-06
    67 :   Si-28      7.9122E-04
@@ -359,8 +359,8 @@
 
                         itg  mcnp  mcnp  mcnp  mcnp
   no.   hregcmm iregs  ncls  tals  cels  vols  mats        fluxs  hnfluxs                                       volumes
-   1 DUMMY001       2     1     0     0     0     0  5.54730E+09  example_Na22.dtrk                         1.00000E+00
-   2 DUMMY002       4    24     0     0     0     0  2.28870E+05  example_Na22.dtrk                         1.00000E+00
+   1 DUMMY001       2     1     0     0     0     0  6.39480E+09  example_Na22.dtrk                         1.00000E+00
+   2 DUMMY002       4    24     0     0     0     0  2.85520E+05  example_Na22.dtrk                         1.00000E+00
 
  target nuclides  (positive: atomic number density [10**24/cm**3] ;  negative: activity [Bq/cc])
    no.   1 region ...... no. of nuclides=   1
@@ -450,20 +450,22 @@ DUMMY001    DUMMY002
   mcnp tally data ..........            0 (mcnptal)                                            0 (mcnpcel)
                                         0 (mcnpvol)                                            0 (mcnpmat)
   no. of target materials ..            1
-  neutron flux .............  5.54730E+09 [n/cm**2/s]    flux file name ........... example_Na22.dtrk                       
+  neutron flux .............  6.39480E+09 [n/cm**2/s]    flux file name ........... example_Na22.dtrk                       
   target decreasing by p ...            1                target decreasing by n ...            1 (0/1=no/yes)
   target nuclides  (positive: atomic number density [10**24/cm**3] ;  negative: activity [Bq/cc])
      nuclide        za   no.density     nuclide        za   no.density     nuclide        za   no.density
       F  19     9019.0  1.58530E-01
 
- the number of kinds of produced nuclides by nmtc calculation =           12
- total yield of produced nuclides per a source                =  6.66490E-01
+ the number of kinds of produced nuclides by nmtc calculation =           20
+ total yield of produced nuclides per a source                =  6.05373E-01
  nuclide     yield  nuclide     yield  nuclide     yield  nuclide     yield  nuclide     yield  nuclide     yield
  -----------------  -----------------  -----------------  -----------------  -----------------  -----------------
-  H   2  1.100E-04   He  4  9.983E-01   O  18  2.000E-05   F  19 -3.340E-01   Ne 21  9.000E-04   Na 21  3.000E-05
-  H   3  3.000E-05   N  15  1.200E-04   F  18  1.100E-04   Ne 20  1.800E-04   Ne 22  2.900E-04   Na 22  4.000E-04
+  H   2  9.100E-05   Li  7  2.000E-06   O  16  1.000E-05   F  19 -3.953E-01   Ne 21  8.730E-04                   
+  H   3  2.300E-05   B  11  3.000E-06   O  17  4.000E-06   F  20  1.000E-06   Ne 22  3.160E-04                   
+  He  3  1.000E-06   C  12  3.000E-06   O  18  2.600E-05   F  21  7.000E-06   Na 21  2.300E-05                   
+  He  4  9.983E-01   N  15  1.750E-04   F  18  1.580E-04   Ne 20  1.790E-04   Na 22  4.780E-04                   
 Warning: Negative yield data was found.
-    F  19 : -3.340E-01
+    F  19 : -3.953E-01
   Please check about whether this entry is correct or not./
  
  Reading neutron energy spectrum:         1968  groups
@@ -476,106 +478,106 @@ Warning: Negative yield data was found.
  start of irradiation and cooling calculation   ... cpu time      0.00 [s]
  --------------------------------------------
     initial proton  flux =  1.00001E+12 [n/cm**2/s]
-    initial neutron flux =  5.54730E+09 [n/cm**2/s]  below 20 MeV
+    initial neutron flux =  6.39480E+09 [n/cm**2/s]  below 20 MeV
   ratio of residual target nuclide to initial =  1.00000E+00
  
   during irradiation time ---
-  summation of activity     =  1.05737E+08 [Bq/cc] ( 1.05737E+08 [Bq])  at         60 [m]
-  summation of decay heat   =  5.98114E-05 [W/cc]  ( 5.98114E-05 [W])
-                                                                  cpu time       0.00 [s]  (      0.00 [s])
-  ratio of residual target nuclide to initial =  1.00000E+00
- 
-  during irradiation time ---
-  summation of activity     =  1.65243E+08 [Bq/cc] ( 1.65243E+08 [Bq])  at          5 [h]
-  summation of decay heat   =  7.15489E-05 [W/cc]  ( 7.15489E-05 [W])
+  summation of activity     =  1.19586E+08 [Bq/cc] ( 1.19586E+08 [Bq])  at         60 [m]
+  summation of decay heat   =  6.23830E-05 [W/cc]  ( 6.23830E-05 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
   ratio of residual target nuclide to initial =  1.00000E+00
  
   during irradiation time ---
-  summation of activity     =  1.79526E+08 [Bq/cc] ( 1.79526E+08 [Bq])  at         10 [h]
-  summation of decay heat   =  7.43753E-05 [W/cc]  ( 7.43753E-05 [W])
-                                                                  cpu time       0.00 [s]  (      0.00 [s])
- 
-  during cooling time ---
-  summation of activity     =  4.23102E+07 [Bq/cc] ( 4.23102E+07 [Bq])  at 1.2500E+01 [h]
-  summation of decay heat   =  8.36158E-06 [W/cc]  ( 8.36158E-06 [W])
-                                                                  cpu time       0.00 [s]  (      0.00 [s])
- 
-  during cooling time ---
-  summation of activity     =  1.64844E+07 [Bq/cc] ( 1.64844E+07 [Bq])  at         15 [h]
-  summation of decay heat   =  3.27131E-06 [W/cc]  ( 3.27131E-06 [W])
+  summation of activity     =  2.04685E+08 [Bq/cc] ( 2.04685E+08 [Bq])  at          5 [h]
+  summation of decay heat   =  7.91667E-05 [W/cc]  ( 7.91667E-05 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
   ratio of residual target nuclide to initial =  1.00000E+00
  
   during irradiation time ---
-  summation of activity     =  1.67827E+08 [Bq/cc] ( 1.67827E+08 [Bq])  at         20 [h]
-  summation of decay heat   =  7.20805E-05 [W/cc]  ( 7.20805E-05 [W])
+  summation of activity     =  2.25100E+08 [Bq/cc] ( 2.25100E+08 [Bq])  at         10 [h]
+  summation of decay heat   =  8.32038E-05 [W/cc]  ( 8.32038E-05 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  6.04859E+07 [Bq/cc] ( 6.04859E+07 [Bq])  at 1.2500E+01 [h]
+  summation of decay heat   =  1.19485E-05 [W/cc]  ( 1.19485E-05 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  2.35475E+07 [Bq/cc] ( 2.35475E+07 [Bq])  at         15 [h]
+  summation of decay heat   =  4.66796E-06 [W/cc]  ( 4.66796E-06 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
   ratio of residual target nuclide to initial =  1.00000E+00
  
   during irradiation time ---
-  summation of activity     =  1.80020E+08 [Bq/cc] ( 1.80020E+08 [Bq])  at 1.0417E+00 [d]
-  summation of decay heat   =  7.44948E-05 [W/cc]  ( 7.44948E-05 [W])
+  summation of activity     =  2.08352E+08 [Bq/cc] ( 2.08352E+08 [Bq])  at         20 [h]
+  summation of decay heat   =  7.99161E-05 [W/cc]  ( 7.99161E-05 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+  ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during irradiation time ---
+  summation of activity     =  2.25776E+08 [Bq/cc] ( 2.25776E+08 [Bq])  at 1.0417E+00 [d]
+  summation of decay heat   =  8.33638E-05 [W/cc]  ( 8.33638E-05 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  1.49170E+08 [Bq/cc] ( 1.49170E+08 [Bq])  at 1.0418E+00 [d]
-  summation of decay heat   =  4.63456E-05 [W/cc]  ( 4.63456E-05 [W])
+  summation of activity     =  1.91610E+08 [Bq/cc] ( 1.91610E+08 [Bq])  at 1.0418E+00 [d]
+  summation of decay heat   =  5.39226E-05 [W/cc]  ( 5.39226E-05 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  1.14859E+08 [Bq/cc] ( 1.14859E+08 [Bq])  at 1.0424E+00 [d]
-  summation of decay heat   =  2.37878E-05 [W/cc]  ( 2.37878E-05 [W])
+  summation of activity     =  1.60286E+08 [Bq/cc] ( 1.60286E+08 [Bq])  at 1.0424E+00 [d]
+  summation of decay heat   =  3.25478E-05 [W/cc]  ( 3.25478E-05 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  1.02716E+08 [Bq/cc] ( 1.02716E+08 [Bq])  at 1.0486E+00 [d]
-  summation of decay heat   =  2.02899E-05 [W/cc]  ( 2.02899E-05 [W])
+  summation of activity     =  1.46854E+08 [Bq/cc] ( 1.46854E+08 [Bq])  at 1.0486E+00 [d]
+  summation of decay heat   =  2.89984E-05 [W/cc]  ( 2.89984E-05 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  7.49729E+07 [Bq/cc] ( 7.49729E+07 [Bq])  at 1.0833E+00 [d]
-  summation of decay heat   =  1.48216E-05 [W/cc]  ( 1.48216E-05 [W])
+  summation of activity     =  1.07173E+08 [Bq/cc] ( 1.07173E+08 [Bq])  at 1.0833E+00 [d]
+  summation of decay heat   =  2.11773E-05 [W/cc]  ( 2.11773E-05 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  2.71598E+06 [Bq/cc] ( 2.71598E+06 [Bq])  at 1.4583E+00 [d]
-  summation of decay heat   =  5.79789E-07 [W/cc]  ( 5.79789E-07 [W])
+  summation of activity     =  3.82491E+06 [Bq/cc] ( 3.82491E+06 [Bq])  at 1.4583E+00 [d]
+  summation of decay heat   =  8.07353E-07 [W/cc]  ( 8.07353E-07 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  2.59003E+05 [Bq/cc] ( 2.59003E+05 [Bq])  at 2.0417E+00 [d]
-  summation of decay heat   =  9.54998E-08 [W/cc]  ( 9.54998E-08 [W])
+  summation of activity     =  3.10749E+05 [Bq/cc] ( 3.10749E+05 [Bq])  at 2.0417E+00 [d]
+  summation of decay heat   =  1.14690E-07 [W/cc]  ( 1.14690E-07 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  2.45139E+05 [Bq/cc] ( 2.45139E+05 [Bq])  at 1.1042E+01 [d]
-  summation of decay heat   =  9.24723E-08 [W/cc]  ( 9.24723E-08 [W])
+  summation of activity     =  2.91296E+05 [Bq/cc] ( 2.91296E+05 [Bq])  at 1.1042E+01 [d]
+  summation of decay heat   =  1.10503E-07 [W/cc]  ( 1.10503E-07 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  2.29763E+05 [Bq/cc] ( 2.29763E+05 [Bq])  at 1.0104E+02 [d]
-  summation of decay heat   =  8.65987E-08 [W/cc]  ( 8.65987E-08 [W])
+  summation of activity     =  2.72945E+05 [Bq/cc] ( 2.72945E+05 [Bq])  at 1.0104E+02 [d]
+  summation of decay heat   =  1.03484E-07 [W/cc]  ( 1.03484E-07 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  1.89883E+05 [Bq/cc] ( 1.89883E+05 [Bq])  at 1.0029E+00 [y]
-  summation of decay heat   =  7.13698E-08 [W/cc]  ( 7.13698E-08 [W])
+  summation of activity     =  2.25353E+05 [Bq/cc] ( 2.25353E+05 [Bq])  at 1.0029E+00 [y]
+  summation of decay heat   =  8.52855E-08 [W/cc]  ( 8.52855E-08 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  1.24970E+05 [Bq/cc] ( 1.24970E+05 [Bq])  at 2.6029E+00 [y]
-  summation of decay heat   =  4.66074E-08 [W/cc]  ( 4.66074E-08 [W])
+  summation of activity     =  1.47916E+05 [Bq/cc] ( 1.47916E+05 [Bq])  at 2.6029E+00 [y]
+  summation of decay heat   =  5.56945E-08 [W/cc]  ( 5.56945E-08 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  6.71251E+04 [Bq/cc] ( 6.71251E+04 [Bq])  at 5.0029E+00 [y]
-  summation of decay heat   =  2.45964E-08 [W/cc]  ( 2.45964E-08 [W])
+  summation of activity     =  7.89712E+04 [Bq/cc] ( 7.89712E+04 [Bq])  at 5.0029E+00 [y]
+  summation of decay heat   =  2.93915E-08 [W/cc]  ( 2.93915E-08 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  1.91819E+04 [Bq/cc] ( 1.91819E+04 [Bq])  at 1.0003E+01 [y]
-  summation of decay heat   =  6.49564E-09 [W/cc]  ( 6.49564E-09 [W])
+  summation of activity     =  2.19839E+04 [Bq/cc] ( 2.19839E+04 [Bq])  at 1.0003E+01 [y]
+  summation of decay heat   =  7.76143E-09 [W/cc]  ( 7.76143E-09 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
   summation of decay yields =  1.58530E+23 [n]
 
@@ -594,7 +596,7 @@ Warning: Negative yield data was found.
   mcnp tally data ..........            0 (mcnptal)                                            0 (mcnpcel)
                                         0 (mcnpvol)                                            0 (mcnpmat)
   no. of target materials ..           24
-  neutron flux .............  2.28870E+05 [n/cm**2/s]    flux file name ........... example_Na22.dtrk                       
+  neutron flux .............  2.85520E+05 [n/cm**2/s]    flux file name ........... example_Na22.dtrk                       
   target decreasing by p ...            1                target decreasing by n ...            1 (0/1=no/yes)
   target nuclides  (positive: atomic number density [10**24/cm**3] ;  negative: activity [Bq/cc])
      nuclide        za   no.density     nuclide        za   no.density     nuclide        za   no.density
@@ -607,10 +609,21 @@ Warning: Negative yield data was found.
       Fe 58    26058.0  1.70760E-04      Ni 58    28058.0  5.17010E-03      Ni 60    28060.0  1.99150E-03
       Ni 61    28061.0  8.65770E-05      Ni 62    28062.0  2.75980E-04      Ni 64    28064.0  7.03250E-05
 
- the number of kinds of produced nuclides by nmtc calculation =            0
+ the number of kinds of produced nuclides by nmtc calculation =            7
  total yield of produced nuclides per a source                =  0.00000E+00
  nuclide     yield  nuclide     yield  nuclide     yield  nuclide     yield  nuclide     yield  nuclide     yield
  -----------------  -----------------  -----------------  -----------------  -----------------  -----------------
+  He  4  1.000E-06   Cr 52 -1.000E-06   Fe 56 -2.000E-06   Co 58m 1.000E-06                                      
+  F  19 -1.000E-06   Fe 54  1.000E-06   Co 58  1.000E-06                                                         
+Warning: Negative yield data was found.
+    F  19 : -1.000E-06
+  Please check about whether this entry is correct or not./
+Warning: Negative yield data was found.
+    Cr 52 : -1.000E-06
+  Please check about whether this entry is correct or not./
+Warning: Negative yield data was found.
+    Fe 56 : -2.000E-06
+  Please check about whether this entry is correct or not./
  
  Reading neutron energy spectrum:         1968  groups
 
@@ -622,106 +635,106 @@ Warning: Negative yield data was found.
  start of irradiation and cooling calculation   ... cpu time      0.00 [s]
  --------------------------------------------
     initial proton  flux =  1.00001E+12 [n/cm**2/s]
-    initial neutron flux =  2.28870E+05 [n/cm**2/s]  below 20 MeV
+    initial neutron flux =  2.85520E+05 [n/cm**2/s]  below 20 MeV
   ratio of residual target nuclide to initial =  1.00000E+00
  
   during irradiation time ---
-  summation of activity     =  4.49956E+01 [Bq/cc] ( 4.49956E+01 [Bq])  at         60 [m]
-  summation of decay heat   =  1.81983E-11 [W/cc]  ( 1.81983E-11 [W])
-                                                                  cpu time       0.00 [s]  (      0.00 [s])
-  ratio of residual target nuclide to initial =  1.00000E+00
- 
-  during irradiation time ---
-  summation of activity     =  9.01777E+01 [Bq/cc] ( 9.01777E+01 [Bq])  at          5 [h]
-  summation of decay heat   =  3.62455E-11 [W/cc]  ( 3.62455E-11 [W])
+  summation of activity     =  7.37244E+04 [Bq/cc] ( 7.37244E+04 [Bq])  at         60 [m]
+  summation of decay heat   =  3.76681E-10 [W/cc]  ( 3.76681E-10 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
   ratio of residual target nuclide to initial =  1.00000E+00
  
   during irradiation time ---
-  summation of activity     =  1.07905E+02 [Bq/cc] ( 1.07905E+02 [Bq])  at         10 [h]
-  summation of decay heat   =  4.32165E-11 [W/cc]  ( 4.32165E-11 [W])
-                                                                  cpu time       0.00 [s]  (      0.00 [s])
- 
-  during cooling time ---
-  summation of activity     =  4.34750E+01 [Bq/cc] ( 4.34750E+01 [Bq])  at 1.2500E+01 [h]
-  summation of decay heat   =  1.71685E-11 [W/cc]  ( 1.71685E-11 [W])
-                                                                  cpu time       0.00 [s]  (      0.00 [s])
- 
-  during cooling time ---
-  summation of activity     =  2.28160E+01 [Bq/cc] ( 2.28160E+01 [Bq])  at         15 [h]
-  summation of decay heat   =  8.85563E-12 [W/cc]  ( 8.85563E-12 [W])
+  summation of activity     =  3.18876E+05 [Bq/cc] ( 3.18876E+05 [Bq])  at          5 [h]
+  summation of decay heat   =  1.67357E-09 [W/cc]  ( 1.67357E-09 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
   ratio of residual target nuclide to initial =  1.00000E+00
  
   during irradiation time ---
-  summation of activity     =  9.70571E+01 [Bq/cc] ( 9.70571E+01 [Bq])  at         20 [h]
-  summation of decay heat   =  3.86871E-11 [W/cc]  ( 3.86871E-11 [W])
+  summation of activity     =  5.38099E+05 [Bq/cc] ( 5.38099E+05 [Bq])  at         10 [h]
+  summation of decay heat   =  3.00709E-09 [W/cc]  ( 3.00709E-09 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  4.46258E+05 [Bq/cc] ( 4.46258E+05 [Bq])  at 1.2500E+01 [h]
+  summation of decay heat   =  2.69452E-09 [W/cc]  ( 2.69452E-09 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+ 
+  during cooling time ---
+  summation of activity     =  3.70356E+05 [Bq/cc] ( 3.70356E+05 [Bq])  at         15 [h]
+  summation of decay heat   =  2.44920E-09 [W/cc]  ( 2.44920E-09 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
   ratio of residual target nuclide to initial =  1.00000E+00
  
   during irradiation time ---
-  summation of activity     =  1.10622E+02 [Bq/cc] ( 1.10622E+02 [Bq])  at 1.0417E+00 [d]
-  summation of decay heat   =  4.39836E-11 [W/cc]  ( 4.39836E-11 [W])
+  summation of activity     =  5.74602E+05 [Bq/cc] ( 5.74602E+05 [Bq])  at         20 [h]
+  summation of decay heat   =  3.75777E-09 [W/cc]  ( 3.75777E-09 [W])
+                                                                  cpu time       0.00 [s]  (      0.00 [s])
+  ratio of residual target nuclide to initial =  1.00000E+00
+ 
+  during irradiation time ---
+  summation of activity     =  7.15464E+05 [Bq/cc] ( 7.15464E+05 [Bq])  at 1.0417E+00 [d]
+  summation of decay heat   =  4.84366E-09 [W/cc]  ( 4.84366E-09 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  1.09646E+02 [Bq/cc] ( 1.09646E+02 [Bq])  at 1.0418E+00 [d]
-  summation of decay heat   =  4.35848E-11 [W/cc]  ( 4.35848E-11 [W])
+  summation of activity     =  7.15315E+05 [Bq/cc] ( 7.15315E+05 [Bq])  at 1.0418E+00 [d]
+  summation of decay heat   =  4.84279E-09 [W/cc]  ( 4.84279E-09 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  1.05388E+02 [Bq/cc] ( 1.05388E+02 [Bq])  at 1.0424E+00 [d]
-  summation of decay heat   =  4.18439E-11 [W/cc]  ( 4.18439E-11 [W])
+  summation of activity     =  7.14573E+05 [Bq/cc] ( 7.14573E+05 [Bq])  at 1.0424E+00 [d]
+  summation of decay heat   =  4.83871E-09 [W/cc]  ( 4.83871E-09 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  8.60104E+01 [Bq/cc] ( 8.60104E+01 [Bq])  at 1.0486E+00 [d]
-  summation of decay heat   =  3.39452E-11 [W/cc]  ( 3.39452E-11 [W])
+  summation of activity     =  7.06630E+05 [Bq/cc] ( 7.06630E+05 [Bq])  at 1.0486E+00 [d]
+  summation of decay heat   =  4.80597E-09 [W/cc]  ( 4.80597E-09 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  6.68275E+01 [Bq/cc] ( 6.68275E+01 [Bq])  at 1.0833E+00 [d]
-  summation of decay heat   =  2.62361E-11 [W/cc]  ( 2.62361E-11 [W])
+  summation of activity     =  6.64202E+05 [Bq/cc] ( 6.64202E+05 [Bq])  at 1.0833E+00 [d]
+  summation of decay heat   =  4.66566E-09 [W/cc]  ( 4.66566E-09 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  8.21552E+00 [Bq/cc] ( 8.21552E+00 [Bq])  at 1.4583E+00 [d]
-  summation of decay heat   =  2.65452E-12 [W/cc]  ( 2.65452E-12 [W])
+  summation of activity     =  3.42895E+05 [Bq/cc] ( 3.42895E+05 [Bq])  at 1.4583E+00 [d]
+  summation of decay heat   =  3.63492E-09 [W/cc]  ( 3.63492E-09 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  2.58774E+00 [Bq/cc] ( 2.58774E+00 [Bq])  at 2.0417E+00 [d]
-  summation of decay heat   =  3.94376E-13 [W/cc]  ( 3.94376E-13 [W])
+  summation of activity     =  1.28719E+05 [Bq/cc] ( 1.28719E+05 [Bq])  at 2.0417E+00 [d]
+  summation of decay heat   =  2.95298E-09 [W/cc]  ( 2.95298E-09 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  2.14277E+00 [Bq/cc] ( 2.14277E+00 [Bq])  at 1.1042E+01 [d]
-  summation of decay heat   =  2.85714E-13 [W/cc]  ( 2.85714E-13 [W])
+  summation of activity     =  1.47522E+04 [Bq/cc] ( 1.47522E+04 [Bq])  at 1.1042E+01 [d]
+  summation of decay heat   =  2.38384E-09 [W/cc]  ( 2.38384E-09 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  9.11283E-01 [Bq/cc] ( 9.11283E-01 [Bq])  at 1.0104E+02 [d]
-  summation of decay heat   =  1.29310E-13 [W/cc]  ( 1.29310E-13 [W])
+  summation of activity     =  6.11648E+03 [Bq/cc] ( 6.11648E+03 [Bq])  at 1.0104E+02 [d]
+  summation of decay heat   =  9.88377E-10 [W/cc]  ( 9.88377E-10 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  1.89949E-01 [Bq/cc] ( 1.89949E-01 [Bq])  at 1.0029E+00 [y]
-  summation of decay heat   =  2.16783E-14 [W/cc]  ( 2.16783E-14 [W])
+  summation of activity     =  4.56822E+02 [Bq/cc] ( 4.56822E+02 [Bq])  at 1.0029E+00 [y]
+  summation of decay heat   =  7.38109E-11 [W/cc]  ( 7.38109E-11 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  5.31582E-02 [Bq/cc] ( 5.31582E-02 [Bq])  at 2.6029E+00 [y]
-  summation of decay heat   =  4.11819E-15 [W/cc]  ( 4.11819E-15 [W])
+  summation of activity     =  1.56477E+00 [Bq/cc] ( 1.56477E+00 [Bq])  at 2.6029E+00 [y]
+  summation of decay heat   =  2.48365E-13 [W/cc]  ( 2.48365E-13 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  1.76413E-02 [Bq/cc] ( 1.76413E-02 [Bq])  at 5.0029E+00 [y]
-  summation of decay heat   =  8.54556E-16 [W/cc]  ( 8.54556E-16 [W])
+  summation of activity     =  1.87679E-02 [Bq/cc] ( 1.87679E-02 [Bq])  at 5.0029E+00 [y]
+  summation of decay heat   =  1.13572E-15 [W/cc]  ( 1.13572E-15 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
  
   during cooling time ---
-  summation of activity     =  4.12697E-03 [Bq/cc] ( 4.12697E-03 [Bq])  at 1.0003E+01 [y]
-  summation of decay heat   =  1.81816E-16 [W/cc]  ( 1.81816E-16 [W])
+  summation of activity     =  3.97782E-03 [Bq/cc] ( 3.97782E-03 [Bq])  at 1.0003E+01 [y]
+  summation of decay heat   =  2.00004E-16 [W/cc]  ( 2.00004E-16 [W])
                                                                   cpu time       0.00 [s]  (      0.00 [s])
   summation of decay yields =  8.77091E+22 [n]
 

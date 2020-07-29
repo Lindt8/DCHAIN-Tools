@@ -3,7 +3,7 @@ Test case of 19F(a,n)22Na reaction
 
 [ P a r a m e t e r s ]
  icntl    =          0      # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
- maxcas   =      10000     # (D=10) number of particles per one batch
+ maxcas   =      100000     # (D=10) number of particles per one batch
  maxbch   =      10         # (D=10) number of batches
  emin(1)  = 1.000000000E-01 # (D=1.0) cut-off energy of proton (MeV)
  emin(2)  = 1.000000000E-01 # (D=1.0) cut-off energy of neutron (MeV)

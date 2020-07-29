@@ -82,10 +82,10 @@
  
     iregon =      2
 !1)HRGCMM 2)IREGS 3)ITGNCLS 4)FLUXS 5)HNFLUXS 6)VOLUMES
-   DUMMY001        2    1  5.5473E+09   example_Na22.dtrk  1.0000E+00
+   DUMMY001        2    1  6.3948E+09   example_Na22.dtrk  1.0000E+00
    F-19      1.5853E-01
 !1)HRGCMM 2)IREGS 3)ITGNCLS 4)FLUXS 5)HNFLUXS 6)VOLUMES
-   DUMMY002        4   24  2.2887E+05   example_Na22.dtrk  1.0000E+00
+   DUMMY002        4   24  2.8552E+05   example_Na22.dtrk  1.0000E+00
    C-12      1.5873E-04
    C-13      1.7816E-06
   Si-28      7.9122E-04

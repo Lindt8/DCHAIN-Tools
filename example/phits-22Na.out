@@ -35,7 +35,7 @@
                  |______________________________________|
 
                         Starting Date = 2020-07-29
-                        Starting Time = 10h 20m 10
+                        Starting Time = 11h 13m 42
 
 >>> Input Echo >>>=============================================================
 
@@ -44,7 +44,7 @@ Test case of 19F(a,n)22Na reaction
 
 [ Parameters ]
  icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
- maxcas   =       10000     # (D=10) number of particles per one batch
+ maxcas   =      100000     # (D=10) number of particles per one batch
  maxbch   =          10     # (D=10) number of batches
  emin(1)  = 0.100000000     # (D=1.0e-3) cut-off energy of proton (MeV)
  emin(2)  = 0.100000000     # (D=1.0e-11) cut-off energy of neutron (MeV)
@@ -286,44 +286,44 @@ C  Card[8] is disabled function for NEW DCHAIN.
 *                ---------------------
 
 -------------------------------------------------------------------------------
-bat[       1] ncas =          10000. : rijk    =   6.6472990614010000E+012
-          cpu time =   3.129 s.
+bat[       1] ncas =         100000. : rijk    =   6.6472990614010000E+012
+          cpu time =  29.898 s.
 
 -------------------------------------------------------------------------------
-bat[       2] ncas =          20000. : rijk    =   1.6060493872157915E+263
-          cpu time =   2.969 s.
+bat[       2] ncas =         200000. : rijk    =   1.0657080986680823E-169
+          cpu time =  29.875 s.
 
 -------------------------------------------------------------------------------
-bat[       3] ncas =          30000. : rijk    =   1.2312469038803597E-142
-          cpu time =   3.020 s.
+bat[       3] ncas =         300000. : rijk    =   3.5430395944448835E+294
+          cpu time =  29.629 s.
 
 -------------------------------------------------------------------------------
-bat[       4] ncas =          40000. : rijk    =  -2.3490157010259043E+075
-          cpu time =   3.062 s.
+bat[       4] ncas =         400000. : rijk    =  -9.0568261458389682E-302
+          cpu time =  29.602 s.
 
 -------------------------------------------------------------------------------
-bat[       5] ncas =          50000. : rijk    =   1.5862452941477405E+050
-          cpu time =   3.102 s.
+bat[       5] ncas =         500000. : rijk    =   1.2768591837427316E+096
+          cpu time =  29.531 s.
 
 -------------------------------------------------------------------------------
-bat[       6] ncas =          60000. : rijk    =  -1.1614278317741294E+121
-          cpu time =   3.070 s.
+bat[       6] ncas =         600000. : rijk    =  -5.5818528028464572E+234
+          cpu time =  29.684 s.
 
 -------------------------------------------------------------------------------
-bat[       7] ncas =          70000. : rijk    =   1.9679055304676816E+200
-          cpu time =   2.969 s.
+bat[       7] ncas =         700000. : rijk    =  -6.3971546776558392E-235
+          cpu time =  29.531 s.
 
 -------------------------------------------------------------------------------
-bat[       8] ncas =          80000. : rijk    =   1.1279646694369703E+182
-          cpu time =   2.965 s.
+bat[       8] ncas =         800000. : rijk    =  -1.6252113108392261E-031
+          cpu time =  29.586 s.
 
 -------------------------------------------------------------------------------
-bat[       9] ncas =          90000. : rijk    =   4.0569687249196381E-144
-          cpu time =   2.973 s.
+bat[       9] ncas =         900000. : rijk    =  -2.6783612581760376E-081
+          cpu time =  29.637 s.
 
 -------------------------------------------------------------------------------
-bat[      10] ncas =         100000. : rijk    =  -2.7853460622205772E+059
-          cpu time =   3.016 s.
+bat[      10] ncas =        1000000. : rijk    =   2.5765890653583350E+219
+          cpu time =  29.492 s.
 
 ===============================================================================
 
@@ -336,18 +336,18 @@ bat[      10] ncas =         100000. : rijk    =  -2.7853460622205772E+059
         1              1.   : start of calculation            
         2              1.   : end of calculation              
         3             10.   : end of a batch                  
-        4         100000.   : source                          
+        4        1000000.   : source                          
         5              0.   : detection of geometry error/warn
         6              0.   : recovery from geometry warning  
         7              0.   : termination by geometry error   
         8              0.   : termination by weight cut-off   
         9              0.   : termination by time cut-off     
-       10         200856.   : geometry boundary crossing      
-       11         100312.   : termination by energy cut-off   
-       12            427.   : termination by escape or leakage
-       13            266.   : reaction : (n,x) type           
-       14          11997.   : reaction : (n,n'x) type         
-       15             30.   : sequential transport for tally  
+       10        2009729.   : geometry boundary crossing      
+       11        1003395.   : termination by energy cut-off   
+       12           4865.   : termination by escape or leakage
+       13           2809.   : reaction : (n,x) type           
+       14         127035.   : reaction : (n,n'x) type         
+       15            349.   : sequential transport for tally  
 
 -------------------------------------------------------------------------------
  List of transport particles
@@ -359,54 +359,60 @@ bat[      10] ncas =         100000. : rijk    =  -2.7853460622205772E+059
      photon         22          0.0         0       0
      deuteron  1000002       1875.6         1       2
      triton    1000003       2808.9         1       3
+     3he       2000003       2808.4         2       3
      alpha     2000004       3727.4         2       4
 
 -------------------------------------------------------------------------------
  prod. particles       number        weight        weight per source
 -------------------------------------------------------------------------------
-     photon              362.     3.5530528E+02     3.5530528E-03
-     neutron             167.     1.6695080E+02     1.6695080E-03
-     proton              125.     1.2500000E+02     1.2500000E-03
-     alpha                49.     4.9000000E+01     4.9000000E-04
-     deuteron             11.     1.1000000E+01     1.1000000E-04
-     positron              4.     3.7405211E+00     3.7405211E-05
-     triton                3.     3.0000000E+00     3.0000000E-05
+     photon             4076.     3.9875929E+03     3.9875929E-03
+     neutron            1803.     1.8029024E+03     1.8029024E-03
+     proton             1305.     1.3050000E+03     1.3050000E-03
+     alpha               697.     6.9700000E+02     6.9700000E-04
+     deuteron             95.     9.5000000E+01     9.5000000E-05
+     positron             37.     3.5871050E+01     3.5871050E-05
+     triton               23.     2.3000000E+01     2.3000000E-05
+     3he                   1.     1.0000000E+00     1.0000000E-06
 
 -------------------------------------------------------------------------------
  particle decays       number        weight        weight per source
 -------------------------------------------------------------------------------
-     positron              4.     3.7405211E+00     3.7405211E-05
+     positron             37.     3.5871050E+01     3.5871050E-05
 
 -------------------------------------------------------------------------------
  stop. particles.    number        weight        weight per source
 -------------------------------------------------------------------------------
-     alpha             99832.     9.9832000E+04     9.9832000E-01
-     electron            531.     5.1206516E+02     5.1206516E-03
-     nucleus             217.     2.1700000E+02     2.1700000E-03
-     proton              119.     1.1900000E+02     1.1900000E-03
-     photon               89.     8.6783692E+01     8.6783692E-04
-     neutron              19.     1.8848070E+01     1.8848070E-04
-     deuteron             11.     1.1000000E+01     1.1000000E-04
-     positron              4.     3.7405211E+00     3.7405211E-05
-     triton                3.     3.0000000E+00     3.0000000E-05
+     alpha            998284.     9.9828400E+05     9.9828400E-01
+     electron           5831.     5.6385951E+03     5.6385951E-03
+     nucleus            2418.     2.4180000E+03     2.4180000E-03
+     proton             1237.     1.2370000E+03     1.2370000E-03
+     photon              931.     9.0118734E+02     9.0118734E-04
+     neutron             161.     1.5841959E+02     1.5841959E-04
+     deuteron             91.     9.1000000E+01     9.1000000E-05
+     positron             38.     3.6871050E+01     3.6871050E-05
+     triton               23.     2.3000000E+01     2.3000000E-05
+     3he                   1.     1.0000000E+00     1.0000000E-06
 
 -------------------------------------------------------------------------------
  leak. particles       number        weight        weight per source
 -------------------------------------------------------------------------------
-     photon              271.     2.6697649E+02     2.6697649E-03
-     neutron             148.     1.4399452E+02     1.4399452E-03
-     proton                6.     6.0000000E+00     6.0000000E-05
-     electron              2.     2.0000000E+00     2.0000000E-05
+     photon             3112.     3.0559791E+03     3.0559791E-03
+     neutron            1637.     1.5983150E+03     1.5983150E-03
+     proton               67.     6.7000000E+01     6.7000000E-05
+     electron             36.     3.5831859E+01     3.5831859E-05
+     alpha                 6.     6.0000000E+00     6.0000000E-06
+     deuteron              4.     4.0000000E+00     4.0000000E-06
+     positron              3.     3.0000000E+00     3.0000000E-06
 
 -------------------------------------------------------------------------------
  source: maxcas    maxbch      irskip   average weight          total source
 -------------------------------------------------------------------------------
-       10000          10           0    1.0000000E+00    1.0000000000000E+05
+      100000          10           0    1.0000000E+00    1.0000000000000E+06
 
 -------------------------------------------------------------------------------
  used ATIMA database
 -------------------------------------------------------------------------------
-     for dedx  =       15 / mdbatima =     2000
+     for dedx  =       24 / mdbatima =     2000
 
 -------------------------------------------------------------------------------
  CG error summary
@@ -417,33 +423,33 @@ bat[      10] ncas =         100000. : rijk    =  -2.7853460622205772E+059
 
 -------------------------------------------------------------------------------
       initial random seed =   6.6472990614010000E+012
- next initial random seed =   1.0657080986680823E-169
+ next initial random seed =   6.4450803562389370E+125
 
 -------------------------------------------------------------------------------
  job termination date : 2020/07/29
-                 time :   10:20:48
+                 time :   11:18:46
 
 -------------------------------------------------------------------------------
     CPU time and number of event called in PHITS
 -------------------------------------------------------------------------------
 
                              sec
-total cpu time =           37.21
+total cpu time =          304.30
 
 
                            count
-      analysis =         413898.  : data processing
-         nevap =            217.  : evaporation
-        dexgam =            216.  : de-excitation
-         nreac =          12265.  : atomic and nuclear reactions
-         dklos =              4.  : particle decay
+      analysis =        4148192.  : data processing
+         nevap =           2415.  : evaporation
+        dexgam =           2399.  : de-excitation
+         nreac =         129870.  : atomic and nuclear reactions
+         dklos =             37.  : particle decay
          hydro =              0.  : nucleon-nucleon scattering
-        n-data =            279.  : neutron data library
+        n-data =           3274.  : neutron data library
         h-data =              0.  : proton data library
         p-data =              0.  : photon data library
         e-data =              0.  : electron data library
-        p-egs5 =            390.  : photon interaction with EGS5
-        e-egs5 =          11373.  : electron interaction with EGS5
+        p-egs5 =           4490.  : photon interaction with EGS5
+        e-egs5 =         119630.  : electron interaction with EGS5
       e-tsmode =              0.  : electron track structure mode
     ion-tsmode =              0.  : ion track structure mode
      photonucl =              0.  : photo-nuclear reaction
@@ -451,15 +457,15 @@ total cpu time =           37.21
        mu-brem =              0.  : muon-induced bremsstrahlung
        mu-pprd =              0.  : muon-induced pair production
         mu-cap =              0.  : muon capture in nucleus
-         elast =              0.  : elastic scattering
-         ncasc =           1176.  : nuclear reaction model
+         elast =              3.  : elastic scattering
+         ncasc =          12153.  : nuclear reaction model
 
        bertini =              0.  : Bertini model
         isobar =              0.  : isobar model
            JAM =              0.  : JAM model
            QMD =              0.  : JQMD model
         JAMQMD =              0.  : JAMQMD model
-          INCL =           1176.  : INCL model
+          INCL =          12150.  : INCL model
         INCELF =              0.  : INCELF model
      frag data =              0.  : user defined cross section
        SCINFUL =              0.  : SCINFUL mode
