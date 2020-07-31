@@ -6,45 +6,45 @@ imported into and used by scripts for processing DCHIAN output.  They are summar
 
 ### General Purpose Functions
 
-- Dname_to_ZAM                               : converts a DCHAIN-formatted nuclide name to a ZZZAAAM number
-- ZAM_to_Dname                               : converts a ZZZAAAM number to a DCHAIN-formatted nuclide name
-- Dname_to_Latex                             : converts a DCHAIN-formatted nuclide name to pretty LaTeX formatting
-- nuclide_plain_str_to_Dname                 : converts a plaintext string for a nuclide to a DCHAIN-formatted nuclide name string
+- `Dname_to_ZAM`                               : converts a DCHAIN-formatted nuclide name to a ZZZAAAM number
+- `ZAM_to_Dname`                               : converts a ZZZAAAM number to a DCHAIN-formatted nuclide name
+- `Dname_to_Latex`                             : converts a DCHAIN-formatted nuclide name to pretty LaTeX formatting
+- `nuclide_plain_str_to_Dname`                 : converts a plaintext string for a nuclide to a DCHAIN-formatted nuclide name string
 
 ### Relating to DCHAIN data libraries  
 
-- rxn_to_dchain_str                          : converts a reaction to the format used by the neutron reaction cross section libraries
-- ZZZAAAM_to_dchain_xs_lib_str               : converts a ZZZAAAM number to the 7-character nuclide string used by the n rxn xs libs
-- ECCO1968_Ebins                             : returns the n highest energy bins of the ECCO 1968-group structure
-- retrieve_rxn_xs_from_lib                   : returns cross section for a reaction from a provided n rxn xs library file
-- calc_one_group_nrxn_xs_dchain              : provided a neutron flux, reaction, and library file, determine 1-grp nrxn xs
+- `rxn_to_dchain_str`                          : converts a reaction to the format used by the neutron reaction cross section libraries
+- `ZZZAAAM_to_dchain_xs_lib_str`               : converts a ZZZAAAM number to the 7-character nuclide string used by the n rxn xs libs
+- `ECCO1968_Ebins`                             : returns the n highest energy bins of the ECCO 1968-group structure
+- `retrieve_rxn_xs_from_lib`                   : returns cross section for a reaction from a provided n rxn xs library file
+- `calc_one_group_nrxn_xs_dchain`              : provided a neutron flux, reaction, and library file, determine 1-grp nrxn xs
 
 ###  DCHAIN output file parsing 
-- parse_DCHAIN_act_file                      : parser for the *.act file from DCHAIN
-- generate_nuclide_time_profiles             : processes nuclide output from parse_DCHAIN_act_file into a more usable form
-- parse_DCHAIN_act_file_legacy               : legacy version of parse_DCHAIN_act_file from before error implementation
-- generate_nuclide_time_profiles_legacy      : legacy version of generate_nuclide_time_profiles from before error implementation
-- parse_DCS_file_from_DCHAIN                 : parser for the *.dcs file from DCHAIN
-- parse_dtrk_file                            : parser for the *.dtrk file from PHITS meant for DCHAIN
-- parse_dyld_files                           : parser for the *.dyld files from PHITS meant for DCHAIN
-- process_dchain_simulation_output           : the main master function for parsing ALL DCHAIN output
+- `parse_DCHAIN_act_file`                      : parser for the *.act file from DCHAIN
+- `generate_nuclide_time_profiles`             : processes nuclide output from parse_DCHAIN_act_file into a more usable form
+- `parse_DCHAIN_act_file_legacy`               : legacy version of parse_DCHAIN_act_file from before error implementation
+- `generate_nuclide_time_profiles_legacy`      : legacy version of generate_nuclide_time_profiles from before error implementation
+- `parse_DCS_file_from_DCHAIN`                 : parser for the *.dcs file from DCHAIN
+- `parse_dtrk_file`                            : parser for the *.dtrk file from PHITS meant for DCHAIN
+- `parse_dyld_files`                           : parser for the *.dyld files from PHITS meant for DCHAIN
+- `process_dchain_simulation_output`           : **This is main master function for parsing DCHAIN output and is generally the function one should use for this purpose.**
 
 ###  DCHAIN output data plotting 
-- plot_top10_nuclides                        : generates a nice visualization on the ranking of nuclides
+- `plot_top10_nuclides`                        : generates a nice visualization on the ranking of nuclides
 
 
 ###  Other 
-- find                                       : return index of the first instance of a value in a list
-- Element_Z_to_Sym                           : returns elemental symbol provided the atomic number Z
-- Element_Sym_to_Z                           : returns an atomic number Z provided the elemental symbol
-- Element_ZorSym_to_name                     : returns a string of the name of an element provided its atomic number Z or symbol
-- Element_ZorSym_to_mass                     : returns the average atomic mass of an element provided its atomic number Z or symbol
-- nuclide_to_Latex_form                      : form a LaTeX-formatted string of a nuclide provided its information
-- nuclide_plain_str_to_latex_str             : convert a plaintext string for a nuclide to a LaTeX formatted raw string
-- nuclide_plain_str_ZZZAAAM                  : convert a plaintext string for a nuclide to an integer ZZZAAAM value
-- time_str_to_sec_multiplier                 : determine multiplier to convert a time unit to seconds
-- seconds_to_dhms                            : convert a time in seconds to a string of human-relatable time units
-- seconds_to_ydhms                           : convert a time in seconds to a string of human-relatable time units (also with years)
+- `find`                                       : return index of the first instance of a value in a list
+- `Element_Z_to_Sym`                           : returns elemental symbol provided the atomic number Z
+- `Element_Sym_to_Z`                           : returns an atomic number Z provided the elemental symbol
+- `Element_ZorSym_to_name`                     : returns a string of the name of an element provided its atomic number Z or symbol
+- `Element_ZorSym_to_mass`                     : returns the average atomic mass of an element provided its atomic number Z or symbol
+- `nuclide_to_Latex_form`                      : form a LaTeX-formatted string of a nuclide provided its information
+- `nuclide_plain_str_to_latex_str`             : convert a plaintext string for a nuclide to a LaTeX formatted raw string
+- `nuclide_plain_str_ZZZAAAM`                  : convert a plaintext string for a nuclide to an integer ZZZAAAM value
+- `time_str_to_sec_multiplier`                 : determine multiplier to convert a time unit to seconds
+- `seconds_to_dhms`                            : convert a time in seconds to a string of human-relatable time units
+- `seconds_to_ydhms`                           : convert a time in seconds to a string of human-relatable time units (also with years)
 
 '''
 
@@ -63,7 +63,15 @@ from munch import *
 
 def Dname_to_ZAM(Dname):
     '''
-    Converts a DCHAIN-formatted nuclide name to a ZZZAAAM number
+    Description:
+        Converts a DCHAIN-formatted nuclide name to a ZZZAAAM number
+    
+    Inputs:
+        - `Dname` = nuclide identification string in DCHAIN format 
+       
+    Outputs:
+        - `ZZZAAAM` = nuclide identification ineger, calculated as 10000\*Z + 10\*A + m
+    
     '''
     elms = ["n ",\
             "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
@@ -94,7 +102,14 @@ def Dname_to_ZAM(Dname):
 
 def ZAM_to_Dname(ZAM):
     '''
-    Converts a ZZZAAAM number to a DCHAIN-formatted nuclide name
+    Description:
+        Converts a ZZZAAAM number to a DCHAIN-formatted nuclide name
+       
+    Inputs:
+        - `ZZZAAAM` = nuclide identification ineger, calculated as 10000\*Z + 10\*A + m
+        
+    Outputs:
+        - `Dname` = nuclide identification string in DCHAIN format 
     '''
     elms = ["n ",\
             "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
@@ -121,7 +136,14 @@ def ZAM_to_Dname(ZAM):
 
 def Dname_to_Latex(Dname):
     '''
-    Converts a DCHAIN-formatted nuclide name to a ZZZAAAM number
+    Description:
+        Converts a DCHAIN-formatted nuclide name to a LaTeX-formatted string
+    
+    Inputs:
+        - `Dname` = nuclide identification string in DCHAIN format 
+       
+    Outputs:
+        - nuclide name as a LaTeX-formatted raw string
     '''
     AAA = Dname[2:5].strip()
     symbol = Dname[0:2].strip()
@@ -136,20 +158,20 @@ def nuclide_plain_str_to_Dname(nuc_str):
         Converts a plaintext string of a nuclide to a DCHAIN-formatted nuclide string
     
     Dependencies:
-        - nuclide_plain_str_ZZZAAAM 
-        - ZAM_to_Dname 
+        - `nuclide_plain_str_ZZZAAAM` 
+        - `ZAM_to_Dname`
     
-    Input:
+    Inputs:
     
-       - nuc_str = string to be converted; a huge variety of formats are supported, but they all must follow the following rules:
+       - `nuc_str` = string to be converted; a huge variety of formats are supported, but they all must follow the following rules:
             + Isomeric/metastable state characters must always immediately follow the atomic mass characters.
                 Isomeric state labels MUST either:
                   - (1) be a single lower-case character
                   - (2) begin with any non-numeric character and end with a number
-            + Atomic mass numbers must be nonnegative integers OR the string "nat" (in which case no metastable states can be written)
+            + Atomic mass numbers must be nonnegative integers OR the string `"nat"` (in which case no metastable states can be written)
             + Elemental symbols MUST begin with an upper-case character    
     
-    Output:
+    Outputs:
         - DCHAIN-formatted string of nuclide name
     '''
     return ZAM_to_Dname(nuclide_plain_str_ZZZAAAM(nuc_str))
@@ -160,17 +182,18 @@ def rxn_to_dchain_str(target,reaction=None,product=None):
         Provided a target nuclide and reaction, and optionally a target, generate a reaction string in the format used in DCHAIN's nrxn libs
     
     Dependencies:
-        nuclide_plain_str_ZZZAAAM (function within the "Hunter's tools" package)
-        ZZZAAAM_to_dchain_xs_lib_str 
+        `nuclide_plain_str_ZZZAAAM`
+        
+        `ZZZAAAM_to_dchain_xs_lib_str`
     
     Inputs:
-        - target = string in general format of target nuclide
+        - `target` = string in general format of target nuclide
         - Note: at least one of the below options must be provided.
-             - reaction = (optional) either an int MT number (ENDF6 format) or a string of the ejectiles from the neutron reaction (case-insensitive), the "X" in (N,X)
-             - product = (optional) string in general format of product nuclide (if omitted, product in ground state is assumed)
+             - `reaction` = (optional) either an int MT number (ENDF6 format) or a string of the ejectiles from the neutron reaction (case-insensitive), the "X" in (N,X)
+             - `product` = (optional) string in general format of product nuclide (if omitted, product in ground state is assumed)
     
-    Output:
-        - rxn_dchain_str = string formatted identically as that found in DCHAIN's neutron rxn xs libs
+    Outputs:
+        - `rxn_dchain_str` = string formatted identically as that found in DCHAIN's neutron reaction cross section libraries
     '''
     
     if not reaction and not product:
@@ -264,7 +287,14 @@ def rxn_to_dchain_str(target,reaction=None,product=None):
         
 def ZZZAAAM_to_dchain_xs_lib_str(ZZZAAAM):
     '''
-    Converts a ZZZAAAM number to the 7-character nuclide string used by the DCHAIN neutron reaction cross section libraries.
+    Description:
+       Converts a ZZZAAAM number to the 7-character nuclide string used by the DCHAIN neutron reaction cross section libraries.
+       
+    Inputs:
+        - `ZZZAAAM` = nuclide identification ineger, calculated as 10000\*Z + 10\*A + m
+        
+    Outputs:
+        - `D_xs_name` = nuclide identification string in DCHAIN's cross section library format 
     '''
     ZAM_str = str(ZZZAAAM)
     M = int(ZAM_str[-1])
@@ -280,7 +310,14 @@ def ZZZAAAM_to_dchain_xs_lib_str(ZZZAAAM):
 
 def ECCO1968_Ebins(n):
     '''
-    Returns the n highest energy bin values of the ECCO 1968-group energy binning structure.
+    Description:
+        Returns the n highest energy bin values of the ECCO 1968-group energy binning structure.
+        
+    Inputs:
+        - `n` = number of energy bins (from 20 MeV down) to be returned 
+    
+    Outputs:
+        - list of `n` energy bins of the ECCO 1968-group structure 
     '''
     ECCO_bins = [
         1.964033E+01,1.947734E+01,1.931570E+01,1.915541E+01,1.899644E+01,1.883880E+01,1.868246E+01,1.852742E+01,1.837367E+01,1.822119E+01,1.806998E+01,1.792002E+01,1.777131E+01,1.762383E+01,1.747757E+01,1.733253E+01,1.718869E+01,1.704605E+01,1.690459E+01,1.676430E+01,1.662518E+01,
@@ -400,20 +437,21 @@ def retrieve_rxn_xs_from_lib(libfile,target,reaction=None,product=None):
         about a reaction, return that reaction's cross section.
     
     Dependencies:
-        rxn_to_dchain_str
-        ECCO1968_Ebins
+        `rxn_to_dchain_str` 
+        
+        `ECCO1968_Ebins`
     
     Inputs:
-        - libfile = string of file path to data library file to be searched
-        - target = string in general format of target nuclide
-        - reaction = (optional) either an int MT number (ENDF6 format) or a string of the ejectiles from the neutron reaction (case-insensitive), the "X" in (N,X)
-                   if reaction = 'tot' or 'total', the summed total transmutation xs (reactions which change the target's nuclide species) is provided and input for product is ignored; 
+        - `libfile` = string of file path to data library file to be searched
+        - `target` = string in general format of target nuclide
+        - `reaction` = (optional) either an int MT number (ENDF6 format) or a string of the ejectiles from the neutron reaction (case-insensitive), the "X" in (N,X)
+                   if `reaction = 'tot'` or `'total'`, the summed total transmutation xs (reactions which change the target's nuclide species) is provided and input for product is ignored; 
                    this behavior is also assumed when missing both reaction and product information
-        - product = (optional) string in general format of product nuclide (if omitted, sum of all isomeric states is assumed; if provided product but not isomeric state, ground state is assumed)
+        - `product` = (optional) string in general format of product nuclide (if omitted, sum of all isomeric states is assumed; if provided product but not isomeric state, ground state is assumed)
         
     Outputs:
-        - xs = a 2x1968 numpy array containing energy [eV] (i=0) and cross sections [b] (i=1) for all 1968 ECCO bins
-        - rxn_tex_str = a LaTeX-formatted string of the reaction
+        - `xs` = a 2x1968 numpy array containing energy [eV] (i=0) and cross sections [b] (i=1) for all 1968 ECCO bins
+        - `rxn_tex_str` = a LaTeX-formatted string of the reaction
     '''
     
     datafolder, lib = os.path.split(libfile.replace('_n_act_xs_lib',''))
@@ -575,17 +613,18 @@ def calc_one_group_nrxn_xs_dchain(neutron_flux,neutron_flux_errors,libfile,targe
         Combines a neutron flux and cross section into a flux-weighted single-group cross section.
         
     Inputs:
-        - neutron_flux = 1D array of flux values
-        - neutron_flux_errors = 1D array of flux absolute uncertainties
-        - libfile = string of file path to data library file to be searched
-        - target = string in general format of target nuclide
-        - reaction = (optional) either an int MT number (ENDF6 format) or a string of the ejectiles from the neutron reaction (case-insensitive), the "X" in (N,X)
-                   if reaction = 'tot' or 'total', the summed total transmutation xs (reactions which change the target's nuclide species) is provided and input for product is ignored; 
-                   this behavior is also assumed when missing both reaction and product information
-        - product = (optional) string in general format of product nuclide (if omitted, sum of all isomeric states is assumed; if provided product but not isomeric state, ground state is assumed)
+        - `neutron_flux` = 1D array of flux values
+        - `neutron_flux_errors` = 1D array of flux absolute uncertainties
+        - `libfile` = string of file path to data library file to be searched
+        - `target` = string in general format of target nuclide
+        - `reaction` = (optional) either an int MT number (ENDF6 format) or a string of the ejectiles from the neutron reaction (case-insensitive), the "X" in (N,X)
+                   
+              if `reaction = 'tot'` or `'total'`, the summed total transmutation xs (reactions which change the target's nuclide species) is provided and input for product is ignored; 
+              this behavior is also assumed when missing both reaction and product information
+        - `product` = (optional) string in general format of product nuclide (if omitted, sum of all isomeric states is assumed; if provided product but not isomeric state, ground state is assumed)
         
-    Output:
-        - xs = a length-2 list of the single group cross section and its absolute uncertainty
+    Outputs:
+        - `xs` = a length-2 list of the single group cross section and its absolute uncertainty
     '''
     
     xs_out, rxn_str_out = retrieve_rxn_xs_from_lib(libfile,target,reaction,product)
@@ -610,9 +649,10 @@ def calc_one_group_nrxn_xs_dchain(neutron_flux,neutron_flux_errors,libfile,targe
 
 def parse_DCHAIN_act_file_legacy(act_file_path):
     '''
-    This code parses the .act file generated by DCHAIN (without uncertainty values)
+    Description:
+       This code parses the .act file generated by DCHAIN (without uncertainty values)
     
-    Input:
+    Inputs:
         - path to a DCHAIN-generated .act file
         
     Outputs:
@@ -840,8 +880,12 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
 
 def generate_nuclide_time_profiles_legacy(nuclides_info_array):
     '''
-    Reformats DCHAIN's tabular nuclide data into time profiles of each nuclide in each region (without uncertainty values)
-    Inputs: the `nuclides_produced' array from function "parse_DCHAIN_act_file"
+    Description:
+        Reformats DCHAIN's tabular nuclide data into time profiles of each nuclide in each region (without uncertainty values)
+    
+    Inputs:
+       - the `nuclides_produced' array from function "parse_DCHAIN_act_file"
+       
     Outputs:
        - List of length R of lists containing names of nuclides produced in each region 
        - List of length R of lists containing LaTeX-formatted names of nuclides produced in each region 
@@ -909,8 +953,12 @@ def generate_nuclide_time_profiles_legacy(nuclides_info_array):
 
 def parse_DCHAIN_act_file(act_file_path):
     '''
-    This code parses the .act file generated by DCHAIN
-    Inputs: path to a DCHAIN-generated .act file
+    Description: 
+         This code parses the .act file generated by DCHAIN
+    
+    Inputs:
+        - path to a DCHAIN-generated .act file
+    
     Outputs:
         - length R list of region numbers 
         - length T list of measurement times (in sec) from start of irradiation
@@ -1198,7 +1246,8 @@ def parse_DCHAIN_act_file(act_file_path):
 
 def generate_nuclide_time_profiles(nuclides_info_array):
     '''
-    Reformats DCHAIN's tabular nuclide data into time profiles of each nuclide in each region
+    Description:
+        Reformats DCHAIN's tabular nuclide data into time profiles of each nuclide in each region
     
     Inputs:
        - the `nuclides_produced` array from function "parse_DCHAIN_act_file"
@@ -1282,20 +1331,21 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
         Parse a decay chain information file produced by DCHAIN-SP
     
     Dependencies:
-        import numpy as np
-        import time
+        `import numpy as np`
+        
+        `import time`
     
     Inputs:
        (required)
        
-       - filepath = string, path to DCS file
+       - `filepath` = string, path to DCS file
         
     Inputs:
        (optional, keyword)
        
-       - print_progress = logical variable denoting whether time and significant nuclide info will be printed while scanning file (D=False)
-       - nch_max = maximum number of chains per isotope (D=100)
-       - relevancy_threshold = what fraction of total activity must a nuclide contribute to be deemed relevant
+       - `print_progress` = logical variable denoting whether time and significant nuclide info will be printed while scanning file (D=`False`)
+       - `nch_max` = maximum number of chains per isotope (D=`100`)
+       - `relevancy_threshold` = what fraction of total activity must a nuclide contribute to be deemed relevant
         
     Outputs:
        
@@ -1308,16 +1358,16 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
        |   L (chln_max) | maximum number of links per chain |
        
         
-        - 0) inventory    = universal columns of DCS file [R,T,N,C,vi], vi: 0=N_i-1/V, 1=dN/V, 2=N_i/V, 3=A_i/V, 4=A_i
-        - 1) l_chains     = [R,T,N,C], length of listed chain
-        - 2) prod_nuc     = [R,T,N], strings of the nuclide being produced
-        - 3) chn_indx     = [R,T,N], lists of the chain indices printed
-        - 4) link_nuc     = [R,T,N,C,L], strings of the nuclides in each chain
-        - 5) decay_mode   = [R,T,N,C,L], strings of the decay modes each link undergoes to produce the next link
-        - 6) link_dN_info = [R,T,N,C,L,di], extra dN info di: 0=dN_Beam, 1=dN_Decay/nrxn, 2=dN_Total (only generated if these values are found in file, 'None' otherwise)
-        - 7) end_of_irradiation_time = time of end of final irradiation step [seconds]
-        - 8) notable_nuclides_names_by_region = list of lists (one per region) containing the relevant nuclides per region
-        - 9) notable_nuclides_AvT_by_region   = list of arrays (one per region, [T,N_rlv-nuc,3]) containing the time[s]/inventory[atm/cc]/activity[Bq/cc] data of relevant nuclides
+        - 0) `inventory`    = universal columns of DCS file `[R,T,N,C,vi]`, vi: 0=N_i-1/V, 1=dN/V, 2=N_i/V, 3=A_i/V, 4=A_i
+        - 1) `l_chains`     = `[R,T,N,C]`, length of listed chain
+        - 2) `prod_nuc`     = `[R,T,N]`, strings of the nuclide being produced
+        - 3) `chn_indx`     = `[R,T,N]`, lists of the chain indices printed
+        - 4) `link_nuc`     = `[R,T,N,C,L]`, strings of the nuclides in each chain
+        - 5) `decay_mode`   = `[R,T,N,C,L]`, strings of the decay modes each link undergoes to produce the next link
+        - 6) `link_dN_info` = `[R,T,N,C,L,di]`, extra dN info di: 0=dN_Beam, 1=dN_Decay/nrxn, 2=dN_Total (only generated if these values are found in file, 'None' otherwise)
+        - 7) `end_of_irradiation_time` = time of end of final irradiation step [seconds]
+        - 8) `notable_nuclides_names_by_region` = list of lists (one per region) containing the relevant nuclides per region
+        - 9) `notable_nuclides_AvT_by_region`   = list of arrays (one per region, `[T,N_rlv-nuc,3]`) containing the time[s]/inventory[atm/cc]/activity[Bq/cc] data of relevant nuclides
     '''
     global start
     
@@ -1598,14 +1648,14 @@ def parse_dtrk_file(path_to_dtrk_file,return_metadata=False):
         This works for region, xyz, and tetrahedral mesh geometries in either the original or reduced format.
         
     Inputs:
-        - path_to_dtrk_file = path to the T-Track tally output file to be parsed
-        - return_metadata = Boolean indicating whether additional information is outputted with the flux
+        - `path_to_dtrk_file` = path to the T-Track tally output file to be parsed
+        - `return_metadata` = Boolean indicating whether additional information is outputted with the flux (D=`False`)
         
-    Output:
-        - flux = a RxEx4 array containing regionwise fluxes [Elower/Eupper/flux/abs_error]
-        - dtrk_metadata (only returned if return_metadata=True) = list of length two
-               - dtrk_metadata[0] = string denoting axis type 'eng' (old full format) or 'dchain' (new reduced format)
-               - dtrk_metadata[1] = string denoting mesh type as either 'reg', 'xyz', or 'tet'
+    Outputs:
+        - `flux` = a RxEx4 array containing regionwise fluxes [Elower/Eupper/flux/abs_error]
+        - `dtrk_metadata` (only returned if `return_metadata=True`) = list of length two
+               - `dtrk_metadata[0]` = string denoting axis type 'eng' (old full format) or 'dchain' (new reduced format)
+               - `dtrk_metadata[1]` = string denoting mesh type as either 'reg', 'xyz', or 'tet'
     '''
     
     # Extract text from file
@@ -1709,17 +1759,17 @@ def parse_dyld_files(path_to_dyld_file,iredufmt=None):
         This works for region, xyz, and tetrahedral mesh geometries in either the original or reduced format.
         
     Inputs:
-        - path_to_dyld_file = path to the T-Yield tally output file to be parsed 
+        - `path_to_dyld_file` = path to the T-Yield tally output file to be parsed 
                            (the *_err.dyld file of the same name is automatically searched for and read, if present)
-        - iredufmt = (DEPRICATED; this is now determined automatically)
+        - `iredufmt` = (DEPRICATED; this is now determined automatically)
                    integer 1 or 0 specifying how the xyz meshes are ordered relative to the internal region numbers.
                    In the new format (1), region indices are incremented as x->y->z (x=innermost loop); this is reversed in the old format (0).
                    Ultimately, this corresponds to the same iredufmt parameter in PHITS/DCHAIN, 1='new' and 0='old'.
                    This variable is only used for xyz meshes where this ordering matters.
         
-    Output:
-        - yields = a RxNx2 array containing regionwise yields (and their absolute uncertainties) for all nuclides produced in T-Yield
-        - nuclide_names_yld = a length N list of all nuclide names in order
+    Outputs:
+        - `yields` = a RxNx2 array containing regionwise yields (and their absolute uncertainties) for all nuclides produced in T-Yield
+        - `nuclide_names_yld` = a length N list of all nuclide names in order
     '''
     
     # Extract text from file
@@ -1893,17 +1943,18 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
         from munch import *
     
     Inputs:
-        - simulation_folder_path = text string of path to folder containing simulation output (should end with / or \)
-        - simulation_basename = common string of the DCHAIN simulations; output files are named THIS_NAME.*
-        - dtrk_filepath = file path to \*.dtrk file, only necessary if it has a different basename and there are multiple \*.dtrk files in the folder
-        - dyld_filepath = file path to \*.dyld files, only necessary if it has a different basename and there are multiple \*.dyld files in the folder
-        - process_DCS_file (optional) = Boolean variable specifying whether the DCS file should be processed too. (D=False)
+        - `simulation_folder_path` = text string of path to folder containing simulation output (should end with / or \)
+        - `simulation_basename` = common string of the DCHAIN simulations; output files are named THIS_NAME.*
+        - `dtrk_filepath` = file path to \*.dtrk file, only necessary if it has a different basename and there are multiple \*.dtrk files in the folder
+        - `dyld_filepath` = file path to \*.dyld files, only necessary if it has a different basename and there are multiple \*.dyld files in the folder
+        - `process_DCS_file` (optional) = Boolean variable specifying whether the DCS file should be processed too. (D=False)
         
-    Output:
-        - dchain_output = a dictionary object containing all information from DCHAIN's output files.  See the keys breakdown below.
-                       Technically, it tries to return a "munchify" object which can be used both exactly like a dictionary but also 
-                       provides attribute-style access like a namedtuple or Class object such as dchain_output.time.of_EOB_sec rather
-                       than the dictionary style dchain_output['time']['of_EOB_sec']
+    Outputs:
+        - `dchain_output` = a dictionary object containing all information from DCHAIN's output files.  See the keys breakdown below.
+                       
+            Technically, it tries to return a "munchify" object which can be used both exactly like a dictionary but also 
+            provides attribute-style access like a namedtuple or Class object such as `dchain_output.time.of_EOB_sec` rather
+            than the dictionary style `dchain_output['time']['of_EOB_sec']`
         
    
     dchain_output dictionary structure:
@@ -2544,30 +2595,30 @@ def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis
         Generate a nice plot illustrating dominant nuclides as a function of time or region
     
     Dependencies:
-        - import numpy as np
-        - import matplotlib.pyplot as plt
-        - process_dchain_simulation_output (funcion in dchain_tools.py)
+        - `import numpy as np`
+        - `import matplotlib.pyplot as plt`
+        - `process_dchain_simulation_output`
     
     Inputs:
         (required)
         
-        - dchain_output = dictionary output from the process_dchain_simulation_output for a simulation
+        - `dchain_output` = dictionary output from the process_dchain_simulation_output for a simulation
         
     Inputs:
         (optional, keyword)
        
-        - rank_val = which top 10 list is selected. (D='activity', options include 'activity', 'decay_heat', and 'gamma_dose')
-        - xaxis_val = value to be plotted on x-axis; can be either "time" (default) or "region"
-        - xaxis_type = space xaxis entries either equally by "indices" (default) or realistically by "values"
-        - regions = list of region numbers (or individual value) to generate plots for (D=None, plotting all regions)
-        - region_indices = same as above but uses indices rather than region numbers; this has higher priority if specified (D=None, plot all regions)
-        - times = list of times (from start in seconds) (or individual value) to generate plots for (D=None, plotting all times)
-        - time_indices = same as above but uses indices rather than time values; this has higher priority if specified (D=None, plot all times)
-        - rank_cutoff = highest rank (or number of ranks) to be displayed (D=10, cannot be any greater than 10)
-        - xscale = string specifying scale of x-axis, either 'linear' (default) or 'log'
+        - `rank_val` = which top 10 list is selected. (D=`'activity'`, options include `'activity'`, `'decay_heat'`, and `'gamma_dose'`)
+        - `xaxis_val` = value to be plotted on x-axis; can be either `"time"` (default) or `"region"`
+        - `xaxis_type` = space xaxis entries either equally by `"indices"` (default) or realistically by `"values"`
+        - `regions` = list of region numbers (or individual value) to generate plots for (D=`None`, plotting all regions)
+        - `region_indices` = same as above but uses indices rather than region numbers; this has higher priority if specified (D=`None`, plot all regions)
+        - `times` = list of times (from start in seconds) (or individual value) to generate plots for (D=`None`, plotting all times)
+        - `time_indices` = same as above but uses indices rather than time values; this has higher priority if specified (D=`None`, plot all times)
+        - `rank_cutoff` = highest rank (or number of ranks) to be displayed (D=`10`, cannot be any greater than 10)
+        - `xscale` = string specifying scale of x-axis, either `'linear'` (default) or `'log'`
         
     Outputs:
-        - fig_list = list of figures which can be plotted.
+        - `fig_list` = list of figures which can be plotted.
     '''
     
     max_nregs = len(dchain_output['region']['numbers'])
@@ -2807,17 +2858,17 @@ def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis
 '''
 
 def find(target, myList):
-    """
+    '''
     Description:
         Search for and return the index of the first occurance of a value in a list.
-    
-    Inputs:
-        - target = value to be searched for
-        - myList = list of values 
         
-    Output:
-        - index of first instance of 'target' in 'myList'
-    """
+    Inputs:
+        - `target` = value to be searched for
+        - `myList` = list of values 
+        
+    Outputs:
+        - index of first instance of `target` in `myList`
+    '''
     for i in range(len(myList)):
         if myList[i] == target:
             return i
@@ -2829,10 +2880,10 @@ def Element_Z_to_Sym(Z):
         Returns elemental symbol for a provided atomic number Z        
     
     Inputs:
-        - Z = atomic number 
+        - `Z` = atomic number 
     
     Outputs:
-        - string of elemental symbol for element of atomic number Z
+        - `sym` = string of elemental symbol for element of atomic number Z
     '''
     elms = ["n ",\
             "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
@@ -2859,13 +2910,13 @@ def Element_Sym_to_Z(sym):
         Returns atomic number Z for a provided elemental symbol        
     
     Dependencies:
-        find (function within the "Hunter's tools" package)
+        `find` 
     
     Inputs:
-        - sym = string of elemental symbol for element of atomic number Z
+        - `sym` = string of elemental symbol for element of atomic number Z
     
     Outputs:
-        - Z = atomic number 
+        - `Z` = atomic number 
     '''
     elms = ["n ",\
             "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
@@ -2908,10 +2959,10 @@ def Element_ZorSym_to_name(Z):
         Returns an element's name provided its atomic number Z or elemental symbol        
     
     Inputs:
-        - Z = string of elemental symbol or atomic number Z
+        - `Z` = string of elemental symbol or atomic number Z
     
     Outputs:
-        - name = element name
+        - `name` = element name
     '''
     element_names = ['neutron','Hydrogen','Helium','Lithium','Beryllium','Boron','Carbon','Nitrogen','Oxygen','Fluorine',
                      'Neon','Sodium','Magnesium','Aluminium','Silicon','Phosphorus','Sulfur','Chlorine','Argon',
@@ -2941,10 +2992,10 @@ def Element_ZorSym_to_mass(Z):
         Returns an element's average atomic mass provided its atomic number Z or elemental symbol        
     
     Inputs:
-        - Z = string of elemental symbol or atomic number Z
+        - `Z` = string of elemental symbol or atomic number Z
     
     Outputs:
-        - A_avg = average atomic mass
+        - `A_avg` = average atomic mass
     '''
     
     average_atomic_masses = [1.008664,1.007,4.002602,6.941,9.012182,10.811,12.0107,14.0067,15.9994,18.9984032,
@@ -2971,13 +3022,13 @@ def nuclide_to_Latex_form(Z,A,m=''):
         Form a LaTeX-formatted string of a nuclide provided its information
     
     Dependencies:
-        Element_Z_to_Sym (function within the "Hunter's tools" package)
+        `Element_Z_to_Sym` 
         (only required if inputed Z is not already an elemental symbol)
     
     Inputs:
-        - Z = atomic number of nuclide (int, float, or string) or elemental symbol (string)
-        - A = atomic mass of nuclide (int, float, or string) or string to go in place of A (ex. 'nat')
-        - m = metastable state (D='', ground state); this will be appended to the end of A
+        - `Z` = atomic number of nuclide (int, float, or string) or elemental symbol (string)
+        - `A` = atomic mass of nuclide (int, float, or string) or string to go in place of A (ex. 'nat')
+        - `m` = metastable state (D='', ground state); this will be appended to the end of A
               if not a string already, it will be converted into one and appended to 'm' (ex. 1 -> 'm1')
     
     Outputs:
@@ -2997,25 +3048,25 @@ def nuclide_plain_str_to_latex_str(nuc_str,include_Z=False):
         Note: if you already have the Z, A, and isomeric state information determined, the "nuclide_to_Latex_form" function can be used instead
     
     Dependencies:
-        - Element_Z_to_Sym (function within the "Hunter's tools" package) (only required if include_Z = True)
+        - `Element_Z_to_Sym` (only required if `include_Z = True`)
     
-    Input:
+    Inputs:
         (required)
      
-       - nuc_str = string to be converted; a huge variety of formats are supported, but they all must follow the following rules:
+       - `nuc_str` = string to be converted; a huge variety of formats are supported, but they all must follow the following rules:
            + Isomeric/metastable state characters must always immediately follow the atomic mass characters.
                Isomeric state labels MUST either:
-               - (1) be a single lower-case character
+               - (1) be a single lower-case character OR 
                - (2) begin with any non-numeric character and end with a number
-           + Atomic mass numbers must be nonnegative integers OR the string "nat" (in which case no metastable states can be written)
+           + Atomic mass numbers must be nonnegative integers OR the string `"nat"` (in which case no metastable states can be written)
            + Elemental symbols MUST begin with an upper-case character
     
-    Input:
+    Inputs:
        (optional)
         
-       - include_Z = True/False determining whether the nuclide's atomic number Z will be printed as a subscript beneath the atomic mass
+       - `include_Z` = `True`/`False` determining whether the nuclide's atomic number Z will be printed as a subscript beneath the atomic mass
     
-    Output:
+    Outputs:
         - LaTeX-formatted raw string of nuclide
     '''
     tex_str = r''
@@ -3119,22 +3170,22 @@ def nuclide_plain_str_to_latex_str(nuc_str,include_Z=False):
 def nuclide_plain_str_ZZZAAAM(nuc_str):
     '''
     Description:
-        Converts a plaintext string of a nuclide to an integer ZZZAAAM = 10000*Z + 10*A + M
+        Converts a plaintext string of a nuclide to an integer ZZZAAAM = 10000\*Z + 10\*A + M
     
     Dependencies:
-        Element_Z_to_Sym (function within the "Hunter's tools" package)
+        `Element_Z_to_Sym` 
     
-    Input:
-       - nuc_str = string to be converted; a huge variety of formats are supported, but they all must follow the following rules:
+    Inputs:
+       - `nuc_str` = string to be converted; a huge variety of formats are supported, but they all must follow the following rules:
            + Isomeric/metastable state characters must always immediately follow the atomic mass characters.
                Isomeric state labels MUST either:
-               - (1) be a single lower-case character
+               - (1) be a single lower-case character OR 
                - (2) begin with any non-numeric character and end with a number
            + Atomic mass numbers must be nonnegative integers OR the string "nat" (in which case no metastable states can be written)
            + Elemental symbols MUST begin with an upper-case character
     
     
-    Output:
+    Outputs:
         - ZZZAAAM integer
     '''
     
@@ -3251,10 +3302,10 @@ def time_str_to_sec_multiplier(time_str):
         Provide a time unit and this function provides what those time units need to be multiplied by to obtain seconds.
     
     Inputs:
-        - time_str = string containing time units character(s) [s,m,h,d,y,ms,us,ns,ps,fs]
+        - `time_str` = string containing time units character(s) [s,m,h,d,y,ms,us,ns,ps,fs]
     
     Outputs:
-        - m = multiplier to convert a time of the supplied units to seconds
+        - `m` = multiplier to convert a time of the supplied units to seconds
     
     '''
     try:
@@ -3289,10 +3340,10 @@ def seconds_to_dhms(t_sec):
         Provide a time in seconds and obtain a string with the time in days, hours, minutes, and seconds
     
     Inputs:
-        - t_sec = a time in seconds (float or int)
+        - `t_sec` = a time in seconds (float or int)
     
     Outputs:
-        - time_str = string containing the time prettily formatted in d/h/m/s format
+        - `time_str` = string containing the time prettily formatted in d/h/m/s format
     
     '''
     m, s = divmod(t_sec, 60)
@@ -3318,10 +3369,10 @@ def seconds_to_ydhms(t_sec):
         Provide a time in seconds and obtain a string with the time in years, days, hours, minutes, and seconds
     
     Inputs:
-        - t_sec = a time in seconds (float or int)
+        - `t_sec` = a time in seconds (float or int)
     
     Outputs:
-        - time_str = string containing the time prettily formatted in y/d/h/m/s format
+        - `time_str` = string containing the time prettily formatted in y/d/h/m/s format
     
     '''
     m, s = divmod(t_sec, 60)
