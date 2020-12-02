@@ -1191,6 +1191,16 @@ def parse_DCHAIN_act_file(act_file_path):
                 rt_summary_info[ri,ti,3,0] = 0.0
                 rt_summary_info[ri,ti,4,0] = 0.0
         
+        if &#39;no gamma-ray&#39; in line:
+            rt_summary_info[ri,ti,0,0] = 0.0
+            rt_summary_info[ri,ti,1,0] = 0.0
+            rt_summary_info[ri,ti,2,0] = 0.0
+            rt_summary_info[ri,ti,0,1] = 0.0
+            rt_summary_info[ri,ti,1,1] = 0.0
+            rt_summary_info[ri,ti,2,1] = 0.0
+            rt_summary_info[ri,ti,3,0] = 0.0
+            rt_summary_info[ri,ti,4,0] = 0.0
+        
         # activation info specific to region and time
         if &#39;total activity&#39; in line:
             rt_summary_info[ri,ti,5,0] = float(line[24:36])
@@ -1294,7 +1304,15 @@ def parse_DCHAIN_act_file(act_file_path):
     column_headers[1] = [&#39;group number&#39;,&#39;bin energy lower-bound [MeV]&#39;,&#39;bin energy upper-bound [MeV]&#39;,&#39;flux [#/s/cc]&#39;,&#39;energy flux [MeV/s/cc]&#39;]
     for ri in range(nreg):
         for ti in range(ntimes):
-            if not act_block_text[ri,ti,1]: continue
+            if not act_block_text[ri,ti,1]: 
+                gamma_spectra[ri,ti,:,0,0] = None  # group number
+                gamma_spectra[ri,ti,:,1,0] = None  # bin energy lower-bound [MeV]
+                gamma_spectra[ri,ti,:,2,0] = None  # bin energy upper-bound [MeV]
+                gamma_spectra[ri,ti,:,3,0] = 0.0   # flux [#/s/cc]
+                gamma_spectra[ri,ti,:,4,0] = 0.0   # energy flux [MeV/s/cc]
+                gamma_spectra[ri,ti,:,3,1] = 0.0   # flux absolute error [#/s/cc]
+                gamma_spectra[ri,ti,:,4,1] = 0.0   # energy flux absolute error [MeV/s/cc]
+                continue
             table_text = act_block_text[ri,ti,1].split(&#39;\n&#39;)
             for ei in range(len(table_text)):
                 if ei &lt; header_len[1]: continue # in header lines
@@ -2669,9 +2687,9 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 &#39;link_nuclides&#39;:[link_nuc[ri,:,:,:,:] for ri in rilist],                   # [R][Td,Nd,C,L] strings of the nuclides in each chain
                 &#39;link_decay_modes&#39;:[decay_mode[ri,:,:,:,:] for ri in rilist],              # [R][Td,Nd,C,L] strings of the decay modes each link undergoes to produce the next link
                 &#39;link_dN&#39;:{
-                    &#39;beam&#39;:[link_dN_info[ri,:,:,:,:,0] for ri in rilist],                  # [R][Td,Nd,C,L] beam contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
-                    &#39;decay_nrxn&#39;:[link_dN_info[ri,:,:,:,:,1] for ri in rilist],            # [R][Td,Nd,C,L] decay + neutron rxn contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
-                    &#39;total&#39;:[link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
+                    &#39;beam&#39;:[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,0] for ri in rilist],                  # [R][Td,Nd,C,L] beam contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
+                    &#39;decay_nrxn&#39;:[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,1] for ri in rilist],            # [R][Td,Nd,C,L] decay + neutron rxn contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
+                    &#39;total&#39;:[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
                     }
                 },
             
@@ -5040,6 +5058,16 @@ Rank, [nuclide, A/cc, A, %], [nuclide, P/cc, P, %], [nuclide, H, %] with values 
                 rt_summary_info[ri,ti,3,0] = 0.0
                 rt_summary_info[ri,ti,4,0] = 0.0
         
+        if &#39;no gamma-ray&#39; in line:
+            rt_summary_info[ri,ti,0,0] = 0.0
+            rt_summary_info[ri,ti,1,0] = 0.0
+            rt_summary_info[ri,ti,2,0] = 0.0
+            rt_summary_info[ri,ti,0,1] = 0.0
+            rt_summary_info[ri,ti,1,1] = 0.0
+            rt_summary_info[ri,ti,2,1] = 0.0
+            rt_summary_info[ri,ti,3,0] = 0.0
+            rt_summary_info[ri,ti,4,0] = 0.0
+        
         # activation info specific to region and time
         if &#39;total activity&#39; in line:
             rt_summary_info[ri,ti,5,0] = float(line[24:36])
@@ -5143,7 +5171,15 @@ Rank, [nuclide, A/cc, A, %], [nuclide, P/cc, P, %], [nuclide, H, %] with values 
     column_headers[1] = [&#39;group number&#39;,&#39;bin energy lower-bound [MeV]&#39;,&#39;bin energy upper-bound [MeV]&#39;,&#39;flux [#/s/cc]&#39;,&#39;energy flux [MeV/s/cc]&#39;]
     for ri in range(nreg):
         for ti in range(ntimes):
-            if not act_block_text[ri,ti,1]: continue
+            if not act_block_text[ri,ti,1]: 
+                gamma_spectra[ri,ti,:,0,0] = None  # group number
+                gamma_spectra[ri,ti,:,1,0] = None  # bin energy lower-bound [MeV]
+                gamma_spectra[ri,ti,:,2,0] = None  # bin energy upper-bound [MeV]
+                gamma_spectra[ri,ti,:,3,0] = 0.0   # flux [#/s/cc]
+                gamma_spectra[ri,ti,:,4,0] = 0.0   # energy flux [MeV/s/cc]
+                gamma_spectra[ri,ti,:,3,1] = 0.0   # flux absolute error [#/s/cc]
+                gamma_spectra[ri,ti,:,4,1] = 0.0   # energy flux absolute error [MeV/s/cc]
+                continue
             table_text = act_block_text[ri,ti,1].split(&#39;\n&#39;)
             for ei in range(len(table_text)):
                 if ei &lt; header_len[1]: continue # in header lines
@@ -7369,9 +7405,9 @@ dchain_output.update({
                 &#39;link_nuclides&#39;:[link_nuc[ri,:,:,:,:] for ri in rilist],                   # [R][Td,Nd,C,L] strings of the nuclides in each chain
                 &#39;link_decay_modes&#39;:[decay_mode[ri,:,:,:,:] for ri in rilist],              # [R][Td,Nd,C,L] strings of the decay modes each link undergoes to produce the next link
                 &#39;link_dN&#39;:{
-                    &#39;beam&#39;:[link_dN_info[ri,:,:,:,:,0] for ri in rilist],                  # [R][Td,Nd,C,L] beam contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
-                    &#39;decay_nrxn&#39;:[link_dN_info[ri,:,:,:,:,1] for ri in rilist],            # [R][Td,Nd,C,L] decay + neutron rxn contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
-                    &#39;total&#39;:[link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
+                    &#39;beam&#39;:[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,0] for ri in rilist],                  # [R][Td,Nd,C,L] beam contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
+                    &#39;decay_nrxn&#39;:[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,1] for ri in rilist],            # [R][Td,Nd,C,L] decay + neutron rxn contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
+                    &#39;total&#39;:[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
                     }
                 },
             
