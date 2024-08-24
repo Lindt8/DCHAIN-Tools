@@ -11,7 +11,7 @@ imported into and used by scripts for processing DCHIAN output.  They are summar
 - `Dname_to_Latex`                             : converts a DCHAIN-formatted nuclide name to pretty LaTeX formatting
 - `nuclide_plain_str_to_Dname`                 : converts a plaintext string for a nuclide to a DCHAIN-formatted nuclide name string
 
-### Relating to DCHAIN data libraries  
+### Relating to DCHAIN data libraries
 
 - `rxn_to_dchain_str`                          : converts a reaction to the format used by the neutron reaction cross section libraries
 - `ZZZAAAM_to_dchain_xs_lib_str`               : converts a ZZZAAAM number to the 7-character nuclide string used by the n rxn xs libs
@@ -19,7 +19,7 @@ imported into and used by scripts for processing DCHIAN output.  They are summar
 - `retrieve_rxn_xs_from_lib`                   : returns cross section for a reaction from a provided n rxn xs library file
 - `calc_one_group_nrxn_xs_dchain`              : provided a neutron flux, reaction, and library file, determine 1-grp nrxn xs
 
-###  DCHAIN output file parsing 
+###  DCHAIN output file parsing
 - `parse_DCHAIN_act_file`                      : parser for the *.act file from DCHAIN
 - `generate_nuclide_time_profiles`             : processes nuclide output from parse_DCHAIN_act_file into a more usable form
 - `parse_DCHAIN_act_file_legacy`               : legacy version of parse_DCHAIN_act_file from before error implementation
@@ -29,11 +29,11 @@ imported into and used by scripts for processing DCHIAN output.  They are summar
 - `parse_dyld_files`                           : parser for the *.dyld files from PHITS meant for DCHAIN
 - `process_dchain_simulation_output`           : **This is main master function for parsing DCHAIN output and is generally the function one should use for this purpose.**
 
-###  DCHAIN output data plotting 
+###  DCHAIN output data plotting
 - `plot_top10_nuclides`                        : generates a nice visualization on the ranking of nuclides
 
 
-###  Other 
+###  Other
 - `find`                                       : return index of the first instance of a value in a list
 - `Element_Z_to_Sym`                           : returns elemental symbol provided the atomic number Z
 - `Element_Sym_to_Z`                           : returns an atomic number Z provided the elemental symbol
@@ -58,20 +58,20 @@ import re
 import bisect
 import unicodedata as ud
 #from  Hunters_tools import *
-from munch import *
+# from munch import *
 
 
 def Dname_to_ZAM(Dname):
     '''
     Description:
         Converts a DCHAIN-formatted nuclide name to a ZZZAAAM number
-    
+
     Inputs:
-        - `Dname` = nuclide identification string in DCHAIN format 
-       
+        - `Dname` = nuclide identification string in DCHAIN format
+
     Outputs:
         - `ZZZAAAM` = nuclide identification ineger, calculated as 10000\*Z + 10\*A + m
-    
+
     '''
     elms = ["n ",\
             "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
@@ -104,12 +104,12 @@ def ZAM_to_Dname(ZAM):
     '''
     Description:
         Converts a ZZZAAAM number to a DCHAIN-formatted nuclide name
-       
+
     Inputs:
         - `ZZZAAAM` = nuclide identification ineger, calculated as 10000\*Z + 10\*A + m
-        
+
     Outputs:
-        - `Dname` = nuclide identification string in DCHAIN format 
+        - `Dname` = nuclide identification string in DCHAIN format
     '''
     elms = ["n ",\
             "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
@@ -138,10 +138,10 @@ def Dname_to_Latex(Dname):
     '''
     Description:
         Converts a DCHAIN-formatted nuclide name to a LaTeX-formatted string
-    
+
     Inputs:
-        - `Dname` = nuclide identification string in DCHAIN format 
-       
+        - `Dname` = nuclide identification string in DCHAIN format
+
     Outputs:
         - nuclide name as a LaTeX-formatted raw string
     '''
@@ -156,21 +156,21 @@ def nuclide_plain_str_to_Dname(nuc_str):
     '''
     Description:
         Converts a plaintext string of a nuclide to a DCHAIN-formatted nuclide string
-    
+
     Dependencies:
-        - `nuclide_plain_str_ZZZAAAM` 
+        - `nuclide_plain_str_ZZZAAAM`
         - `ZAM_to_Dname`
-    
+
     Inputs:
-    
+
        - `nuc_str` = string to be converted; a huge variety of formats are supported, but they all must follow the following rules:
             + Isomeric/metastable state characters must always immediately follow the atomic mass characters.
                 Isomeric state labels MUST either:
                   - (1) be a single lower-case character
                   - (2) begin with any non-numeric character and end with a number
             + Atomic mass numbers must be nonnegative integers OR the string `"nat"` (in which case no metastable states can be written)
-            + Elemental symbols MUST begin with an upper-case character    
-    
+            + Elemental symbols MUST begin with an upper-case character
+
     Outputs:
         - DCHAIN-formatted string of nuclide name
     '''
@@ -180,49 +180,49 @@ def rxn_to_dchain_str(target,reaction=None,product=None):
     '''
     Desription:
         Provided a target nuclide and reaction, and optionally a target, generate a reaction string in the format used in DCHAIN's nrxn libs
-    
+
     Dependencies:
         `nuclide_plain_str_ZZZAAAM`
-        
+
         `ZZZAAAM_to_dchain_xs_lib_str`
-    
+
     Inputs:
         - `target` = string in general format of target nuclide
         - Note: at least one of the below options must be provided.
              - `reaction` = (optional) either an int MT number (ENDF6 format) or a string of the ejectiles from the neutron reaction (case-insensitive), the "X" in (N,X)
              - `product` = (optional) string in general format of product nuclide (if omitted, product in ground state is assumed)
-    
+
     Outputs:
         - `rxn_dchain_str` = string formatted identically as that found in DCHAIN's neutron reaction cross section libraries
     '''
-    
+
     if not reaction and not product:
         print('Warning: no reaction or product provided with target {}.'.format(target))
         ZZZAAAM = nuclide_plain_str_ZZZAAAM(target)
-        target_dstr = ZZZAAAM_to_dchain_xs_lib_str(ZZZAAAM) 
+        target_dstr = ZZZAAAM_to_dchain_xs_lib_str(ZZZAAAM)
         dstr = target_dstr + '(N,'
         return dstr
-    
-    
+
+
     ZZZAAAM = nuclide_plain_str_ZZZAAAM(target)
     target_dstr = ZZZAAAM_to_dchain_xs_lib_str(ZZZAAAM)
     if product: # if not None (product is provided)
         ZZZAAAM_prod = nuclide_plain_str_ZZZAAAM(product)
-        product_dstr = ZZZAAAM_to_dchain_xs_lib_str(ZZZAAAM_prod)        
-    
-    react = ['   ', '   ', '   ', '   ', 'N  ', '   ', '   ', '   ', '   ', '   ', '   ', '2ND', '   ', '   ', '   ', '   ', '2N ', '3N ', 'FIS', '   ', 
-             '   ', '   ', 'NA ', 'N3A', '2NA', '3NA', '   ', '   ', 'NP ', 'N2A', '2N2', '   ', 'ND ', 'NT ', 'NE ', 'ND2', 'NT2', '4N ', '   ', '   ', 
-             '   ', '2NP', '3NP', '   ', 'N2P', 'NPA', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', 
-             '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', 
-             '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', 
+        product_dstr = ZZZAAAM_to_dchain_xs_lib_str(ZZZAAAM_prod)
+
+    react = ['   ', '   ', '   ', '   ', 'N  ', '   ', '   ', '   ', '   ', '   ', '   ', '2ND', '   ', '   ', '   ', '   ', '2N ', '3N ', 'FIS', '   ',
+             '   ', '   ', 'NA ', 'N3A', '2NA', '3NA', '   ', '   ', 'NP ', 'N2A', '2N2', '   ', 'ND ', 'NT ', 'NE ', 'ND2', 'NT2', '4N ', '   ', '   ',
+             '   ', '2NP', '3NP', '   ', 'N2P', 'NPA', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ',
+             '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ',
+             '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ', '   ',
              '   ', '   ', 'G  ', 'P  ', 'D  ', 'T  ', 'HE3', 'A  ', '2A ', '3A ', '   ', '2P ', 'PA ', 'T2A', 'D2A', 'PD ', 'PT ', 'DA ', '   ', '   ']
     dZ = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -6, -2, -2, 0, 0, -1, -4, -4, 0, -1, -1, -2, -5, -5, 0, 0, 0, 0, -1, -1,
           0, -2, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -2, -2, -4, -6, 0, -2, -3, -5, -5, -2, -2, -3, 0, 0]
     dA = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3, 0, 0, 0, 0, -1, -2, 0, 0, 0, 0, -4, -12, -5, -6, 0, 0, -1, -8, -9, 0, -2, -3, -3, -10, -11, -3, 0, 0, 0, -2,
-          -3, 0, -2, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+          -3, 0, -2, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, -1, -2, -2, -3, -7, -11, 0, -1, -4, -10, -9, -2, -3, -5, 0, 0]
-    
+
     if reaction: # reaction is provided
         # Get reaction from MT / check if valid reaction
         if isinstance(reaction, float): reaction = int(reaction)
@@ -233,43 +233,43 @@ def rxn_to_dchain_str(target,reaction=None,product=None):
             rxn = "{:3}".format(reaction.upper())
             if rxn not in react:
                 print('Reaction "{}" not in reaction list for DCHAIN, check formatting or enter ENDF MT number (0-119)'.format(rxn))
-                return None 
+                return None
             else:
                 MT = react.index(rxn)
-    
+
     if not product: # need to figure out product from parent and rxn, assume ground state (but omit final isomeric characters from string in case xslib has other states too)
         ZAM_str = str(ZZZAAAM)
         M = 0
         A = int(ZAM_str[-4:-1]) + dA[MT]
         Z = int(ZAM_str[:-4]) + dZ[MT]
-        ZZZAAAM_prod = 10000*Z + 10*A + M 
+        ZZZAAAM_prod = 10000*Z + 10*A + M
         product_dstr = ZZZAAAM_to_dchain_xs_lib_str(ZZZAAAM_prod)[:-2]
         if MT == 18: product_dstr = '' # fission
-    
+
     if not reaction: # need to find missing reaction from target and product, isomeric states are ignored
         ZAM_str = str(ZZZAAAM)
         A_tar = int(ZAM_str[-4:-1])
-        Z_tar = int(ZAM_str[:-4]) 
+        Z_tar = int(ZAM_str[:-4])
         ZAM_str_prod = str(ZZZAAAM_prod)
         A_prod = int(ZAM_str_prod[-4:-1])
-        Z_prod = int(ZAM_str_prod[:-4]) 
-        rxn_dA = A_prod - A_tar 
-        rxn_dZ = Z_prod - Z_tar 
+        Z_prod = int(ZAM_str_prod[:-4])
+        rxn_dA = A_prod - A_tar
+        rxn_dZ = Z_prod - Z_tar
         matching_dA = [index for index,value in enumerate(dA) if value == rxn_dA]
         matching_dZ = [index for index,value in enumerate(dZ) if value == rxn_dZ]
         MT = set(matching_dA).intersection(matching_dZ).pop() # gets the value which is common between the two lists, in this case the index of the reaction
         rxn = react[MT]
-    
+
     if reaction and product: # check to make sure they are compatible
         # if mismatch occurs, assume product is more likely correct than rxn
         ZAM_str = str(ZZZAAAM)
         A_tar = int(ZAM_str[-4:-1])
-        Z_tar = int(ZAM_str[:-4]) 
+        Z_tar = int(ZAM_str[:-4])
         ZAM_str_prod = str(ZZZAAAM_prod)
         A_prod = int(ZAM_str_prod[-4:-1])
-        Z_prod = int(ZAM_str_prod[:-4]) 
-        rxn_dA = A_prod - A_tar 
-        rxn_dZ = Z_prod - Z_tar 
+        Z_prod = int(ZAM_str_prod[:-4])
+        rxn_dA = A_prod - A_tar
+        rxn_dZ = Z_prod - Z_tar
         matching_dA = [index for index,value in enumerate(dA) if value == rxn_dA]
         matching_dZ = [index for index,value in enumerate(dZ) if value == rxn_dZ]
         if A_tar==A_prod and Z_tar==Z_prod:
@@ -280,21 +280,21 @@ def rxn_to_dchain_str(target,reaction=None,product=None):
         if rxn_calc != rxn:
             print('Warning, mismatch between reaction (N,{}) and product ({}) with target {}; assuming product ({}) is correct and reaction should be (N,{}) instead.'.format(rxn.strip(),product,target,product_dstr,rxn_calc.strip()))
             rxn = rxn_calc
-        
+
     dstr = target_dstr + '(N,{})'.format(rxn) + product_dstr
-    
+
     return dstr
-        
+
 def ZZZAAAM_to_dchain_xs_lib_str(ZZZAAAM):
     '''
     Description:
        Converts a ZZZAAAM number to the 7-character nuclide string used by the DCHAIN neutron reaction cross section libraries.
-       
+
     Inputs:
         - `ZZZAAAM` = nuclide identification ineger, calculated as 10000\*Z + 10\*A + m
-        
+
     Outputs:
-        - `D_xs_name` = nuclide identification string in DCHAIN's cross section library format 
+        - `D_xs_name` = nuclide identification string in DCHAIN's cross section library format
     '''
     ZAM_str = str(ZZZAAAM)
     M = int(ZAM_str[-1])
@@ -306,18 +306,18 @@ def ZZZAAAM_to_dchain_xs_lib_str(ZZZAAAM):
     else:
         M_str = 'M' + str(M)
     dstr = "{:2}{:>3}{:2}".format(sym,A,M_str)
-    return dstr 
+    return dstr
 
 def ECCO1968_Ebins(n):
     '''
     Description:
         Returns the n highest energy bin values of the ECCO 1968-group energy binning structure.
-        
+
     Inputs:
-        - `n` = number of energy bins (from 20 MeV down) to be returned 
-    
+        - `n` = number of energy bins (from 20 MeV down) to be returned
+
     Outputs:
-        - list of `n` energy bins of the ECCO 1968-group structure 
+        - list of `n` energy bins of the ECCO 1968-group structure
     '''
     ECCO_bins = [
         1.964033E+01,1.947734E+01,1.931570E+01,1.915541E+01,1.899644E+01,1.883880E+01,1.868246E+01,1.852742E+01,1.837367E+01,1.822119E+01,1.806998E+01,1.792002E+01,1.777131E+01,1.762383E+01,1.747757E+01,1.733253E+01,1.718869E+01,1.704605E+01,1.690459E+01,1.676430E+01,1.662518E+01,
@@ -420,14 +420,14 @@ def ECCO1968_Ebins(n):
         1.988100E-07,1.890000E-07,1.800000E-07,1.697100E-07,1.600000E-07,1.530300E-07,1.463700E-07,1.400000E-07,1.340000E-07,1.150000E-07,1.000000E-07,9.500000E-08,8.000000E-08,7.700000E-08,6.700000E-08,5.800000E-08,5.000000E-08,4.200000E-08,3.500000E-08,3.000000E-08,
         2.500000E-08,2.000000E-08,1.500000E-08,1.000000E-08,6.900000E-09,5.000000E-09,3.000000E-09,1.000010E-11
         ]
-    
+
     #pstr = ''
     #for i in range(len(ECCO_bins)):
     #    pstr += ECCO_bins[i] + ','
     #    if i!=0 and i%20==0:
-    #        pstr += '\n'       
+    #        pstr += '\n'
     #print(pstr)
-    
+
     return ECCO_bins[:n]
 
 def retrieve_rxn_xs_from_lib(libfile,target,reaction=None,product=None):
@@ -435,39 +435,39 @@ def retrieve_rxn_xs_from_lib(libfile,target,reaction=None,product=None):
     Description:
         Provided a DCHAIN neutron rxn cross section library file and sufficient information
         about a reaction, return that reaction's cross section.
-    
+
     Dependencies:
-        `rxn_to_dchain_str` 
-        
+        `rxn_to_dchain_str`
+
         `ECCO1968_Ebins`
-    
+
     Inputs:
         - `libfile` = string of file path to data library file to be searched
         - `target` = string in general format of target nuclide
         - `reaction` = (optional) either an int MT number (ENDF6 format) or a string of the ejectiles from the neutron reaction (case-insensitive), the "X" in (N,X)
-                   if `reaction = 'tot'` or `'total'`, the summed total transmutation xs (reactions which change the target's nuclide species) is provided and input for product is ignored; 
+                   if `reaction = 'tot'` or `'total'`, the summed total transmutation xs (reactions which change the target's nuclide species) is provided and input for product is ignored;
                    this behavior is also assumed when missing both reaction and product information
         - `product` = (optional) string in general format of product nuclide (if omitted, sum of all isomeric states is assumed; if provided product but not isomeric state, ground state is assumed)
-        
+
     Outputs:
         - `xs` = a 2x1968 numpy array containing energy [eV] (i=0) and cross sections [b] (i=1) for all 1968 ECCO bins
         - `rxn_tex_str` = a LaTeX-formatted string of the reaction
     '''
-    
+
     datafolder, lib = os.path.split(libfile.replace('_n_act_xs_lib',''))
-    
+
     n_occurances = 0
     rxn_locations= []
     rxn_listings = []
     xs_data_raw  = []
-    
+
     # determine if rxn or product is provided
     if (not reaction and not product) or (reaction=='tot' or reaction=='total'): # only target provided
         #print('Total transmutation cross section of {}'.format(target))
-        calc_total_xs = True 
+        calc_total_xs = True
     else:
         calc_total_xs = False
-        
+
     if calc_total_xs: # only concerned with target, not target or reaction
         # First, assemble reaction string
         rt = rxn_to_dchain_str(target,None,target)[:10] # only concerned with target + '(N,'
@@ -504,9 +504,9 @@ def retrieve_rxn_xs_from_lib(libfile,target,reaction=None,product=None):
         tex_target = nuclide_plain_str_to_latex_str(target_str)
         tex_product= nuclide_plain_str_to_latex_str(product_str)
         rxn_tex_str = tex_target + rxn_str + tex_product
-    
-    if lib[0]=='h': # in hybrid_lib_dchain_names: 
-        hlib = True 
+
+    if lib[0]=='h': # in hybrid_lib_dchain_names:
+        hlib = True
     else:
         hlib = False
     catalog_file = libfile.replace('_n_act_xs_lib','_n_reaction_list.txt')
@@ -536,7 +536,7 @@ def retrieve_rxn_xs_from_lib(libfile,target,reaction=None,product=None):
                 else: # searching through actual library file
                     rxn_locations.append(asterisk_counter) # index of reaction in reaction lib
                     rxn_listings.append(line[20:41])
-    
+
     if n_occurances == 0:
         print('Reaction "{}" not found in library "{}".'.format(catalog_rxn_text,lib))
         return None, 'null'
@@ -547,10 +547,10 @@ def retrieve_rxn_xs_from_lib(libfile,target,reaction=None,product=None):
             print('   Multiple product isomers for reaction found.  The sum of all isomeric states will be used.')
         for j in range(n_occurances):
             print('\t{}   (lib entry index {} of {})'.format(rxn_listings[j],rxn_locations[j],lib))
-    
+
     if hlib:
         print('Hybrid library {} uses data from {} for reaction {}.'.format(lib,rxn_listings[0][26:],catalog_rxn_text))
-    
+
     # State library availability
     #if hlib and n_occurances>0: # this is a hybrid library
     #    src_lib  = rxn_listings[libi][0][26:]
@@ -558,9 +558,9 @@ def retrieve_rxn_xs_from_lib(libfile,target,reaction=None,product=None):
     #    lib_colors[libi] = lib_colors[lib_names.index(src_lib)]
     #else: # normal library
     #    print('\t{}   {}'.format(lib,n_occurances[libi]))
-        
+
     #if n_occurances[libi]>0 and libi in libis_to_compare: n_plotable_lines += 1
-    
+
     if not os.path.isfile(library_file):
         print('\t{} library file not found.'.format(lib))
         return None, 'null'
@@ -575,7 +575,7 @@ def retrieve_rxn_xs_from_lib(libfile,target,reaction=None,product=None):
             if entry_index in rxn_locations: # reached bookmarked entry index of interest for this lib
                 found_entry = True
                 enti = rxn_locations.index(entry_index)
-                
+
                 if '*' in line:
                     if rxn_listings[enti][:22].upper() not in line: # double check that entry is correct
                         print('Library index mismatch!')
@@ -587,22 +587,22 @@ def retrieve_rxn_xs_from_lib(libfile,target,reaction=None,product=None):
                     if entry_li == 0: # first line
                         nEbins = int(line[12:18])
                     elif entry_li == 1 or entry_li == 2: # skip descriptive lines
-                        continue 
+                        continue
                     else:
                         xs_vals += [np.float(xsi) for xsi in line.replace('\n','').split()]
-                        
+
                     if len(xs_vals) == nEbins:
                         if len(xs_data_raw)==0: # need to initialize entry
                             xs_data_raw = np.zeros(1968)
                         xs_data_raw[:nEbins] += np.array(xs_vals)
-    
+
     # Now pretty up the results to be provided to the user
     xs = np.zeros((2,1968))
     xs[0,:] = (1e6)*np.array(ECCO1968_Ebins(1968)[::-1]) # all energy bins in increasing order in eV
     # now flip order of lists to have them in energy increasing order
-    for i in range(len(xs_data_raw)): 
+    for i in range(len(xs_data_raw)):
         xs[1,1967-i] = xs_data_raw[i]
-        
+
     return xs, rxn_tex_str
 
 
@@ -611,38 +611,38 @@ def calc_one_group_nrxn_xs_dchain(neutron_flux,neutron_flux_errors,libfile,targe
     '''
     Description:
         Combines a neutron flux and cross section into a flux-weighted single-group cross section.
-        
+
     Inputs:
         - `neutron_flux` = 1D array of flux values
         - `neutron_flux_errors` = 1D array of flux absolute uncertainties
         - `libfile` = string of file path to data library file to be searched
         - `target` = string in general format of target nuclide
         - `reaction` = (optional) either an int MT number (ENDF6 format) or a string of the ejectiles from the neutron reaction (case-insensitive), the "X" in (N,X)
-                   
-              if `reaction = 'tot'` or `'total'`, the summed total transmutation xs (reactions which change the target's nuclide species) is provided and input for product is ignored; 
+
+              if `reaction = 'tot'` or `'total'`, the summed total transmutation xs (reactions which change the target's nuclide species) is provided and input for product is ignored;
               this behavior is also assumed when missing both reaction and product information
         - `product` = (optional) string in general format of product nuclide (if omitted, sum of all isomeric states is assumed; if provided product but not isomeric state, ground state is assumed)
-        
+
     Outputs:
         - `xs` = a length-2 list of the single group cross section and its absolute uncertainty
     '''
-    
+
     xs_out, rxn_str_out = retrieve_rxn_xs_from_lib(libfile,target,reaction,product)
     xs_vals = xs_out[1,:]
-    
+
     flux_val = neutron_flux
     flux_err = neutron_flux_errors
-    
+
     if len(xs_vals) != len(flux_val):
         print('Warning: mismatch in flux and cross section energy binning!')
-    
+
     xs = np.sum(flux_val*xs_vals)/np.sum(flux_val)
     xs_fer_num = np.sqrt(np.sum((flux_err*xs_vals)**2))/np.sum(flux_val*xs_vals)
     xs_fer_denom = np.sqrt(np.sum(flux_err**2))/np.sum(flux_val)
     xs_fer = np.sqrt(xs_fer_num**2 + xs_fer_denom**2)
     xs_aer = xs*xs_fer
-    
-    return [xs, xs_aer] 
+
+    return [xs, xs_aer]
 
 
 
@@ -651,12 +651,12 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
     '''
     Description:
        This code parses the .act file generated by DCHAIN (without uncertainty values)
-    
+
     Inputs:
         - path to a DCHAIN-generated .act file
-        
+
     Outputs:
-        - length R list of region numbers 
+        - length R list of region numbers
         - length T list of measurement times (in sec) from start of irradiation
         - time of end of irradiation (in sec)
         - NumPy array of dimension RxTxNx11 of nuclide table data (N=max recorded table lenth)
@@ -673,7 +673,7 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
     f = open(act_file_path)
     lines = f.readlines()
     f.close()
-    
+
     # Parse file to determine number of regions
     nreg = 0
     reg_nos = []
@@ -681,7 +681,7 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
         if 'region number' in line:
             nreg += 1
             reg_nos.append(int(line[21:31]))
-    
+
     # Parse file again to determine number of time steps
     current_reg_no = -1
     #irradiation_time = -1.0 # seconds
@@ -699,7 +699,7 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
             time_list_sec.append(float(line[40:53]))
         if ('--- output time ---' in line) and ('after the last shutdown' in line) and end_of_irradiation_time == -1:
             end_of_irradiation_time = float(line[21:31])*time_str_to_sec_multiplier(line[33]) - float(line[88:97])*time_str_to_sec_multiplier(line[99])
-            
+
     # Extract "summary info" from file
     ri = -1 # region index
     ti = -1 # time index
@@ -713,7 +713,7 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
        3   neutron flux [n/cm^2/s]
        4   beam power [MW]
        5   beam energy [GeV]
-       6   beam current [mA] 
+       6   beam current [mA]
     '''
     rt_summary_info = np.empty((nreg,ntimes,12), dtype='object') # (region-and-timewise) initialize RxTx12 array
     rt_summary_info_description = ['total gamma flux [#/s/cc]','total gamma energy flux [MeV/s/cc]','annihilation gamma flux [#/s/cc]','gamma current underflow [#/s]','gamma current overflow [#/s]','total activity [Bq/cc]','total decay heat [W/cc]','beta decay heat [W/cc]','gamma decay heat [W/cc]','alpha decay heat [W/cc]','activated atoms [#/cc]','total gamma dose rate [uSV/h*m^2]'] # (region-and-timewise) initialize RxTx12 array
@@ -734,9 +734,9 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
     '''
     for li in range(len(lines)):
         line = lines[li]
-        if 'region number' in line: 
+        if 'region number' in line:
             ri = find(int(line[21:31]),reg_nos)
-            
+
             # region-specific summary info
             r_summary_info[ri,0] = int(line[21:31])
             r_summary_info[ri,1] = float(lines[li-1][21:31])*time_str_to_sec_multiplier(lines[li-1][33])
@@ -745,10 +745,10 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
             r_summary_info[ri,4] = float(lines[li-4][21:31])
             r_summary_info[ri,5] = float(lines[li-5][21:31])
             r_summary_info[ri,6] = float(lines[li-6][21:31])
-            
-        if '--- output time ---' in line: 
+
+        if '--- output time ---' in line:
             ti = find(line,time_strs)
-            
+
         # gamma info specific to region and time
         if 'total gamma-ray flux' in line:
             rt_summary_info[ri,ti,0] = float(line[39:49])
@@ -760,7 +760,7 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
             else:
                 rt_summary_info[ri,ti,3] = 0.0
                 rt_summary_info[ri,ti,4] = 0.0
-        
+
         # activation info specific to region and time
         if 'total activity' in line:
             rt_summary_info[ri,ti,5] = float(line[25:36])
@@ -770,9 +770,9 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
             rt_summary_info[ri,ti,9] = float(lines[li+4][25:36])
             rt_summary_info[ri,ti,10]= float(lines[li+5][25:36])
             rt_summary_info[ri,ti,11]= float(lines[li+6][25:36])
-    
+
     summary_info = [r_summary_info, r_summary_info_description, rt_summary_info, rt_summary_info_description]
-    
+
     # Extract major "blocks" (nuclides, gamma spec, top10 list) for each time step in each region
     act_block_text = np.empty((nreg,ntimes,3), dtype='object') # initialize RxTx3 array to hold character strings where final index 0=nuclides, 1=gamma-spec, and 2=top10-list
     ri = -1 # region index
@@ -781,9 +781,9 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
     max_array_len = [0,0,0] # maximum number of entries for a given quantity
     current_array_len = [0,0,0] # current number of entries for a given quantity
     for line in lines:
-        if 'region number' in line: 
+        if 'region number' in line:
             ri = find(int(line[21:31]),reg_nos)
-        if '--- output time ---' in line: 
+        if '--- output time ---' in line:
             ti = find(line,time_strs)
             qi = 0 # reset quantity index
         if 'gamma-ray spectrum weighted by energy' in line:
@@ -791,30 +791,30 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
         if 'dominant nuclides (top 10)' in line:
             qi = 2
         if 'total' in line[:20] or line=='\n': # no longer reading info block
-            if current_array_len[qi] > max_array_len[qi]: 
+            if current_array_len[qi] > max_array_len[qi]:
                 max_array_len[qi] = current_array_len[qi]
             current_array_len[qi] = 0
-            qi = -1 
-            
+            qi = -1
+
         if qi < 0: continue # not in region of interest
-        
+
         try:
-            act_block_text[ri,ti,qi] += line 
+            act_block_text[ri,ti,qi] += line
         except:
-            act_block_text[ri,ti,qi] = line 
-            
+            act_block_text[ri,ti,qi] = line
+
         current_array_len[qi] += 1
-        
+
     header_len = [3,4,3] # number of lines present in table header
-    
+
     nuclides_produced = np.empty((nreg,ntimes,max_array_len[0]-header_len[0],11), dtype='object') # initialize RxTxNx11 array to hold nuclide information
     gamma_spectra     = np.empty((nreg,ntimes,max_array_len[1]-header_len[1], 5), dtype='object') # initialize RxTxNx5 array to hold gamma spec information
     top10_lists       = np.empty((nreg,ntimes,max_array_len[2]-header_len[2],12), dtype='object') # initialize RxTxNx12 array to hold top 10 list information
-    
+
     column_headers = [ [],[],[] ]
-    
+
     # Now, populate each array
-    
+
     # Nuclides produced
     column_headers[0] = ['nuclide','atoms [#/cc]','activity [Bq/cc]','activity [Bq]','rate [%]','beta decay heat [W/cc]','gamma decay heat [W/cc]','alpha decay heat [W/cc]','total decay heat [W/cc]','half life [s]','dose-rate [uSv/h*m^2]']
     for ri in range(nreg):
@@ -836,7 +836,7 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
                 nuclides_produced[ri,ti,ii,8] = float(line[91:100])  # total decay heat [W/cc]
                 nuclides_produced[ri,ti,ii,9] = float(line[104:113]) # half life [s]
                 nuclides_produced[ri,ti,ii,10]= float(line[116:125]) # dose-rate [uSv/h*m^2]
-                
+
     # Gamma-ray spectra
     column_headers[1] = ['group number','bin energy lower-bound [MeV]','bin energy upper-bound [MeV]','flux [#/s/cc]','energy flux [MeV/s/cc]']
     for ri in range(nreg):
@@ -852,7 +852,7 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
                 gamma_spectra[ri,ti,ii,2] = float(line[7:15])    # bin energy upper-bound [MeV]
                 gamma_spectra[ri,ti,ii,3] = float(line[28:38])   # flux [#/s/cc]
                 gamma_spectra[ri,ti,ii,4] = float(line[41:51])   # energy flux [MeV/s/cc]
-    
+
     # Top 10 lists
     column_headers[2] = ['rank','nuclide -  Activity ranking','activity [Bq/cc]','activity [Bq]','rate [%]','nuclide - Decay heat ranking','decay heat [W/cc]','decay heat [W]','rate [%]','nuclide - Dose rate ranking','dose-rate [uSv/h*m^2]','rate [%]']
     for ri in range(nreg):
@@ -875,20 +875,20 @@ def parse_DCHAIN_act_file_legacy(act_file_path):
                 top10_lists[ri,ti,ii,9] = line[88:94]          # nuclide - Dose rate ranking
                 top10_lists[ri,ti,ii,10]= float(line[96:106])  # dose-rate [uSv/h*m^2]
                 top10_lists[ri,ti,ii,11]= float(line[107:113]) # rate [%]
-    
+
     return reg_nos, time_list_sec, end_of_irradiation_time, nuclides_produced, gamma_spectra, top10_lists, column_headers, summary_info
 
 def generate_nuclide_time_profiles_legacy(nuclides_info_array):
     '''
     Description:
         Reformats DCHAIN's tabular nuclide data into time profiles of each nuclide in each region (without uncertainty values)
-    
+
     Inputs:
        - the `nuclides_produced' array from function "parse_DCHAIN_act_file"
-       
+
     Outputs:
-       - List of length R of lists containing names of nuclides produced in each region 
-       - List of length R of lists containing LaTeX-formatted names of nuclides produced in each region 
+       - List of length R of lists containing names of nuclides produced in each region
+       - List of length R of lists containing LaTeX-formatted names of nuclides produced in each region
        - List of length R of lists containing ZZZAAAM values (10000Z+10A+M) of nuclides produced in each region
        - List of length R of lists containing half lives of nuclides produced in each region (in seconds)
        - List of length R of NumPy arrays of dimension NxTx7 of nuclide info
@@ -900,12 +900,12 @@ def generate_nuclide_time_profiles_legacy(nuclides_info_array):
     nuclide_half_lives = []
     nuclide_info = []
     nuclide_info_headers = ['Atoms [#/cc]','Activity [Bq/cc]','Beta decay heat [W/cc]','Gamma decay heat [W/cc]','Alpha decay heat [W/cc]','Total decay heat [W/cc]','Dose-rate [uSv/h*m^2]']
-    
-    
+
+
     nreg = np.shape(nuclides_info_array)[0]
     ntime= np.shape(nuclides_info_array)[1]
     nnuc = np.shape(nuclides_info_array)[2]
-    
+
     # Get nuclide name info first, ordering them by increasing Z and A
     for ri in range(nreg):
         reg_nuclides = []
@@ -924,17 +924,17 @@ def generate_nuclide_time_profiles_legacy(nuclides_info_array):
                     reg_nuclides.insert(zami,Dname)
                     reg_t_halves.insert(zami,nuclides_info_array[ri,ti,ni,9])
                     reg_tex_nuclides.insert(zami,Dname_to_Latex(Dname))
-        
+
         nuclide_names.append(reg_nuclides)
         nuclide_ZAM_vals.append(reg_ZAM_vals)
         nuclide_half_lives.append(reg_t_halves)
         nuclide_Latex_names.append(reg_tex_nuclides)
-    
+
     # Now get arrays of nuclide info
     for ri in range(nreg):
         reg_nnuc = len(nuclide_names[ri])
         reg_nuclide_info = np.zeros((ntime,reg_nnuc,7))
-        for ti in range(ntime): 
+        for ti in range(ntime):
             for ni in range(reg_nnuc):
                 if nuclide_names[ri][ni] not in nuclides_info_array[ri,ti,:,0]: continue
                 sni = find(nuclide_names[ri][ni],nuclides_info_array[ri,ti,:,0])
@@ -945,22 +945,22 @@ def generate_nuclide_time_profiles_legacy(nuclides_info_array):
                 reg_nuclide_info[ti,ni,4] = nuclides_info_array[ri,ti,sni,7]   # alpha decay heat [W/cc]
                 reg_nuclide_info[ti,ni,5] = nuclides_info_array[ri,ti,sni,8]   # total decay heat [W/cc]
                 reg_nuclide_info[ti,ni,6] = nuclides_info_array[ri,ti,sni,10]  # dose-rate [uSv/h*m^2]
-                
+
         nuclide_info.append(reg_nuclide_info)
-            
+
     return nuclide_names, nuclide_Latex_names, nuclide_ZAM_vals, nuclide_half_lives, nuclide_info, nuclide_info_headers
 
 
 def parse_DCHAIN_act_file(act_file_path):
     '''
-    Description: 
+    Description:
          This code parses the .act file generated by DCHAIN
-    
+
     Inputs:
         - path to a DCHAIN-generated .act file
-    
+
     Outputs:
-        - length R list of region numbers 
+        - length R list of region numbers
         - length T list of measurement times (in sec) from start of irradiation
         - time of end of irradiation (in sec)
         - NumPy array of dimension RxTxNx11x2 of nuclide table data (N=max recorded table length)
@@ -979,7 +979,7 @@ def parse_DCHAIN_act_file(act_file_path):
     f = open(act_file_path)
     lines = f.readlines()
     f.close()
-    
+
     # Parse file to determine number of regions
     nreg = 0
     reg_nos = []
@@ -987,7 +987,7 @@ def parse_DCHAIN_act_file(act_file_path):
         if 'region number' in line:
             nreg += 1
             reg_nos.append(int(line[21:31]))
-    
+
     # Parse file again to determine number of time steps
     current_reg_no = -1
     #irradiation_time = -1.0 # seconds
@@ -1009,11 +1009,11 @@ def parse_DCHAIN_act_file(act_file_path):
             time_list_sec_after_EOB[ntimes-1] = float(line[87:97])*time_str_to_sec_multiplier(line[99])
             if end_of_irradiation_time == -1:
                 end_of_irradiation_time = float(line[21:31])*time_str_to_sec_multiplier(line[33]) - float(line[87:97])*time_str_to_sec_multiplier(line[99])
-            
+
     for ti in range(len(time_list_sec_after_EOB)):
         if time_list_sec_after_EOB[ti]==0.0:
             time_list_sec_after_EOB[ti] = time_list_sec[ti] - end_of_irradiation_time
-            
+
     # Extract "summary info" from file
     ri = -1 # region index
     ti = -1 # time index
@@ -1030,7 +1030,7 @@ def parse_DCHAIN_act_file(act_file_path):
        3   neutron flux [n/cm^2/s]
        4   beam power [MW]
        5   beam energy [GeV]
-       6   beam current [mA] 
+       6   beam current [mA]
     '''
     rt_summary_info = np.empty((nreg,ntimes,12,2), dtype='object') # (region-and-timewise) initialize RxTx12x2 array
     rt_summary_info_description = ['total gamma flux [#/s/cc]','total gamma energy flux [MeV/s/cc]','annihilation gamma flux [#/s/cc]','gamma current underflow [#/s]','gamma current overflow [#/s]','total activity [Bq/cc]','total decay heat [W/cc]','beta decay heat [W/cc]','gamma decay heat [W/cc]','alpha decay heat [W/cc]','activated atoms [#/cc]','total gamma dose rate [uSV/h*m^2]'] # (region-and-timewise) initialize RxTx12 array
@@ -1056,9 +1056,9 @@ def parse_DCHAIN_act_file(act_file_path):
     '''
     for li in range(len(lines)):
         line = lines[li]
-        if 'region number' in line: 
+        if 'region number' in line:
             ri = find(int(line[21:31]),reg_nos)
-            
+
             # region-specific summary info
             r_summary_info[ri,0] = int(line[21:31])
             r_summary_info[ri,1] = float(lines[li-1][21:31])*time_str_to_sec_multiplier(lines[li-1][33])
@@ -1067,10 +1067,10 @@ def parse_DCHAIN_act_file(act_file_path):
             r_summary_info[ri,4] = float(lines[li-4][21:31])
             r_summary_info[ri,5] = float(lines[li-5][21:31])
             r_summary_info[ri,6] = float(lines[li-6][21:31])
-            
-        if '--- output time ---' in line: 
+
+        if '--- output time ---' in line:
             ti = find(line,time_strs)
-            
+
         # gamma info specific to region and time
         if 'total gamma-ray flux' in line:
             rt_summary_info[ri,ti,0,0] = float(line[38:49])
@@ -1085,7 +1085,7 @@ def parse_DCHAIN_act_file(act_file_path):
             else:
                 rt_summary_info[ri,ti,3,0] = 0.0
                 rt_summary_info[ri,ti,4,0] = 0.0
-        
+
         if 'no gamma-ray' in line:
             rt_summary_info[ri,ti,0,0] = 0.0
             rt_summary_info[ri,ti,1,0] = 0.0
@@ -1095,7 +1095,7 @@ def parse_DCHAIN_act_file(act_file_path):
             rt_summary_info[ri,ti,2,1] = 0.0
             rt_summary_info[ri,ti,3,0] = 0.0
             rt_summary_info[ri,ti,4,0] = 0.0
-        
+
         # activation info specific to region and time
         if 'total activity' in line:
             rt_summary_info[ri,ti,5,0] = float(line[24:36])
@@ -1112,9 +1112,9 @@ def parse_DCHAIN_act_file(act_file_path):
             rt_summary_info[ri,ti,9,1] = float(lines[li+4][40:52])
             rt_summary_info[ri,ti,10,1]= float(lines[li+5][40:52])
             rt_summary_info[ri,ti,11,1]= float(lines[li+6][40:52])
-    
+
     summary_info = [r_summary_info, r_summary_info_description, rt_summary_info, rt_summary_info_description]
-    
+
     # Extract major "blocks" (nuclides, gamma spec, top10 list) for each time step in each region
     act_block_text = np.empty((nreg,ntimes,3), dtype='object') # initialize RxTx3 array to hold character strings where final index 0=nuclides, 1=gamma-spec, and 2=top10-list
     ri = -1 # region index
@@ -1123,9 +1123,9 @@ def parse_DCHAIN_act_file(act_file_path):
     max_array_len = [0,0,0] # maximum number of entries for a given quantity
     current_array_len = [0,0,0] # current number of entries for a given quantity
     for line in lines:
-        if 'region number' in line: 
+        if 'region number' in line:
             ri = find(int(line[21:31]),reg_nos)
-        if '--- output time ---' in line: 
+        if '--- output time ---' in line:
             ti = find(line,time_strs)
             qi = 0 # reset quantity index
         if 'gamma-ray spectrum weighted by energy' in line:
@@ -1133,30 +1133,30 @@ def parse_DCHAIN_act_file(act_file_path):
         if 'dominant nuclides (top 10)' in line:
             qi = 2
         if 'total' in line[:20] or line=='\n': # no longer reading info block
-            if current_array_len[qi] > max_array_len[qi]: 
+            if current_array_len[qi] > max_array_len[qi]:
                 max_array_len[qi] = current_array_len[qi]
             current_array_len[qi] = 0
-            qi = -1 
-            
+            qi = -1
+
         if qi < 0: continue # not in region of interest
-        
+
         try:
-            act_block_text[ri,ti,qi] += line 
+            act_block_text[ri,ti,qi] += line
         except:
-            act_block_text[ri,ti,qi] = line 
-            
+            act_block_text[ri,ti,qi] = line
+
         current_array_len[qi] += 1
-        
+
     header_len = [3,4,3] # number of lines present in table header
-    
+
     nuclides_produced = np.empty((nreg,ntimes,max_array_len[0]-header_len[0],11,2), dtype='object') # initialize RxTxNx11x2 array to hold nuclide information
     gamma_spectra     = np.empty((nreg,ntimes,max_array_len[1]-header_len[1], 5,2), dtype='object') # initialize RxTxNx5x2 array to hold gamma spec information
     top10_lists       = np.empty((nreg,ntimes,max_array_len[2]-header_len[2],12,2), dtype='object') # initialize RxTxNx12x2 array to hold top 10 list information
-    
+
     column_headers = [ [],[],[] ]
-    
+
     # Now, populate each array
-    
+
     # Nuclides produced
     column_headers[0] = ['nuclide','atoms [#/cc]','activity [Bq/cc]','activity [Bq]','rate [%]','beta decay heat [W/cc]','gamma decay heat [W/cc]','alpha decay heat [W/cc]','total decay heat [W/cc]','half life [s]','dose-rate [uSv/h*m^2]']
     for ri in range(nreg):
@@ -1182,7 +1182,7 @@ def parse_DCHAIN_act_file(act_file_path):
                     nuclides_produced[ri,ti,ii,10,0]= 0.0  # dose-rate [uSv/h*m^2]
                 else:
                     nuclides_produced[ri,ti,ii,10,0]= float(line[128:138].replace('      ','0.0'))  # dose-rate [uSv/h*m^2]
-                
+
                 # absolute errors for corresponding values
                 nuclides_produced[ri,ti,ii,1,1] = nuclides_produced[ri,ti,ii,1,0]*rel_err
                 nuclides_produced[ri,ti,ii,2,1] = nuclides_produced[ri,ti,ii,2,0]*rel_err
@@ -1194,12 +1194,12 @@ def parse_DCHAIN_act_file(act_file_path):
                 nuclides_produced[ri,ti,ii,8,1] = nuclides_produced[ri,ti,ii,8,0]*rel_err
                 nuclides_produced[ri,ti,ii,9,1] = nuclides_produced[ri,ti,ii,9,0]*rel_err
                 nuclides_produced[ri,ti,ii,10,1]= nuclides_produced[ri,ti,ii,10,0]*rel_err
-                
+
     # Gamma-ray spectra
     column_headers[1] = ['group number','bin energy lower-bound [MeV]','bin energy upper-bound [MeV]','flux [#/s/cc]','energy flux [MeV/s/cc]']
     for ri in range(nreg):
         for ti in range(ntimes):
-            if not act_block_text[ri,ti,1]: 
+            if not act_block_text[ri,ti,1]:
                 gamma_spectra[ri,ti,:,0,0] = None  # group number
                 gamma_spectra[ri,ti,:,1,0] = None  # bin energy lower-bound [MeV]
                 gamma_spectra[ri,ti,:,2,0] = None  # bin energy upper-bound [MeV]
@@ -1221,7 +1221,7 @@ def parse_DCHAIN_act_file(act_file_path):
                 gamma_spectra[ri,ti,ii,4,0] = float(line[40:51])   # energy flux [MeV/s/cc]
                 gamma_spectra[ri,ti,ii,3,1] = gamma_spectra[ri,ti,ii,3,0]*float(line[53:64])   # flux absolute error [#/s/cc]
                 gamma_spectra[ri,ti,ii,4,1] = gamma_spectra[ri,ti,ii,4,0]*float(line[53:64])   # energy flux absolute error [MeV/s/cc]
-    
+
     # Top 10 lists
     column_headers[2] = ['rank','nuclide -  Activity ranking','activity [Bq/cc]','activity [Bq]','rate [%]','nuclide - Decay heat ranking','decay heat [W/cc]','decay heat [W]','rate [%]','nuclide - Dose rate ranking','dose-rate [uSv/h*m^2]','rate [%]']
     for ri in range(nreg):
@@ -1242,7 +1242,7 @@ def parse_DCHAIN_act_file(act_file_path):
                 top10_lists[ri,ti,ii,2,1] = top10_lists[ri,ti,ii,2,0]*rel_err   # activity absolute error [Bq/cc]
                 top10_lists[ri,ti,ii,3,1] = top10_lists[ri,ti,ii,3,0]*rel_err   # activity absolute error [Bq]
                 top10_lists[ri,ti,ii,4,1] = top10_lists[ri,ti,ii,4,0]*rel_err   # rate absolute error [%]
-                
+
                 top10_lists[ri,ti,ii,5,0] = line[60:66]          # nuclide - Decay heat ranking
                 top10_lists[ri,ti,ii,6,0] = float(line[67:78])   # decay heat [W/cc]
                 top10_lists[ri,ti,ii,7,0] = float(line[78:89])   # decay heat [W]
@@ -1251,14 +1251,14 @@ def parse_DCHAIN_act_file(act_file_path):
                 top10_lists[ri,ti,ii,6,1] = top10_lists[ri,ti,ii,6,0]*rel_err   # decay heat absolute error [W/cc]
                 top10_lists[ri,ti,ii,7,1] = top10_lists[ri,ti,ii,7,0]*rel_err   # decay heat absolute error [W]
                 top10_lists[ri,ti,ii,8,1] = top10_lists[ri,ti,ii,8,0]*rel_err   # rate absolute error [%]
-                
+
                 top10_lists[ri,ti,ii,9,0] = line[112:118]        # nuclide - Dose rate ranking
                 top10_lists[ri,ti,ii,10,0]= float(line[119:130]) # dose-rate [uSv/h*m^2]
                 top10_lists[ri,ti,ii,11,0]= float(line[142:149]) # rate [%]
                 rel_err = float(line[131:142])
                 top10_lists[ri,ti,ii,10,1]= top10_lists[ri,ti,ii,10,0]*rel_err # dose-rate absolute error [uSv/h*m^2]
                 top10_lists[ri,ti,ii,11,1]= top10_lists[ri,ti,ii,11,0]*rel_err # rate absolute error [%]
-    
+
     return reg_nos, time_list_sec, time_list_sec_after_EOB, end_of_irradiation_time, nuclides_produced, gamma_spectra, top10_lists, column_headers, summary_info
 
 
@@ -1266,13 +1266,13 @@ def generate_nuclide_time_profiles(nuclides_info_array):
     '''
     Description:
         Reformats DCHAIN's tabular nuclide data into time profiles of each nuclide in each region
-    
+
     Inputs:
        - the `nuclides_produced` array from function "parse_DCHAIN_act_file"
-    
+
     Outputs:
-       - List of length R of lists containing names of nuclides produced in each region 
-       - List of length R of lists containing LaTeX-formatted names of nuclides produced in each region 
+       - List of length R of lists containing names of nuclides produced in each region
+       - List of length R of lists containing LaTeX-formatted names of nuclides produced in each region
        - List of length R of lists containing ZZZAAAM values (10000Z+10A+M) of nuclides produced in each region
        - List of length R of lists containing half lives of nuclides produced in each region (in seconds)
        - List of length R of NumPy arrays of dimension NxTx7x2 of nuclide info
@@ -1284,12 +1284,12 @@ def generate_nuclide_time_profiles(nuclides_info_array):
     nuclide_half_lives = []
     nuclide_info = []
     nuclide_info_headers = ['Atoms [#/cc]','Activity [Bq/cc]','Beta decay heat [W/cc]','Gamma decay heat [W/cc]','Alpha decay heat [W/cc]','Total decay heat [W/cc]','Dose-rate [uSv/h*m^2]']
-    
-    
+
+
     nreg = np.shape(nuclides_info_array)[0]
     ntime= np.shape(nuclides_info_array)[1]
     nnuc = np.shape(nuclides_info_array)[2]
-    
+
     # Get nuclide name info first, ordering them by increasing Z and A
     for ri in range(nreg):
         reg_nuclides = []
@@ -1308,17 +1308,17 @@ def generate_nuclide_time_profiles(nuclides_info_array):
                     reg_nuclides.insert(zami,Dname)
                     reg_t_halves.insert(zami,nuclides_info_array[ri,ti,ni,9,0])
                     reg_tex_nuclides.insert(zami,Dname_to_Latex(Dname))
-        
+
         nuclide_names.append(reg_nuclides)
         nuclide_ZAM_vals.append(reg_ZAM_vals)
         nuclide_half_lives.append(reg_t_halves)
         nuclide_Latex_names.append(reg_tex_nuclides)
-    
+
     # Now get arrays of nuclide info
     for ri in range(nreg):
         reg_nnuc = len(nuclide_names[ri])
         reg_nuclide_info = np.zeros((ntime,reg_nnuc,7,2))
-        for ti in range(ntime): 
+        for ti in range(ntime):
             for ni in range(reg_nnuc):
                 if nuclide_names[ri][ni] not in nuclides_info_array[ri,ti,:,0,0]: continue
                 sni = find(nuclide_names[ri][ni],nuclides_info_array[ri,ti,:,0,0])
@@ -1329,7 +1329,7 @@ def generate_nuclide_time_profiles(nuclides_info_array):
                 reg_nuclide_info[ti,ni,4,0] = nuclides_info_array[ri,ti,sni,7,0]   # alpha decay heat [W/cc]
                 reg_nuclide_info[ti,ni,5,0] = nuclides_info_array[ri,ti,sni,8,0]   # total decay heat [W/cc]
                 reg_nuclide_info[ti,ni,6,0] = nuclides_info_array[ri,ti,sni,10,0]  # dose-rate [uSv/h*m^2]
-                
+
                 reg_nuclide_info[ti,ni,0,1] = nuclides_info_array[ri,ti,sni,1,1]   # atoms absolute error [#/cc]
                 reg_nuclide_info[ti,ni,1,1] = nuclides_info_array[ri,ti,sni,2,1]   # activity absolute error [Bq/cc]
                 reg_nuclide_info[ti,ni,2,1] = nuclides_info_array[ri,ti,sni,5,1]   # beta decay heat absolute error [W/cc]
@@ -1337,9 +1337,9 @@ def generate_nuclide_time_profiles(nuclides_info_array):
                 reg_nuclide_info[ti,ni,4,1] = nuclides_info_array[ri,ti,sni,7,1]   # alpha decay heat absolute error [W/cc]
                 reg_nuclide_info[ti,ni,5,1] = nuclides_info_array[ri,ti,sni,8,1]   # total decay heat absolute error [W/cc]
                 reg_nuclide_info[ti,ni,6,1] = nuclides_info_array[ri,ti,sni,10,1]  # dose-rate absolute error [uSv/h*m^2]
-                
+
         nuclide_info.append(reg_nuclide_info)
-            
+
     return nuclide_names, nuclide_Latex_names, nuclide_ZAM_vals, nuclide_half_lives, nuclide_info, nuclide_info_headers
 
 
@@ -1347,26 +1347,26 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
     '''
     Description:
         Parse a decay chain information file produced by DCHAIN-SP
-    
+
     Dependencies:
         `import numpy as np`
-        
+
         `import time`
-    
+
     Inputs:
        (required)
-       
+
        - `filepath` = string, path to DCS file
-        
+
     Inputs:
        (optional, keyword)
-       
+
        - `print_progress` = logical variable denoting whether time and significant nuclide info will be printed while scanning file (D=`False`)
        - `nch_max` = maximum number of chains per isotope (D=`100`)
        - `relevancy_threshold` = what fraction of total activity must a nuclide contribute to be deemed relevant
-        
+
     Outputs:
-       
+
        | dimension      |  meaning for output array dimensions |
        | :------------- | :-------------------------------- |
        |   R (n_reg)    | regions                           |
@@ -1374,8 +1374,8 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
        |   N (nnuc_max) | max number of nuclides            |
        |   C (chni_max) | maximum index of relevant chains  |
        |   L (chln_max) | maximum number of links per chain |
-       
-        
+
+
         - 0) `inventory`    = universal columns of DCS file `[R,T,N,C,vi]`, vi: 0=N_i-1/V, 1=dN/V, 2=N_i/V, 3=A_i/V, 4=A_i
         - 1) `l_chains`     = `[R,T,N,C]`, length of listed chain
         - 2) `prod_nuc`     = `[R,T,N]`, strings of the nuclide being produced
@@ -1388,27 +1388,27 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
         - 9) `notable_nuclides_AvT_by_region`   = list of arrays (one per region, `[T,N_rlv-nuc,3]`) containing the time[s]/inventory[atm/cc]/activity[Bq/cc] data of relevant nuclides
     '''
     global start
-    
+
     try:
         start_time = start
     except:
         start_time = time.time()
     start = start_time
-    
-    
+
+
     print('Processing the *.DCS decay chain file...     ({:0.2f} seconds elapsed)'.format(time.time()-start))
-    
+
     # Extract text from file
     f = open(filepath)
     lines = f.readlines()
     f.close()
-    
+
     # Determine if extra data is written per isotope by querying whether an isotope's name or blank spaces are present in the line immediately below the first nuclide
-    if len(lines[9][3:9].strip())==0: 
+    if len(lines[9][3:9].strip())==0:
         extra_chain_data_present = True
     else:
-        extra_chain_data_present = False 
-    
+        extra_chain_data_present = False
+
     # First, scan for regions
     n_reg = 0
     reg_nos = []
@@ -1420,11 +1420,11 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
         if 'c<>-<>   region label :' in line:
             reg_labels.append(line[23:52].strip())
     print('{} regions found...     ({:0.2f} seconds elapsed)'.format(n_reg,time.time()-start))
-    
-    
+
+
     # Then, scan for time steps.  Need all individual times from beginning and time of end of irradiation.
     ntsteps = 0
-    wtimes = [] # written times since start of calculations in seconds (so, the times at the end of each time step) 
+    wtimes = [] # written times since start of calculations in seconds (so, the times at the end of each time step)
     beam_state = [] # in each time step, 1 if beam on, 0 if beam off
     end_of_irradiation_time = 0.0 # time (in seconds since start of irradiation) at which beam was switched off for the final time
     end_irr_time_located = False
@@ -1450,51 +1450,51 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
         elif 'end of irradiation and decay calculation for this region' in line:
             break
     wtimes = np.array(wtimes)
-    
+
     pstr = '{} time steps found\nend of irradiation at t = {:g} sec ({})\nend of calculation at t = {:g} sec ({})...                ({:0.2f} seconds elapsed)'.format(
             ntsteps,end_of_irradiation_time,seconds_to_ydhms(end_of_irradiation_time),wtimes[-1],seconds_to_ydhms(wtimes[-1]),time.time()-start)
     print(pstr)
-    
-    
-    
+
+
+
     # Next, scan for other maximum limiting dimensions
     nnuc_max = 0 # maximum number of nuclides listed in a time step
     chni_max = 0 # highest index of a relevant chain found
     chln_max = 0 # maximum number of links (nuclides) found in any chain
-    
+
     current_tstep_nnuc = 0 # number of nuclides in current time step
     chni = 0 # chain number index
     chln = 0 # chain length
-    
+
     for line in lines:
         if len(line) < 5: continue
-        
+
         if ' --- output time' in line or 'end of irradiation' in line:
             if current_tstep_nnuc > nnuc_max: nnuc_max = current_tstep_nnuc
             current_tstep_nnuc = 0 # reset count of nuclides in time step
-            
+
         if len(line[3:9].strip())!=0 and line[11]=='(': # first chain entry of a nuclide
             current_tstep_nnuc += 1
-            
+
         if line[11]=='(': # all chains have this in common
             chni = int(line[12:16])
-            if chni > chni_max: chni_max = chni 
+            if chni > chni_max: chni_max = chni
             chln = 1 + line.count(')->')
-            if chln > chln_max: chln_max = chln 
-    
+            if chln > chln_max: chln_max = chln
+
     pstr =  '{} = maximum number of nuclides listed in a single time step\n'.format(nnuc_max)
     pstr += '{} = highest index found of all relevant chains\n'.format(chni_max)
     pstr += '{} = length of longest chain listed...                          ({:0.2f} seconds elapsed)'.format(chln_max,time.time()-start)
     print(pstr)
-    
-    
+
+
     # Construct arrays to hold decay chain information
     #   R (n_reg)    regions
     #   T (ntsteps)  time steps
     #   N (nnuc_max) max number of nuclides
     #   C (chni_max) maximum index of relevant chains
     #   L (chln_max) maximum number of links per chain
-    
+
     inventory = np.zeros((n_reg,ntsteps,nnuc_max,chni_max,5)) # universal columns of DCS file [R,T,N,C,vi], vi: 0=N_i-1/V, 1=dN/V, 2=N_i/V, 3=A_i/V, 4=A_i
     l_chains  = np.zeros((n_reg,ntsteps,nnuc_max,chni_max)) # [R,T,N,C], length of listed chain
     prod_nuc  = np.empty((n_reg,ntsteps,nnuc_max), dtype='object') # [R,T,N], strings of the nuclide being produced
@@ -1507,35 +1507,35 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
         col_strs = ['dN_Beam','dN_Decay/nx','dN_Total']
         nexcol = len(col_strs)
     else:
-        link_dN_info = None 
-    
+        link_dN_info = None
+
     # Populate these arrays
     ri = None # region index
     ti = None # time step index
     ni = None # nuclide index
     ci = None # chain index (1 lower than Fortran value)
-    
+
     # character column and spacing numbers for decay chains
     ch_sci = 95 # chain start column index
     dc_sci = 105 # column index of first decay mode listing
     vl_sci = 94 # column index of first extra decay chain value
     link_gap_sts = 17 # number of characters between start of one link and the next
-    
+
     for line in lines:
         if len(line) < 5: continue
-        
+
         if 'c<>-<>   no.' in line: # entering new region
             ri = find(int(line[12:19]),reg_nos)
-            continue 
+            continue
         elif ' --- output time' in line: # entering new time step
             t = np.float(line[39:53])
-            ti = find(t,wtimes) 
+            ti = find(t,wtimes)
             ni = -1 # reset nuclide index
-            continue 
+            continue
         elif len(line[3:9].strip())!=0 and line[11]=='(': # entering new output nuclide
             ni += 1
             prod_nuc[ri,ti,ni] = line[3:9]
-            
+
         if line[11]=='(': # if line contains a chain
             ci = int(line[12:16]) - 1 # chain index
             if not chn_indx[ri,ti,ni]:
@@ -1546,7 +1546,7 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
             for vi in range(len(col_vals)):
                 inventory[ri,ti,ni,ci,vi] = np.float(col_vals[vi])
             chln = 1 + line.count(')->')
-            l_chains[ri,ti,ni,ci] = chln 
+            l_chains[ri,ti,ni,ci] = chln
             for li in range(chln):
                 nci1 = ch_sci + li*link_gap_sts
                 nci2 = nci1 + 6
@@ -1556,12 +1556,12 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
                     dci2 = dci1 + 2
                     decay_mode[ri,ti,ni,ci,li] = line[dci1:dci2]
             continue
-        
+
         if len(line[3:9].strip())==0 and extra_chain_data_present:
-            vi = None 
+            vi = None
             for i in range(nexcol):
-                if col_strs[i] in line: 
-                    vi = i 
+                if col_strs[i] in line:
+                    vi = i
             for li in range(chln):
                 vci1 = vl_sci + li*link_gap_sts
                 vci2 = vci1 + 14
@@ -1570,15 +1570,15 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
                 else:
                     val = np.float(line[vci1:vci2])
                 link_dN_info[ri,ti,ni,ci,li,vi] = val
-    
-    
-    
+
+
+
     # Now extract results from the data arrays
-    print('\nNow processing decay chain results...        ({:0.2f} seconds elapsed)'.format(time.time()-start)) 
-    
+    print('\nNow processing decay chain results...        ({:0.2f} seconds elapsed)'.format(time.time()-start))
+
     notable_nuclides_AvT_by_region = [] # list of arrays (one per region) containing the time/inventory/activity data of relevant nuclides
     notable_nuclides_names_by_region = [] # list of lists (one per region) containing the relevant nuclides per region
-    
+
     for ri in range(n_reg):
         print('Region no. {} ({})'.format(reg_nos[ri],reg_labels[ri]))
         relevant_nuclides = []
@@ -1590,13 +1590,13 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
                     print('\tAt time {:g} sec ({}), which is {:g} sec ({}) after end of final irradiation'.format(t,seconds_to_ydhms(t),tai,seconds_to_ydhms(tai)))
                 else:
                     print('\tAt time {:g} sec ({})'.format(t,seconds_to_ydhms(t)))
-             
+
             # First, get total information for the time step
             N0 = [] # inventory at start of time step
             N1 = [] # inventory at end of time step
             A0 = [] # activity at start of time step
             A1 = [] # activity at end of time step
-            
+
             for ni in range(nnuc_max):
                 if not prod_nuc[ri,ti,ni]: continue # skip empty nuclide indices
                 chain_indices = chn_indx[ri,ti,ni]
@@ -1607,36 +1607,36 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
                 lam = inventory[ri,ti,ni,ci0,3]/inventory[ri,ti,ni,ci0,2]
                 A0.append(lam*inventory[ri,ti,ni,ci0,0])
                 A1.append(inventory[ri,ti,ni,ci1,3])
-              
+
             N0_tot_tstep = np.sum(N0) # total inventory at start of time step
             N1_tot_tstep = np.sum(N1) # total inventory at end of time step
             A0_tot_tstep = np.sum(A0) # total activity at start of time step
             A1_tot_tstep = np.sum(A1) # total activity at end of time step
-            
+
             # Determine which nuclides meet the relevancy threshold
             pstr = ('\t\tRelevant radionuclides include:\n')
-            
+
             nii = -1
             for ni in range(nnuc_max):
                 if not prod_nuc[ri,ti,ni]: continue # skip empty nuclide indices
                 nii += 1
                 A1_fract_threshold = relevancy_threshold # Nuclide must be responsible for at least 0.1% total activity at end of time step
                 A1_nuc_frac = A1[nii]/A1_tot_tstep
-                if A1_nuc_frac > A1_fract_threshold: 
+                if A1_nuc_frac > A1_fract_threshold:
                     nuc_relvnt[ri,ti,ni] = True
                     if prod_nuc[ri,ti,ni] not in relevant_nuclides: relevant_nuclides.append(prod_nuc[ri,ti,ni])
                     pstr += ('\t\t  - {} with {:0.2f}% total activity\n'.format(prod_nuc[ri,ti,ni],100*A1_nuc_frac))
                 else:
                     nuc_relvnt[ri,ti,ni] = False
-            
+
             if print_progress:
                 print(pstr)
-                
+
         n_relevant_nuclides = len(relevant_nuclides)
-        
+
         # now collect activity of each nuclide at each time step
         relv_nuc_inv  = np.zeros((ntsteps,n_relevant_nuclides,3)) # [T,rlvN,3], time[s]/inventory[atm/cc]/activity[Bq/cc] for relevant nuclides
-        
+
         for ti in range(ntsteps):
             t = wtimes[ti]
             relv_nuc_inv[ti,:,0] = t
@@ -1645,63 +1645,63 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
                 if prod_nuc[ri,ti,ni] not in relevant_nuclides: continue # only want nuclides which are at some point relevant
                 chain_indices = chn_indx[ri,ti,ni]
                 ci1 = chain_indices[-1]
-                
+
                 #if nuclide is relevant, find its index among the relevant ones
                 rni = find(prod_nuc[ri,ti,ni],relevant_nuclides)
                 relv_nuc_inv[ti,rni,1] = inventory[ri,ti,ni,ci1,2]
                 relv_nuc_inv[ti,rni,2] = inventory[ri,ti,ni,ci1,3]
-        
+
         notable_nuclides_names_by_region.append(relevant_nuclides)
         notable_nuclides_AvT_by_region.append(relv_nuc_inv)
-        
-    
+
+
     return inventory, l_chains, prod_nuc, chn_indx, link_nuc, decay_mode, link_dN_info, end_of_irradiation_time, notable_nuclides_names_by_region, notable_nuclides_AvT_by_region
 
 
 def parse_dtrk_file(path_to_dtrk_file,return_metadata=False):
     '''
     Description:
-        Parses the output file of a T-Track tally generated by PHITS.  Note that this specific function assumes that the T-Track 
+        Parses the output file of a T-Track tally generated by PHITS.  Note that this specific function assumes that the T-Track
         tally was one automatically generated by and corresponding to a T-Dchain tally but in principle works with any T-Track tally.
         This works for region, xyz, and tetrahedral mesh geometries in either the original or reduced format.
-        
+
     Inputs:
         - `path_to_dtrk_file` = path to the T-Track tally output file to be parsed
         - `return_metadata` = Boolean indicating whether additional information is outputted with the flux (D=`False`)
-        
+
     Outputs:
         - `flux` = a RxEx4 array containing regionwise fluxes [Elower/Eupper/flux/abs_error]
         - `dtrk_metadata` (only returned if `return_metadata=True`) = list of length two
                - `dtrk_metadata[0]` = string denoting axis type 'eng' (old full format) or 'dchain' (new reduced format)
                - `dtrk_metadata[1]` = string denoting mesh type as either 'reg', 'xyz', or 'tet'
     '''
-    
+
     # Extract text from file
     f = open(path_to_dtrk_file)
     file_text = f.read()
     lines = file_text.split('\n')
     f.close()
-    
+
     # Determine geometry type (mesh = reg, xyz, or tet)
     for line in lines:
         if 'mesh =' in line:
             meshtype = line.replace('mesh =','').strip().split()[0]
-            break 
-    
+            break
+
     # Determine if original or reduced format (axis = eng or axis = dchain)
     for line in lines:
         if 'axis =' in line:
             axistype = line.replace('axis =','').strip().split()[0]
-            break 
-    # Double check 
+            break
+    # Double check
     for li, line in enumerate(lines):
         if li>500: break
-        if '#  e-lower      e-upper      neutron     r.err ' in line: 
+        if '#  e-lower      e-upper      neutron     r.err ' in line:
             axistype='eng'
             break
-    
+
     dtrk_metadata = [axistype,meshtype]
-    
+
     # Determine number of regions
     if axistype=='eng':
         nreg = file_text.count('#   no. =')
@@ -1710,8 +1710,8 @@ def parse_dtrk_file(path_to_dtrk_file,return_metadata=False):
             #print(line)
             if '0    0   0.0000E+00  0.0000' in line:
                 nreg = int(lines[li-1].split()[0])
-                break 
-    
+                break
+
     if axistype=='dchain':
         nEbins = 1968
     else:
@@ -1719,26 +1719,26 @@ def parse_dtrk_file(path_to_dtrk_file,return_metadata=False):
             if 'ne =' in line:
                 nEbins = int(line.replace('ne =','').strip().split()[0])
                 break
-    
+
     flux = np.zeros((nreg,nEbins,4))
-    
+
     if axistype=='eng':
         in_flux_lines = False
         ei = 0
         ri = -1
-        
+
         for line in lines:
             if '#   no. =' in line:
                 ri += 1
             if '#  e-lower      e-upper      neutron     r.err ' in line:
-                in_flux_lines = True 
-                continue 
+                in_flux_lines = True
+                continue
             if in_flux_lines:
                 flux[ri,ei,:] = [np.float(x) for x in line.split()]
                 flux[ri,ei,3] = flux[ri,ei,3]*flux[ri,ei,2] # convert relative error to absolute error
                 ei += 1
                 if ei == nEbins:
-                    in_flux_lines = False 
+                    in_flux_lines = False
                     ei = 0
     elif axistype=='dchain':
         ebins = [20.0] + ECCO1968_Ebins(1968)
@@ -1746,23 +1746,23 @@ def parse_dtrk_file(path_to_dtrk_file,return_metadata=False):
         in_flux_lines = False
         for line in lines:
             if '# num ie flux r.err' in line:
-                in_flux_lines = True 
-                continue 
+                in_flux_lines = True
+                continue
             if '0    0   0.0000E+00  0.0000' in line:
                 in_flux_lines = False
-                break 
+                break
             if in_flux_lines:
-                vals = line.split() 
+                vals = line.split()
                 ri = int(vals[0])-1
                 ei = int(vals[1])-1
                 fval = np.float(vals[2])
                 ferr = np.float(vals[3])
-                
+
                 flux[ri,ei,0] = ebins[ei]
                 flux[ri,ei,1] = ebins[ei+1]
                 flux[ri,ei,2] = fval
-                flux[ri,ei,3] = fval*ferr 
-                
+                flux[ri,ei,3] = fval*ferr
+
     if return_metadata:
         return flux, dtrk_metadata
     else:
@@ -1775,27 +1775,27 @@ def parse_dyld_files(path_to_dyld_file,iredufmt=None):
         Parses the output files of a T-Yield tally generated by PHITS with axis=dchain.  This function assumes
         that the T-Yield tally was one automatically generated by and corresponding to a T-Dchain tally (axis=dchain).
         This works for region, xyz, and tetrahedral mesh geometries in either the original or reduced format.
-        
+
     Inputs:
-        - `path_to_dyld_file` = path to the T-Yield tally output file to be parsed 
+        - `path_to_dyld_file` = path to the T-Yield tally output file to be parsed
                            (the *_err.dyld file of the same name is automatically searched for and read, if present)
         - `iredufmt` = (DEPRICATED; this is now determined automatically)
                    integer 1 or 0 specifying how the xyz meshes are ordered relative to the internal region numbers.
                    In the new format (1), region indices are incremented as x->y->z (x=innermost loop); this is reversed in the old format (0).
                    Ultimately, this corresponds to the same iredufmt parameter in PHITS/DCHAIN, 1='new' and 0='old'.
                    This variable is only used for xyz meshes where this ordering matters.
-        
+
     Outputs:
         - `yields` = a RxNx2 array containing regionwise yields (and their absolute uncertainties) for all nuclides produced in T-Yield
         - `nuclide_names_yld` = a length N list of all nuclide names in order
     '''
-    
+
     # Extract text from file
     f = open(path_to_dyld_file)
     file_text = f.read()
     lines = file_text.split('\n')
     f.close()
-    
+
     # determine if in reduced format
     iredufmt=0
     for li, line in enumerate(lines):
@@ -1805,8 +1805,8 @@ def parse_dyld_files(path_to_dyld_file,iredufmt=None):
         if "isotope production #" in line:
             iredufmt=0
             break
-    
-    
+
+
     # Get error data if available
     if iredufmt==0:
         try:
@@ -1819,13 +1819,13 @@ def parse_dyld_files(path_to_dyld_file,iredufmt=None):
             file_text_err = None
             lines_err = None
             err_dyld_found = False
-    
+
     # Determine geometry type (mesh = reg, xyz, or tet)
     for line in lines:
         if 'mesh =' in line:
             meshtype = line.replace('mesh =','').strip().split()[0]
-            break 
-    
+            break
+
     # If xyz mesh, need to find mesh dimensions:
     if meshtype=='xyz':
         for line in lines:
@@ -1835,17 +1835,17 @@ def parse_dyld_files(path_to_dyld_file,iredufmt=None):
                 ny = int(line.replace('ny =','').strip().split()[0])
             elif 'nz =' in line:
                 nz = int(line.replace('nz =','').strip().split()[0])
-                break 
-    
+                break
+
     # Find starting line
     for li, line in enumerate(lines):
         if 'nuclear yield (or production)' in line:
-            li_start = li 
-            break 
-    
+            li_start = li
+            break
+
     if iredufmt==1:
         # Count number of nuclides present in whole file
-        nreg = 0 
+        nreg = 0
         nuc_id_list = []
         for li, line in enumerate(lines):
             if li <= li_start+3: continue # in header
@@ -1854,16 +1854,16 @@ def parse_dyld_files(path_to_dyld_file,iredufmt=None):
             if int(vals[0])>nreg: nreg = int(vals[0])
             zzzaaam = int(vals[1])
             if zzzaaam not in nuc_id_list: nuc_id_list.append(zzzaaam)
-        
+
         nnuc = len(nuc_id_list)
         yields = np.zeros((nreg,nnuc,2))
         nuclide_names_yld = []
-        
+
         # Get names
         nuc_id_list = sorted(nuc_id_list)
         for id in nuc_id_list:
-            nuclide_names_yld.append(ZAM_to_Dname(id)) 
-        
+            nuclide_names_yld.append(ZAM_to_Dname(id))
+
         # Get values
         for li, line in enumerate(lines):
             if li <= li_start+3: continue # in header
@@ -1874,27 +1874,27 @@ def parse_dyld_files(path_to_dyld_file,iredufmt=None):
             ni = nuc_id_list.index(zzzaaam)
             yields[ri,ni,0] = np.float(vals[2])
             yields[ri,ni,1] = np.float(vals[3])*np.float(vals[2])
-              
+
     else: # old ''traditional'' format
         # Count number of nuclides present in whole file
         nnuc = 0
         for li, line in enumerate(lines):
             if li <= li_start+2: continue # skip header lines
-            if 'isotope production' in line: 
+            if 'isotope production' in line:
                 N_bounds = line.strip().split('=')[-1].split()
                 N_bounds = [int(i) for i in N_bounds]
                 nnuc += N_bounds[1] - N_bounds[0] + 1
-        
+
         # Determine number of regions
         nreg = 0
         for li, line in enumerate(lines):
             if li <= li_start+4: continue # skip header lines
-            if len(line) < 2: break # reached end of first element block 
+            if len(line) < 2: break # reached end of first element block
             nreg += 1
-        
+
         yields = np.zeros((nreg,nnuc,2))
         nuclide_names_yld = []
-        
+
         # Extract yield data
         ni = 0 # nuclide index
         ni_newstart = 0
@@ -1902,8 +1902,8 @@ def parse_dyld_files(path_to_dyld_file,iredufmt=None):
         for li, line in enumerate(lines):
             if li <= li_start+2: continue # skip header lines
             if len(line) < 2: continue # skip line breaks
-            
-            if 'isotope production' in line: 
+
+            if 'isotope production' in line:
                 # extract Z and A info
                 Z = int(line.strip().split('-')[0])
                 N_bounds = line.strip().split('=')[-1].split()
@@ -1916,17 +1916,17 @@ def parse_dyld_files(path_to_dyld_file,iredufmt=None):
                 ni_newstart = len(nuclide_names_yld)
                 for A in A_list:
                     ZAM = 10*A + 10000*Z
-                    nuclide_names_yld.append(ZAM_to_Dname(ZAM)) 
+                    nuclide_names_yld.append(ZAM_to_Dname(ZAM))
                 on_buffer_line = True
-                continue 
-            
+                continue
+
             if on_buffer_line:
                 ri = 0
-                on_buffer_line = False 
-                continue 
-                  
+                on_buffer_line = False
+                continue
+
             if '# Information for Restart Calculation' in line: break # reached end of useful info
-            
+
             # Only lines making it to this point will be ones with region and yield data
             vals = line.strip().split()
             if meshtype=='xyz':
@@ -1935,46 +1935,46 @@ def parse_dyld_files(path_to_dyld_file,iredufmt=None):
                 jx,jy,jz = int(vals[0]),int(vals[1]),int(vals[2])
                 rii = jz + (jy-1)*nz + (jx-1)*(nz*ny)
                 #if iredufmt==1:
-                #    rii = jx + (jy-1)*nx + (jz-1)*(nx*ny) 
+                #    rii = jx + (jy-1)*nx + (jz-1)*(nx*ny)
                 #else:
                 #    rii = jz + (jy-1)*nz + (jx-1)*(nz*ny)
             else:
                 yvals = vals[1:]
                 if err_dyld_found: yvals_rerr = lines_err[li].split()[1:]
-                rii = ri 
-            
+                rii = ri
+
             for i in range(nisotopes):
                 yields[rii,ni_newstart+i,0] = np.float(yvals[i])
                 if err_dyld_found: yields[rii,ni_newstart+i,1] = np.float(yvals_rerr[i])*yields[rii,ni_newstart+i,0]
-                
+
             ri += 1
-        
+
     return yields, nuclide_names_yld
-            
+
 
 def process_dchain_simulation_output(simulation_folder_path,simulation_basename,dtrk_filepath=None,dyld_filepath=None,process_DCS_file=False):
     '''
     Description:
         This is intended to be a single master function for processing DCHAIN output.
-        
+
     Dependencies:
         from munch import *
-    
+
     Inputs:
         - `simulation_folder_path` = text string of path to folder containing simulation output (should end with / or \)
         - `simulation_basename` = common string of the DCHAIN simulations; output files are named THIS_NAME.*
         - `dtrk_filepath` = file path to \*.dtrk file, only necessary if it has a different basename and there are multiple \*.dtrk files in the folder
         - `dyld_filepath` = file path to \*.dyld files, only necessary if it has a different basename and there are multiple \*.dyld files in the folder
         - `process_DCS_file` (optional) = Boolean variable specifying whether the DCS file should be processed too. (D=False)
-        
+
     Outputs:
         - `dchain_output` = a dictionary object containing all information from DCHAIN's output files.  See the keys breakdown below.
-                       
-            Technically, it tries to return a "munchify" object which can be used both exactly like a dictionary but also 
+
+            Technically, it tries to return a "munchify" object which can be used both exactly like a dictionary but also
             provides attribute-style access like a namedtuple or Class object such as `dchain_output.time.of_EOB_sec` rather
             than the dictionary style `dchain_output['time']['of_EOB_sec']`
-        
-   
+
+
     dchain_output dictionary structure:
     --------
         # Notation for output array dimensions
@@ -1983,15 +1983,15 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
         #   N  max number of nuclides found in a single region
         #   E  number of gamma energy bins
         # le10 for top 10 lists, a number <= 10
-    
+
         {
         dchain_output = {
         'time':{                            #  ~  Time information
             'from_start_sec'                # [T] list of times from start time [sec]
             'from_EOB_sec'                  # [T] times from end of final bombardment [sec]
             'of_EOB_sec'                    #     scalar time of end of final bombardment [sec]
-            }                              
-        
+            }
+
         'region':{                          #  ~  Information which only varies with region
             'numbers'                       # [R] region numbers
             'number'                        # [R] region numbers
@@ -2001,12 +2001,12 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
             'beam_power_MW'                 # [R] beam power in [MW] per region
             'beam_energy_GeV'               # [R] beam energy in [GeV] per region
             'beam_current_mA'               # [R] beam current in [mA] per region
-            }                              
-                                            
+            }
+
         'nuclides':{                        #  ~  Main nuclide results from *.act file
-            'names'                         # [R][N] names of nuclides produced in each region 
+            'names'                         # [R][N] names of nuclides produced in each region
             'TeX_names'                     # [R][N] LaTeX-formatted names of nuclides produced
-            'ZZZAAAM'                       # [R][N] ZZZAAAM values (=10000Z+10A+M) of nuclides 
+            'ZZZAAAM'                       # [R][N] ZZZAAAM values (=10000Z+10A+M) of nuclides
                                             #        (ground state m=0, metastable m=1,2,etc.)
             'half_life'                     # [R][N] half lives of nuclides produced [sec]
             'inventory':{'value'            # [R][T,N] atoms [#/cc]
@@ -2015,7 +2015,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                         'error'}            # [R][T,N] activity [Bq/cc]
             'dose_rate':{'value'            # [R][T,N] dose-rate [uSv/h*m^2]
                          'error'}           # [R][T,N] dose-rate [uSv/h*m^2]
-            'decay_heat':{                  
+            'decay_heat':{
                 'total':{'value'            # [R][T,N] total decay heat [W/cc]
                          'error'}           # [R][T,N] total decay heat [W/cc]
                 'beta':{'value'             # [R][T,N] beta decay heat [W/cc]
@@ -2024,7 +2024,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                          'error'}           # [R][T,N] gamma decay heat [W/cc]
                 'alpha':{'value'            # [R][T,N] alpha decay heat [W/cc]
                          'error'}           # [R][T,N] alpha decay heat [W/cc]
-                }                          
+                }
             'column_headers'                # Length 7 list of the *.act columns' descriptions
             'total':{                       #  ~  Total values summed over all nuclides
                 'activity':{'value'         # [R][T] total activity [Bq/cc]
@@ -2043,7 +2043,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                                    'error'} # [R][T] total gamma dose rate [uSV/h*m^2]
                 }
             }
-        
+
         'gamma':{                           #  ~  Gamma spectra and totals
             'spectra':{
                 'group_number'              # [R][T,E] group number
@@ -2053,7 +2053,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                         'error'}            # [R][T,E] flux [#/s/cc]
                 'energy_flux':{'value'      # [R][T,E] energy flux [MeV/s/cc]
                                'error'}     # [R][T,E] energy flux [MeV/s/cc]
-                }                          
+                }
             'total_flux':{'value'           # [R][T] total gamma flux [#/s/cc]
                           'error'}          # [R][T] total gamma flux [#/s/cc]
             'total_energy_flux':{'value'    # [R][T] total gamma energy flux [MeV/s/cc]
@@ -2065,7 +2065,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
             'current_overflow':{'value'     # [R][T] gamma current overflow [#/s]
                                 'error'}    # no error reported
             }
-        
+
         'top10':{                           #  ~  Top 10 lists from *.act file
             'activity':{
                 'rank'                      # [R][T,le10] rank
@@ -2073,15 +2073,15 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 'value'                     # [R][T,le10] activity [Bq/cc]
                 'error'                     # [R][T,le10] activity [Bq/cc]
                 'percent'                   # [R][T,le10] percent of total activity
-                }                         
-            'decay_heat':{                 
+                }
+            'decay_heat':{
                 'rank'                      # [R][T,le10] rank
                 'nuclide'                   # [R][T,le10] nuclide name
                 'value'                     # [R][T,le10] decay heat [W/cc]
                 'error'                     # [R][T,le10] decay heat [W/cc]
                 'percent'                   # [R][T,le10] percent of total decay heat
-                }                         
-            'gamma_dose':{                 
+                }
+            'gamma_dose':{
                 'rank':                     # [R][T,le10] rank
                 'nuclide'                   # [R][T,le10] nuclide name
                 'value'                     # [R][T,le10] dose-rate [uSv/h*m^2]
@@ -2089,16 +2089,16 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 'percent'                   # [R][T,le10] percent of total gamma dose rate
                 }
             }
-        
+
         'number_of':{                       #  ~  Maximum values of R, T, N, and E
             'regions'                       #  R  = total number of regions
             'time_steps'                    #  T  = total number of time steps
             'max_nuclides_in_any_region'    #  N  = maximum unique nuclides found in any region
             'gamma_energy_bins'             #  E  = number of gamma energy bins (default=42)
             }
-        
+
         }
-        
+
         if process_dtrk_file:
         dchain_output.update({
         'neutron':{                         #  ~  Neutron spectra and totals
@@ -2107,7 +2107,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 'E_upper'                   # [R][E] bin energy upper-bound [MeV]
                 'flux':{'value'             # [R][E] neutron flux [#/s/cm^2]
                         'error'}            # [R][E] neutron flux [#/s/cm^2]
-                }                          
+                }
             'total_flux':{'value'           # [R] total neutron flux [#/s/cm^2]
                           'error'}          # [R] total neutron flux [#/s/cm^2]
             'unit_spectra':{                #  -  Flux per unit source particle
@@ -2115,29 +2115,29 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 'E_upper'                   # [R][E] bin energy upper-bound [MeV]
                 'flux':{'value'             # [R][E] neutron flux [#/s/cm^2/s.p.]
                         'error'}            # [R][E] neutron flux [#/s/cm^2/s.p.]
-                }                          
+                }
             }
         })
-        
+
         if process_dyld_files:
         dchain_output.update({
         'yields':{                          #  ~  Yield spectra
-            'all_names'                     # [N] names of all nuclides produced 
-            'names'                         # [R][N] names of nuclides produced in each region 
+            'all_names'                     # [N] names of all nuclides produced
+            'names'                         # [R][N] names of nuclides produced in each region
             'TeX_names'                     # [R][N] LaTeX-formatted names of nuclides produced
-            'ZZZAAAM'                       # [R][N] ZZZAAAM values (=10000Z+10A+M) of nuclides 
+            'ZZZAAAM'                       # [R][N] ZZZAAAM values (=10000Z+10A+M) of nuclides
                                             #        (ground state m=0, metastable m=1,2,etc.)
             'rate':{                        #  -  Actual values used in DCHAIN (100% beam power)
                    'value'                  # [R][E] nuclide yield rate [#/s/cm^3]
                    'error'                  # [R][E] nuclide yield rate [#/s/cm^3]
-                }                          
+                }
             'unit_spectra':{                #  -  Yields per unit source particle
                    'value'                  # [R][E] nuclide yield rate [#/s.p.]
                    'error'                  # [R][E] nuclide yield rate [#/s.p.]
-                }                          
+                }
             }
         })
-        
+
         if process_DCS_file: # add extra information
             # Notation for output array dimensions
             #   R  (n_reg)    regions
@@ -2145,16 +2145,16 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
             #   Nd (nnuc_max) max number of nuclides (this index differs from the *.act N index)
             #   C  (chni_max) maximum index of relevant chains
             #   L  (chln_max) maximum number of links per chain
-            
+
         dchain_output.update({
-    
+
         'DCS':{
             'time':{
                 'from_start_sec'            # [Td] list of times from start time [sec]
                 'from_EOB_sec'              # [Td] times from end of final bombardment [sec]
                 'of_EOB_sec'                #      scalar time of end of final bombardment [sec]
                 }
-            
+
             'number_of':{                   #  ~  Maximum values of R, Td, Nd, C, and L
                 'regions'                   #  R  = total number of regions
                 'time_steps'                #  Td = total number of time steps
@@ -2162,23 +2162,23 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 'max_number_of_chains'      #  C  = highest index of a relevant chain found
                 'max_chain_length'          #  L  = max number of links (nuclides) in any chain
                 }
-            
-            'end_nuclide':{                 #  ~  Informtaion on nuclides ending each chain 
+
+            'end_nuclide':{                 #  ~  Informtaion on nuclides ending each chain
                 'names'                     # [R][Td,Nd] nuclide names
-                'inventory':{             
+                'inventory':{
                     'N_previous'            # [R][Td,Nd,C] N in previous time step [atoms/cc]
                     'N_now'                 # [R][Td,Nd,C] N in current time step [atoms/cc]
                     'dN'                    # [R][Td,Nd,C] change in N of end nuclide from
                                             #              prev. to current time step [atoms/cc]
-                    }                      
-                'activity':{                
+                    }
+                'activity':{
                     'A_previous'            # [R][Td,Nd,C] A in previous time step [Bq/cc]
-                    'A_now'                 # [R][Td,Nd,C] A in the current time step [Bq/cc] 
-                    'dA'                    # [R][Td,Nd,C] change in A of end nuclide from 
+                    'A_now'                 # [R][Td,Nd,C] A in the current time step [Bq/cc]
+                    'dA'                    # [R][Td,Nd,C] change in A of end nuclide from
                                             #              prev. to current time step [Bq/cc]
                     }
                 }
-                   
+
             'chains':{                      #  ~  Chains, links, and their contributions
                 'indices_of_printed_chains' # [R][Td,Nd]     list of chain indices printed to
                                             #                *.dcs, valid values of C index
@@ -2189,34 +2189,34 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 'link_dN':{                 # (only filled if values in file, 'None' otherwise)
                     'beam'                  # [R][Td,Nd,C,L] beam contribution to dN per link
                     'decay_nrxn'            # [R][Td,Nd,C,L] decay/neutron rxn dN contribution
-                    'total'                 # [R][Td,Nd,C,L] total contribution to dN per link 
+                    'total'                 # [R][Td,Nd,C,L] total contribution to dN per link
                     }
                 }
-            
+
             'relevant_nuclides':{           #  ~  A vs t of nuclides over relevancy threshold
                 'names'                     # [R]        list of relevant nuclides per region
                 'times'                     # [R][Td,Nd] time [s]
                 'inventory'                 # [R][Td,Nd] inventory [atm/cc]
                 'activity'                  # [R][Td,Nd] activity [Bq/cc]
-                } 
+                }
             }
         })
-    
+
     '''
     global start
-    
+
     try:
         start_time = start
     except:
         start_time = time.time()
     start = start_time
-    
+
     if simulation_basename[-3:] == '.in': simulation_basename = simulation_basename[:-3]
     simulation_file_basic_path = simulation_folder_path + simulation_basename # only need to add output file extension
-    
+
     act_file = simulation_file_basic_path + '.act'
     dcs_file = simulation_file_basic_path + '.dcs'
-    
+
     process_dtrk_file = True
     if dtrk_filepath: # DTRK file manually provided
         dtrk_file = dtrk_filepath
@@ -2239,10 +2239,10 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
             else:
                 print('    No .dtrk files could not be found in provided simulation folder: {}'.format(simulation_folder_path))
                 process_dtrk_file = False
-                
+
     if process_dtrk_file:
         neutron_flux, dtrk_metadata = parse_dtrk_file(dtrk_file,return_metadata=True)
-    
+
     process_dyld_file = True
     if dyld_filepath: # dyld file manually provided
         dyld_file = dyld_filepath
@@ -2265,11 +2265,11 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
             else:
                 print('    No .dyld files could not be found in provided simulation folder: {}'.format(simulation_folder_path))
                 process_dyld_file = False
-    
+
     print('{:<50}     ({:0.2f} seconds elapsed)'.format('    Parsing DCHAIN activation file...',time.time()-start))
-    
+
     parse_DCHAIN_act_file_OUTPUT = parse_DCHAIN_act_file(act_file)
-    reg_nos           = parse_DCHAIN_act_file_OUTPUT[0]  # length R list of region numbers 
+    reg_nos           = parse_DCHAIN_act_file_OUTPUT[0]  # length R list of region numbers
     time_list_sec     = parse_DCHAIN_act_file_OUTPUT[1]  # length T list of measurement times (in sec) from start of irradiation
     time_list_sec_after_EOB = parse_DCHAIN_act_file_OUTPUT[2] # length T list of measurement times (in sec) from end of last irradiation
     irradiation_end_t = parse_DCHAIN_act_file_OUTPUT[3]  # time of end of irradiation (in sec)
@@ -2282,19 +2282,19 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
     r_summary_info_description  = summary_info[1]  # list of length 7 containing descriptions of the above items [0='region number',1='irradiation time [s]',2='region volume [cc]',3='neutron flux [n/cm^2/s]',4='beam power [MW]',5='beam energy [GeV]',6='beam current [mA]']
     rt_summary_info             = summary_info[2]  # NumPy array of dimension RxTx12x2 of region and time-specific summary info (last index 0=value, 1=abs error) [0='total gamma flux [#/s/cc]',1='total gamma energy flux [MeV/s/cc]',2='annihilation gamma flux [#/s/cc]',3='gamma current underflow [#/s]',4='gamma current overflow [#/s]',5='total activity [Bq/cc]',6='total decay heat [W/cc]',7='beta decay heat [W/cc]',8='gamma decay heat [W/cc]',9='alpha decay heat [W/cc]',10='activated atoms [#/cc]',11='total gamma dose rate [uSV/h*m^2]']
     rt_summary_info_description = summary_info[3]  # list of length 12 containing descriptions of the above items [0='total gamma flux [#/s/cc]',1='total gamma energy flux [MeV/s/cc]',2='annihilation gamma flux [#/s/cc]',3='gamma current underflow [#/s]',4='gamma current overflow [#/s]',5='total activity [Bq/cc]',6='total decay heat [W/cc]',7='beta decay heat [W/cc]',8='gamma decay heat [W/cc]',9='alpha decay heat [W/cc]',10='activated atoms [#/cc]',11='total gamma dose rate [uSV/h*m^2]']
-    
-    
+
+
     print('{:<50}     ({:0.2f} seconds elapsed)'.format('    Restructuring nuclide data table array...',time.time()-start))
-    
+
     generate_nuclide_time_profiles_OUTPUT = generate_nuclide_time_profiles(nuclides_produced)
-    nuclide_names        = generate_nuclide_time_profiles_OUTPUT[0]  # List of length R of lists containing names of nuclides produced in each region 
-    LaTeX_nuclide_names  = generate_nuclide_time_profiles_OUTPUT[1]  # List of length R of lists containing LaTeX-formatted names of nuclides produced in each region 
+    nuclide_names        = generate_nuclide_time_profiles_OUTPUT[0]  # List of length R of lists containing names of nuclides produced in each region
+    LaTeX_nuclide_names  = generate_nuclide_time_profiles_OUTPUT[1]  # List of length R of lists containing LaTeX-formatted names of nuclides produced in each region
     nuclide_ZAM_vals     = generate_nuclide_time_profiles_OUTPUT[2]  # List of length R of lists containing ZZZAAAM values (=10000*Z+10*A+M) of nuclides produced in each region (ground state m=0, metastable m=1,2,etc.)
     nuclide_half_lives   = generate_nuclide_time_profiles_OUTPUT[3]  # List of length R of lists containing half lives of nuclides produced in each region (in seconds)
     nuclide_info         = generate_nuclide_time_profiles_OUTPUT[4]  # List of length R of NumPy arrays of dimension TxNx7x2 of nuclide info (last index 0=value, 1=abs error) [0='atoms [#/cc]',1='activity [Bq/cc]','2=beta decay heat [W/cc]','3=gamma decay heat [W/cc]','4=alpha decay heat [W/cc]','5=total decay heat [W/cc]','6=dose-rate [uSv/h*m^2]']
     nuclide_info_headers = generate_nuclide_time_profiles_OUTPUT[5]  # List of length 7 containing text descriptions of the 7 columns of the info arrays [0='atoms [#/cc]',1='activity [Bq/cc]','2=beta decay heat [W/cc]','3=gamma decay heat [W/cc]','4=alpha decay heat [W/cc]','5=total decay heat [W/cc]','6=dose-rate [uSv/h*m^2]']
-    
-    
+
+
     if process_dyld_file:
         if process_dtrk_file:
             if dtrk_metadata[0]=='dchain':
@@ -2304,7 +2304,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
         else:
             iredufmt=0
         yields, nuclide_names_yld = parse_dyld_files(dyld_file,iredufmt=iredufmt)
-        
+
         # Now reformat for more user-friendly output values
         # regionwise values
         beam_fluxs = (6.2415064e15)*r_summary_info[:,6] # particles/sec (converted from mA)
@@ -2330,22 +2330,22 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                     yield_values_by_reg[1][-1].append(beam_fluxs[ri]*yields[ri,ni,1]/reg_vols[ri])
                     yield_values_by_reg[2][-1].append(yields[ri,ni,0])
                     yield_values_by_reg[3][-1].append(yields[ri,ni,1])
-    
-    
-    
+
+
+
     if process_DCS_file:
         # Control parameters
         relevancy_threshold=0.01 # fraction of total activity an isotope must be at any time step in DCS file to be placed in the "relevant" array
-        
+
         fcn_out = parse_DCS_file_from_DCHAIN(dcs_file,relevancy_threshold=relevancy_threshold)
-        
+
         # Notation for output array dimensions
         #   R (n_reg)    regions
         #   T (ntsteps)  time steps
         #   N (nnuc_max) max number of nuclides
         #   C (chni_max) maximum index of relevant chains
         #   L (chln_max) maximum number of links per chain
-        
+
         inventory  = fcn_out[0] # universal columns of DCS file [R,T,N,C,vi], vi: 0=N_i-1/V, 1=dN/V, 2=N_i/V, 3=A_i/V, 4=A_i
         l_chains   = fcn_out[1] # [R,T,N,C], length of listed chain
         prod_nuc   = fcn_out[2] # [R,T,N], strings of the nuclide being produced
@@ -2356,38 +2356,38 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
         end_of_irradiation_time = fcn_out[7] # time of end of final irradiation step [seconds]
         notable_nuclides_names_by_region = fcn_out[8] # list of lists (one per region) containing the relevant nuclides per region
         notable_nuclides_AvT_by_region   = fcn_out[9] # list of arrays (one per region, [T,N_rlv-nuc,3]) containing the time[s]/inventory[atm/cc]/activity[Bq/cc] data of relevant nuclides
-        
+
         n_reg,ntsteps,nnuc_max,chni_max,chln_max = np.shape(decay_mode)
-        
+
         relevant_nuclides = notable_nuclides_names_by_region[0]
         n_relevant_nuclides = len(relevant_nuclides)
         relv_nuc_inv = notable_nuclides_AvT_by_region[0]
-        
+
         t_from_start = relv_nuc_inv[:,0,0]
         t_after_irrad_sec = ((relv_nuc_inv[:,0,0]-end_of_irradiation_time))
-    
+
     nreg = len(reg_nos)
     rilist = range(nreg)
     #regionwise_gamma_spectra = [gamma_spectra[ri,:,:,:,:] for ri in range(nreg)]
     #rw_totgflux_val = [rt_summary_info[ri,:,0,0] for ri in range(nreg)]
     #rw_totgflux_ae = [rt_summary_info[ri,:,0,1] for ri in range(nreg)]
     #rw_totegflux = [rt_summary_info[ri,:,1,:] for ri in range(nreg)]
-    
-    
+
+
     # Notation for output array dimensions
     #   R  regions
     #   T  time steps
     #   N  max number of nuclides found in a single region
     #   E  number of gamma energy bins
     # le10 for top 10 lists, a number <= 10
-    
+
     dchain_output = {
         'time':{                                              #  ~  Time information
             'from_start_sec':time_list_sec,                   # [T] list of times from start time [sec]
             'from_EOB_sec':time_list_sec_after_EOB,           # [T] list of times from end of final bombardment [sec]
             'of_EOB_sec':irradiation_end_t,                   #     scalar time marking end of final bombardment [sec]
             },
-        
+
         'region':{                                            #  ~  Information which only varies with region
             'numbers':reg_nos,                                # [R] list of all region numbers
             'number': r_summary_info[:,0],                    # [R] list of all region numbers
@@ -2398,10 +2398,10 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
             'beam_energy_GeV': r_summary_info[:,5],           # [R] list of beam energy in GeV per region
             'beam_current_mA': r_summary_info[:,6]            # [R] list of beam current in mA per region
             },
-        
+
         'nuclides':{                                          #  ~  Main nuclide results from *.act file
-            'names':nuclide_names,                            # [R][N] list of lists containing names of nuclides produced in each region 
-            'TeX_names':LaTeX_nuclide_names,                  # [R][N] list of lists containing LaTeX-formatted names of nuclides produced in each region 
+            'names':nuclide_names,                            # [R][N] list of lists containing names of nuclides produced in each region
+            'TeX_names':LaTeX_nuclide_names,                  # [R][N] list of lists containing LaTeX-formatted names of nuclides produced in each region
             'ZZZAAAM':nuclide_ZAM_vals,                       # [R][N] list of lists containing ZZZAAAM values (=10000*Z+10*A+M) of nuclides produced in each region (ground state m=0, metastable m=1,2,etc.)
             'half_life':nuclide_half_lives,                   # [R][N] list of lists containing half lives of nuclides produced in each region (in seconds)
             'inventory':{'value':[nuclide_info[ri][:,:,0,0] for ri in rilist],       # [R][T,N] atoms [#/cc]
@@ -2421,7 +2421,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                          'error':[nuclide_info[ri][:,:,4,1] for ri in rilist]},      # [R][T,N] alpha decay heat [W/cc]
                 },
             'column_headers':nuclide_info_headers, # List of length 7 containing text descriptions of the 7 columns of the info arrays [0='atoms [#/cc]',1='activity [Bq/cc]','2=beta decay heat [W/cc]','3=gamma decay heat [W/cc]','4=alpha decay heat [W/cc]','5=total decay heat [W/cc]','6=dose-rate [uSv/h*m^2]']
-            'total':{                                                                       #  ~  Total values summed over all nuclides 
+            'total':{                                                                       #  ~  Total values summed over all nuclides
                 'activity':{'value':[rt_summary_info[ri,:,5,0] for ri in rilist] ,          # [R][T] total activity [Bq/cc]
                             'error':[rt_summary_info[ri,:,5,1] for ri in rilist]},          # [R][T] total activity [Bq/cc]
                 'decay_heat':{'value':[rt_summary_info[ri,:,6,0] for ri in rilist] ,        # [R][T] total decay heat [W/cc]
@@ -2438,8 +2438,8 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                                    'error':[rt_summary_info[ri,:,11,1] for ri in rilist]}   # [R][T] total gamma dose rate [uSV/h*m^2]
                 }
             },
-        
-        
+
+
         'gamma':{                                                                                              #  ~  Gamma spectra and totals
             'spectra':{
                 'group_number':[gamma_spectra[ri,:,:,0,0] for ri in rilist],                                   # [R][T,E] group number
@@ -2461,9 +2461,9 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
             'current_overflow':{'value':[rt_summary_info[ri,:,4,0] for ri in rilist],                          # [R][T] gamma current overflow [#/s]
                                 'error':[rt_summary_info[ri,:,4,1] for ri in rilist]}   # no error reported
             },
-        
+
         'top10':{                                                          #  ~  Top 10 lists from *.act file
-            'activity':{ 
+            'activity':{
                 'rank':[top10_lists[ri,:,:,0,0] for ri in rilist],         # [R][T,le10] rank
                 'nuclide':[top10_lists[ri,:,:,1,0] for ri in rilist],      # [R][T,le10] nuclide name
                 'value':[top10_lists[ri,:,:,2,0] for ri in rilist],        # [R][T,le10] activity [Bq/cc]
@@ -2485,16 +2485,16 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 'percent':[top10_lists[ri,:,:,11,0] for ri in rilist],     # [R][T,le10] percent of total gamma dose rate
                 }
             },
-        
+
         'number_of':{                                                      #  ~  Maximum values of R, T, N, and E
             'regions':nreg,                                                #  R  = total number of regions
             'time_steps':len(time_list_sec),                               #  T  = total number of time steps
             'max_nuclides_in_any_region':np.shape(nuclides_produced)[2],   #  N  = maximum unique nuclides found in any region
             'gamma_energy_bins':np.shape(gamma_spectra)[2]                 #  E  = number of gamma energy bins (default=42)
             }
-        
+
         }
-    
+
     if process_dtrk_file:
         dflux_norm = []
         for ri in rilist:
@@ -2513,7 +2513,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                     },
                 'total_flux':{'value':[np.sum(neutron_flux[ri,:,2])*dflux_norm[ri] for ri in rilist],               # [R] total neutron flux [#/s/cm^2]
                               'error':[np.sqrt(np.sum(neutron_flux[ri,:,3]**2))*dflux_norm[ri] for ri in rilist]},  # [R] total neutron flux [#/s/cm^2]
-                'unit_spectra':{                                                         # Raw T-Track output from PHITS  
+                'unit_spectra':{                                                         # Raw T-Track output from PHITS
                     'E_lower':[neutron_flux[ri,:,0] for ri in rilist],                   # [R][E] bin energy lower-bound [MeV]
                     'E_upper':[neutron_flux[ri,:,1] for ri in rilist],                   # [R][E] bin energy upper-bound [MeV]
                     'flux':{'value':[neutron_flux[ri,:,2] for ri in rilist],             # [R][E] neutron flux [#/s/cm^2]
@@ -2521,21 +2521,21 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                     },
                 }
             })
-    
+
     if process_dyld_file:
         dchain_output.update({
             'yields':{                                              #  ~  Yield spectra
                 'all_names':nuclide_names_yld,                      # [N] names of nuclides produced in all regions
-                'names':reg_yld_names,                              # [R][N] names of nuclides produced in each region 
+                'names':reg_yld_names,                              # [R][N] names of nuclides produced in each region
                 'TeX_names':reg_yld_texnames,                       # [R][N] LaTeX-formatted names of nuclides produced
-                'ZZZAAAM':reg_yld_zam,                              # [R][N] ZZZAAAM values (=10000Z+10A+M) of nuclides 
+                'ZZZAAAM':reg_yld_zam,                              # [R][N] ZZZAAAM values (=10000Z+10A+M) of nuclides
                 'rate':{'value':yield_values_by_reg[0],             # [R][E] nuclide yield rate [#/s/cm^3]
                         'error':yield_values_by_reg[1]},            # [R][E] nuclide yield rate [#/s/cm^3]
                 'unit_rate':{'value':yield_values_by_reg[2],        # [R][E] unit nuclide yield rate [#/s.p.]
                              'error':yield_values_by_reg[3]}        # [R][E] unit nuclide yield rate [#/s.p.]
                 }
             })
-    
+
     if process_DCS_file: # add extra information
         # Notation for output array dimensions
         #   R  (n_reg)    regions
@@ -2543,14 +2543,14 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
         #   Nd (nnuc_max) max number of nuclides (this index differs from the ACT N index)
         #   C  (chni_max) maximum index of relevant chains
         #   L  (chln_max) maximum number of links per chain
-        
+
         dchain_output.update({'DCS':{
             'time':{
                 'from_start_sec':t_from_start,         # [Td] list
                 'from_EOB_sec':t_after_irrad_sec,      # [Td] list
                 'of_EOB_sec':irradiation_end_t         #      scalar
                 },
-            
+
             'number_of':{                              #  ~  Maximum values of R, Td, Nd, C, and L
                 'regions':n_reg,                       #  R  = total number of regions
                 'time_steps':ntsteps,                  #  Td = total number of time steps
@@ -2558,24 +2558,24 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 'max_number_of_chains':chni_max,       #  C  = highest index of a relevant chain found
                 'max_chain_length':chln_max            #  L  = maximum number of links (nuclides) found in any chain
                 },
-            
+
             'end_nuclide':{
                 'names':[prod_nuc[ri,:,:] for ri in rilist],                  # [R][Td,Nd] nuclide names
-                
+
                 'inventory':{
                     'N_previous':[inventory[ri,:,:,:,0] for ri in rilist],    # [R][Td,Nd,C] inventory of end nuclide in previous time step [atoms/cc]
                     'N_now':[inventory[ri,:,:,:,2] for ri in rilist],         # [R][Td,Nd,C] inventory of end nuclide in the current time step [atoms/cc]
                     'dN':[inventory[ri,:,:,:,1] for ri in rilist]             # [R][Td,Nd,C] change in inventory of end nuclide from the previous to the current time step [atoms/cc]
                     },
-                
+
                 'activity':{
                     'A_previous':[inventory[ri,:,:,:,0]*(inventory[ri,:,:,:,3]/inventory[ri,:,:,:,2]) for ri in rilist], # [R][Td,Nd,C] activity of end nuclide in previous time step [Bq/cc]
-                    'A_now':[inventory[ri,:,:,:,3] for ri in rilist],                                                    # [R][Td,Nd,C] activity of end nuclide in the current time step [Bq/cc] 
+                    'A_now':[inventory[ri,:,:,:,3] for ri in rilist],                                                    # [R][Td,Nd,C] activity of end nuclide in the current time step [Bq/cc]
                     'dA':[inventory[ri,:,:,:,1]*(inventory[ri,:,:,:,3]/inventory[ri,:,:,:,2]) for ri in rilist]          # [R][Td,Nd,C] change in activity of end nuclide from the previous to the current time step [Bq/cc]
                     }
                 },
-                
-                
+
+
             'chains':{
                 'indices_of_printed_chains':[chn_indx[ri,:,:] for ri in rilist],           # [R][Td,Nd]     lists of the chain indices printed
                 'length':[l_chains[ri,:,:,:] for ri in rilist],                            # [R][Td,Nd,C]   length of listed chain
@@ -2587,23 +2587,23 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                     'total':[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
                     }
                 },
-            
+
             'relevant_nuclides':{
                 'names':notable_nuclides_names_by_region,                                  # [R]        list of relevant nuclides per region
                 'times':[notable_nuclides_AvT_by_region[ri][:,:,0] for ri in rilist],      # [R][Td,Nd] time [s]
                 'inventory':[notable_nuclides_AvT_by_region[ri][:,:,1] for ri in rilist],  # [R][Td,Nd] inventory [atm/cc]
                 'activity':[notable_nuclides_AvT_by_region[ri][:,:,2] for ri in rilist]    # [R][Td,Nd] activity [Bq/cc]
                 }
-                
+
             }})
-        
-    
+
+
     # https://github.com/Infinidat/munch
-    try:
-        dchain_output = munchify(dchain_output)
-    except:
-        print("munchify failed.  Returned object is a conventional dictionary rather than a munchify object.")
-    
+    # try:
+    #     dchain_output = munchify(dchain_output)
+    # except:
+    #     print("munchify failed.  Returned object is a conventional dictionary rather than a munchify object.")
+
     return dchain_output
 
 
@@ -2611,20 +2611,20 @@ def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis
     '''
     Description:
         Generate a nice plot illustrating dominant nuclides as a function of time or region
-    
+
     Dependencies:
         - `import numpy as np`
         - `import matplotlib.pyplot as plt`
         - `process_dchain_simulation_output`
-    
+
     Inputs:
         (required)
-        
+
         - `dchain_output` = dictionary output from the process_dchain_simulation_output for a simulation
-        
+
     Inputs:
         (optional, keyword)
-       
+
         - `rank_val` = which top 10 list is selected. (D=`'activity'`, options include `'activity'`, `'decay_heat'`, and `'gamma_dose'`)
         - `xaxis_val` = value to be plotted on x-axis; can be either `"time"` (default) or `"region"`
         - `xaxis_type` = space xaxis entries either equally by `"indices"` (default) or realistically by `"values"`
@@ -2634,16 +2634,16 @@ def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis
         - `time_indices` = same as above but uses indices rather than time values; this has higher priority if specified (D=`None`, plot all times)
         - `rank_cutoff` = highest rank (or number of ranks) to be displayed (D=`10`, cannot be any greater than 10)
         - `xscale` = string specifying scale of x-axis, either `'linear'` (default) or `'log'`
-        
+
     Outputs:
         - `fig_list` = list of figures which can be plotted.
     '''
-    
+
     max_nregs = len(dchain_output['region']['numbers'])
     all_regs = dchain_output['region']['numbers']
     max_ntimes = len(dchain_output['time']['from_start_sec'])
     all_times = dchain_output['time']['from_start_sec']
-    
+
     if not regions and not region_indices:
         regions = dchain_output['region']['numbers']
         region_indices  = range(len(regions))
@@ -2679,7 +2679,7 @@ def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis
             else:
                 print('Single provided region {} is not in the simulated region numbers, aborting...'.format(region_indices))
                 return None
-    
+
     if not times and not time_indices:
         times = dchain_output['time']['from_start_sec']
         time_indices  = range(len(times))
@@ -2715,31 +2715,31 @@ def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis
             else:
                 print('Single provided time {} is not in the outputted times, aborting...'.format(time_indices))
                 return None
-            
+
     if rank_val=='photon_dose':
         rank_val = 'gamma_dose'
     if rank_val not in ['activity','decay_heat','gamma_dose']:
         print("rank_val must be either 'activity', 'decay_heat', or 'gamma_dose', aborting...")
         return None
-    
+
     if xaxis_val not in ['time','region']:
         print("xaxis_val must be either 'time' or 'region', aborting...")
         return None
-    
+
     if xaxis_type=='index': xaxis_type = 'indices'
     if xaxis_type=='value': xaxis_type = 'values'
     if xaxis_type not in ['indices','values']:
         print("xaxis_val must be either 'indices' or 'values', aborting...")
         return None
-    
+
     fig_list = []
     ax_list = []
     figi = 0
-    
+
     if xaxis_val=='time':
         major_indices = region_indices
         minor_indices = time_indices
-        major_values = regions 
+        major_values = regions
         minor_values = times
         xstr = 'Time'
     else:
@@ -2748,26 +2748,26 @@ def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis
         major_values = times
         minor_values = regions
         xstr = 'Region'
-        
+
     if xaxis_type=='indices':
         xdata = minor_indices
         xstr += ' (index)'
     else:
         xdata = minor_values
-        
+
     for majori in major_indices:
         figi += 1
         # Assemble list of all ranked nuclides
         nuclides = []
         for minori in minor_indices:
-            
+
             if xaxis_val=='time':
-                ri = majori 
+                ri = majori
                 ti = minori
             else:
-                ri = minori 
+                ri = minori
                 ti = majori
-            
+
             for tti in range(len(dchain_output['top10'][rank_val]['nuclide'][ri][ti,:])):
                 if (dchain_output['top10'][rank_val]['nuclide'][ri][ti,tti]!=None) and (dchain_output['top10'][rank_val]['nuclide'][ri][ti,tti] not in nuclides) and (dchain_output['top10'][rank_val]['rank'][ri][ti,tti]<=rank_cutoff):
                     nuclides.append(dchain_output['top10'][rank_val]['nuclide'][ri][ti,tti])
@@ -2778,10 +2778,10 @@ def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis
             ydata = []
             for minori in minor_indices:
                 if xaxis_val=='time':
-                    ri = majori 
+                    ri = majori
                     ti = minori
                 else:
-                    ri = minori 
+                    ri = minori
                     ti = majori
                 if nuclide in dchain_output['top10'][rank_val]['nuclide'][ri][ti,:]:
                     tti = dchain_output['top10'][rank_val]['nuclide'][ri][ti,:].tolist().index(nuclide)
@@ -2797,57 +2797,57 @@ def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis
             dict = {'xdata':xdata,'ydata':ydata,'marker':tex_name,'markersize':30}
             plot_dicts.append(dict)
         # Now generate plot
-        
+
         if xaxis_val=='time':
             title_str = 'Top {} nuclides by {} in region {}'.format(rank_cutoff,rank_val.replace('_',' '),major_values[major_indices.index(majori)])
         else:
             title_str = 'Top {} nuclides by {} at t = {} seconds'.format(rank_cutoff,rank_val.replace('_',' '),major_values[major_indices.index(majori)])
         ystr = 'Rank'
-        
-        
-        
+
+
+
         # For public version, just make this a basic plot rather than using my complicated personal plotting function
         fig1 = plt.figure()
         ax1 = plt.subplot(111)
-        
+
         for entry in plot_dicts:
             ax1.plot(entry['xdata'],entry['ydata'],marker=entry['marker'],markersize=entry['markersize'],ls='')
-        
+
         plt.xlabel(xstr,fontsize=14)
         plt.ylabel(ystr,fontsize=14)
         plt.xscale(xscale)
         fig1.tight_layout()
         fig1.set_size_inches(0.2+6.3*(len(plot_dicts[0]['xdata'])/12),6.5*(rank_cutoff/10)+0.1*(10-rank_cutoff))
-        
+
         '''
         fig1, ax1 = fancy_plot(
-                               xdata_lists=None, 
-                               ydata_lists=None, 
+                               xdata_lists=None,
+                               ydata_lists=None,
                                dictionaries=plot_dicts,
                                figi=figi,
                                title_str=title_str,
-                               x_label_str=xstr,  
+                               x_label_str=xstr,
                                y_label_str=ystr,
                                x_scale=xscale,
                                y_scale='linear',
                                fig_height_inch=6.5*(rank_cutoff/10)+0.1*(10-rank_cutoff)
                                )
         '''
-        
+
         ax1.set_yticks(range(1,rank_cutoff+1))
         ax1.set_yticklabels([str(i) for i in range(rank_cutoff,0,-1)])
-        
+
         if xaxis_type=='indices':
             ax1.set_xticks(minor_indices)
             ax1.set_xticklabels([str(i) for i in minor_indices])
-        
+
         plt.grid(b=True, which='major', linestyle='-', alpha=0)#0.25)
         plt.grid(b=True, which='minor', linestyle='-', alpha=0)#0.10)
-        
+
         fig_list.append(fig1)
         ax_list.append(ax1)
-        
-    
+
+
     return fig_list #, ax_list
 
 
@@ -2879,11 +2879,11 @@ def find(target, myList):
     '''
     Description:
         Search for and return the index of the first occurance of a value in a list.
-        
+
     Inputs:
         - `target` = value to be searched for
-        - `myList` = list of values 
-        
+        - `myList` = list of values
+
     Outputs:
         - index of first instance of `target` in `myList`
     '''
@@ -2895,11 +2895,11 @@ def find(target, myList):
 def Element_Z_to_Sym(Z):
     '''
     Description:
-        Returns elemental symbol for a provided atomic number Z        
-    
+        Returns elemental symbol for a provided atomic number Z
+
     Inputs:
-        - `Z` = atomic number 
-    
+        - `Z` = atomic number
+
     Outputs:
         - `sym` = string of elemental symbol for element of atomic number Z
     '''
@@ -2917,24 +2917,24 @@ def Element_Z_to_Sym(Z):
             "Md","No","Lr","Rf","Db","Sg","Bh","Hs","Mt","Ds",\
             "Rg","Cn","Nh","Fl","Mc","Lv","Ts","Og"]
     i = int(Z)
-    if i < 0 or i > len(elms): 
+    if i < 0 or i > len(elms):
         print('Z={} is not valid, please select a number from 0 to 118 (inclusive).'.format(str(Z)))
-        return None 
+        return None
     return elms[i].strip()
 
 def Element_Sym_to_Z(sym):
     '''
     Description:
-        Returns atomic number Z for a provided elemental symbol        
-    
+        Returns atomic number Z for a provided elemental symbol
+
     Dependencies:
-        `find` 
-    
+        `find`
+
     Inputs:
         - `sym` = string of elemental symbol for element of atomic number Z
-    
+
     Outputs:
-        - `Z` = atomic number 
+        - `Z` = atomic number
     '''
     elms = ["n ",\
             "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
@@ -2949,36 +2949,36 @@ def Element_Sym_to_Z(sym):
             "Pa","U ","Np","Pu","Am","Cm","Bk","Cf","Es","Fm",\
             "Md","No","Lr","Rf","Db","Sg","Bh","Hs","Mt","Ds",\
             "Rg","Cn","Nh","Fl","Mc","Lv","Ts","Og"]
-    
+
     if len(sym.strip())>2:
         print('Please provide a valid elemental symbol (1 or 2 characters), {} is too long'.format(sym))
         return -1
-    
+
     # handle exception for neutron first
     if sym.strip()=='XX':
         return 0
-    
+
     # make sure string is formatted to match entries in elms list
     sym2 = sym.strip()
     if len(sym2)==1: sym2 += ' '
     sym2 = sym2[0].upper() + sym2[1].lower()
-    
+
     Z = find(sym2,elms)
-    
+
     if Z==None:
         print('Z could not be found for element "{}"; please make sure entry is correct.'.format(sym))
         return -1
-    
+
     return Z
 
 def Element_ZorSym_to_name(Z):
     '''
     Description:
-        Returns an element's name provided its atomic number Z or elemental symbol        
-    
+        Returns an element's name provided its atomic number Z or elemental symbol
+
     Inputs:
         - `Z` = string of elemental symbol or atomic number Z
-    
+
     Outputs:
         - `name` = element name
     '''
@@ -2996,26 +2996,26 @@ def Element_ZorSym_to_name(Z):
                      'Berkelium','Californium','Einsteinium','Fermium','Mendelevium','Nobelium','Lawrencium',
                      'Rutherfordium','Dubnium','Seaborgium','Bohrium','Hassium','Meitnerium','Darmstadtium',
                      'Roentgenium','Copernicium','Nihonium','Flerovium','Moscovium','Livermorium','Tennessine','Oganesson']
-    
+
     try:
         zi = int(Z)
     except:
         zi = Element_Sym_to_Z(Z)
-    
+
     return element_names[zi]
 
 def Element_ZorSym_to_mass(Z):
     '''
     Description:
-        Returns an element's average atomic mass provided its atomic number Z or elemental symbol        
-    
+        Returns an element's average atomic mass provided its atomic number Z or elemental symbol
+
     Inputs:
         - `Z` = string of elemental symbol or atomic number Z
-    
+
     Outputs:
         - `A_avg` = average atomic mass
     '''
-    
+
     average_atomic_masses = [1.008664,1.007,4.002602,6.941,9.012182,10.811,12.0107,14.0067,15.9994,18.9984032,
                              20.1797,22.98976928,24.305,26.9815386,28.0855,30.973762,32.065,35.453,39.948,39.0983,
                              40.078,44.955912,47.867,50.9415,51.9961,54.938045,55.845,58.933195,58.6934,63.546,65.38,
@@ -3026,29 +3026,29 @@ def Element_ZorSym_to_mass(Z):
                              186.207,190.23,192.217,195.084,196.966569,200.59,204.3833,207.2,208.9804,209,210,222,
                              223,226,227,232.03806,231.03588,238.02891,237,244,243,247,247,251,252,257,258,259,
                              266,267,268,269,270,277,278,281,282,285,286,289,290,293,294,294]
-    
+
     try:
         zi = int(Z)
     except:
         zi = Element_Sym_to_Z(Z)
-        
+
     return average_atomic_masses[zi]
 
 def nuclide_to_Latex_form(Z,A,m=''):
     '''
     Description:
         Form a LaTeX-formatted string of a nuclide provided its information
-    
+
     Dependencies:
-        `Element_Z_to_Sym` 
+        `Element_Z_to_Sym`
         (only required if inputed Z is not already an elemental symbol)
-    
+
     Inputs:
         - `Z` = atomic number of nuclide (int, float, or string) or elemental symbol (string)
         - `A` = atomic mass of nuclide (int, float, or string) or string to go in place of A (ex. 'nat')
         - `m` = metastable state (D='', ground state); this will be appended to the end of A
               if not a string already, it will be converted into one and appended to 'm' (ex. 1 -> 'm1')
-    
+
     Outputs:
         - LaTeX-formatted raw string of a nuclide, excellent for plot titles, labels, and auto-generated LaTeX documents
     '''
@@ -3064,53 +3064,53 @@ def nuclide_plain_str_to_latex_str(nuc_str,include_Z=False):
     Description:
         Converts a plaintext string of a nuclide to a LaTeX-formatted raw string
         Note: if you already have the Z, A, and isomeric state information determined, the "nuclide_to_Latex_form" function can be used instead
-    
+
     Dependencies:
         - `Element_Z_to_Sym` (only required if `include_Z = True`)
-    
+
     Inputs:
         (required)
-     
+
        - `nuc_str` = string to be converted; a huge variety of formats are supported, but they all must follow the following rules:
            + Isomeric/metastable state characters must always immediately follow the atomic mass characters.
                Isomeric state labels MUST either:
-               - (1) be a single lower-case character OR 
+               - (1) be a single lower-case character OR
                - (2) begin with any non-numeric character and end with a number
            + Atomic mass numbers must be nonnegative integers OR the string `"nat"` (in which case no metastable states can be written)
            + Elemental symbols MUST begin with an upper-case character
-    
+
     Inputs:
        (optional)
-        
+
        - `include_Z` = `True`/`False` determining whether the nuclide's atomic number Z will be printed as a subscript beneath the atomic mass
-    
+
     Outputs:
         - LaTeX-formatted raw string of nuclide
     '''
     tex_str = r''
-    
+
     # remove unwanted characters from provided string
     delete_characters_list = [' ', '-', '_']
     for dc in delete_characters_list:
         nuc_str = nuc_str.replace(dc,'')
-    
+
     # determine which characters are letters versus numbers
     isalpha_list = []
     isdigit_list = []
     for c in nuc_str:
         isalpha_list.append(c.isalpha())
         isdigit_list.append(c.isdigit())
-    
+
     symbol = ''
     mass = ''
     isost = ''
-    
+
     # string MUST begin with either mass number or elemental symbol
     if isdigit_list[0] or nuc_str[0:3]=='nat': # mass first
-        mass_first = True 
+        mass_first = True
     else:
-        mass_first = False 
-    
+        mass_first = False
+
     if mass_first:
         if nuc_str[0:3]=='nat':
             mass = 'nat'
@@ -3126,7 +3126,7 @@ def nuclide_plain_str_to_latex_str(nuc_str,include_Z=False):
             # first, check to see if any other numerals are in string
             lni = 0 # last numeral index
             for i in range(ci,len(nuc_str)):
-                if isdigit_list[i]: 
+                if isdigit_list[i]:
                     lni = i
             if lni != 0:
                 # grab all characters between ci and last numeral as metastable state
@@ -3136,40 +3136,40 @@ def nuclide_plain_str_to_latex_str(nuc_str,include_Z=False):
                 if isalpha_list[ci] and nuc_str[ci].islower():
                     isost = nuc_str[ci]
                     ci += 1
-            
+
             # Now extract elemental symbol
             for i in range(ci,len(nuc_str)):
                 if isalpha_list[i]:
                     symbol += nuc_str[i]
-    
+
     else: # if elemental symbol is listed first
         if 'nat' in nuc_str:
             mass = 'nat'
             nuc_str = nuc_str.replace('nat','')
-            
+
         ci = 0
         # Extract all characters before first number as the elemental symbol
         while nuc_str[ci].isalpha():
             symbol += nuc_str[ci]
             ci += 1
-            
-        # now, extract mass 
+
+        # now, extract mass
         if mass != 'nat':
             while nuc_str[ci].isdigit():
                 mass += nuc_str[ci]
                 ci += 1
                 if ci == len(nuc_str):
                     break
-            
+
             # lastly, extract isomeric state, if present
             if ci != len(nuc_str):
                 isost = nuc_str[ci:]
-        
+
     # treating the cases of lowercase-specified particles (n, d, t, etc.)
     if symbol == '' and isost != '':
         symbol = isost
         isost = ''
-        
+
     # Now assemble LaTeX string for nuclides
     if include_Z:
         if symbol == 'n':
@@ -3182,57 +3182,57 @@ def nuclide_plain_str_to_latex_str(nuc_str,include_Z=False):
         tex_str = r"$^{{{}{}}}_{{{}}}$".format(mass,isost,Z) + "{}".format(symbol)
     else:
         tex_str = r"$^{{{}{}}}$".format(mass,isost) + "{}".format(symbol)
-    
+
     return tex_str
 
 def nuclide_plain_str_ZZZAAAM(nuc_str):
     '''
     Description:
         Converts a plaintext string of a nuclide to an integer ZZZAAAM = 10000\*Z + 10\*A + M
-    
+
     Dependencies:
-        `Element_Z_to_Sym` 
-    
+        `Element_Z_to_Sym`
+
     Inputs:
        - `nuc_str` = string to be converted; a huge variety of formats are supported, but they all must follow the following rules:
            + Isomeric/metastable state characters must always immediately follow the atomic mass characters.
                Isomeric state labels MUST either:
-               - (1) be a single lower-case character OR 
+               - (1) be a single lower-case character OR
                - (2) begin with any non-numeric character and end with a number
            + Atomic mass numbers must be nonnegative integers OR the string "nat" (in which case no metastable states can be written)
            + Elemental symbols MUST begin with an upper-case character
-    
-    
+
+
     Outputs:
         - ZZZAAAM integer
     '''
-    
+
     # remove unwanted characters from provided string
     delete_characters_list = [' ', '-', '_']
     for dc in delete_characters_list:
         nuc_str = nuc_str.replace(dc,'')
-    
+
     # determine which characters are letters versus numbers
     isalpha_list = []
     isdigit_list = []
     for c in nuc_str:
         isalpha_list.append(c.isalpha())
         isdigit_list.append(c.isdigit())
-    
+
     symbol = ''
     mass = ''
     isost = ''
-    
+
     if 'nat' in nuc_str:
         print('Must specify a specific nuclide, not natural abundances')
-        return None 
-    
+        return None
+
     # string MUST begin with either mass number or elemental symbol
     if isdigit_list[0]: # mass first
-        mass_first = True 
+        mass_first = True
     else:
-        mass_first = False 
-    
+        mass_first = False
+
     if mass_first:
         ci = 0
         while isdigit_list[ci]:
@@ -3244,7 +3244,7 @@ def nuclide_plain_str_ZZZAAAM(nuc_str):
         # first, check to see if any other numerals are in string
         lni = 0 # last numeral index
         for i in range(ci,len(nuc_str)):
-            if isdigit_list[i]: 
+            if isdigit_list[i]:
                 lni = i
         if lni != 0:
             # grab all characters between ci and last numeral as metastable state
@@ -3254,45 +3254,45 @@ def nuclide_plain_str_ZZZAAAM(nuc_str):
             if isalpha_list[ci] and nuc_str[ci].islower():
                 isost = nuc_str[ci]
                 ci += 1
-        
+
         # Now extract elemental symbol
         for i in range(ci,len(nuc_str)):
             if isalpha_list[i]:
                 symbol += nuc_str[i]
-    
+
     else: # if elemental symbol is listed first
         ci = 0
         # Extract all characters before first number as the elemental symbol
         while nuc_str[ci].isalpha():
             symbol += nuc_str[ci]
             ci += 1
-            
-        # now, extract mass 
+
+        # now, extract mass
         while nuc_str[ci].isdigit():
             mass += nuc_str[ci]
             ci += 1
             if ci == len(nuc_str):
                 break
-        
+
         # lastly, extract isomeric state, if present
         if ci != len(nuc_str):
             isost = nuc_str[ci:]
-        
+
     # treating the cases of lowercase-specified particles (n, d, t, etc.)
     if symbol == '' and isost != '':
         symbol = isost
         isost = ''
-        
-    
+
+
     if symbol == 'n':
         Z = 0
     elif symbol == 'p' or symbol == 'd' or symbol == 't':
         Z = 1
     else:
-        Z = Element_Sym_to_Z(symbol)  
-    
+        Z = Element_Sym_to_Z(symbol)
+
     A = int(mass)
-    
+
     if isost.strip()=='' or isost=='g':
         M = 0
     elif isost=='m' or isost=='m1':
@@ -3308,9 +3308,9 @@ def nuclide_plain_str_ZZZAAAM(nuc_str):
     else:
         print("Unknown isomeric state {}, assumed ground state".format(isost))
         M = 0
-    
-    ZZZAAAM = 10000*Z + 10*A + M 
-    
+
+    ZZZAAAM = 10000*Z + 10*A + M
+
     return ZZZAAAM
 
 
@@ -3318,13 +3318,13 @@ def time_str_to_sec_multiplier(time_str):
     '''
     Description:
         Provide a time unit and this function provides what those time units need to be multiplied by to obtain seconds.
-    
+
     Inputs:
         - `time_str` = string containing time units character(s) [s,m,h,d,y,ms,us,ns,ps,fs]
-    
+
     Outputs:
         - `m` = multiplier to convert a time of the supplied units to seconds
-    
+
     '''
     try:
         if time_str == 's':
@@ -3356,18 +3356,18 @@ def seconds_to_dhms(t_sec):
     '''
     Description:
         Provide a time in seconds and obtain a string with the time in days, hours, minutes, and seconds
-    
+
     Inputs:
         - `t_sec` = a time in seconds (float or int)
-    
+
     Outputs:
         - `time_str` = string containing the time prettily formatted in d/h/m/s format
-    
+
     '''
     m, s = divmod(t_sec, 60)
     h, m = divmod(m, 60)
     d, h = divmod(h, 24)
-    
+
     if d != 0:
         time_str = "{:0.0f}d {:0.0f}h {:0.0f}m {:0.2f}s".format(d,h,m,s)
     elif h != 0:
@@ -3378,30 +3378,30 @@ def seconds_to_dhms(t_sec):
         time_str = "{:0.2f}s".format(s)
     else:
         time_str = ""
-        
+
     return time_str
 
 def seconds_to_ydhms(t_sec):
     '''
     Description:
         Provide a time in seconds and obtain a string with the time in years, days, hours, minutes, and seconds
-    
+
     Inputs:
         - `t_sec` = a time in seconds (float or int)
-    
+
     Outputs:
         - `time_str` = string containing the time prettily formatted in y/d/h/m/s format
-    
+
     '''
     m, s = divmod(t_sec, 60)
     h, m = divmod(m, 60)
     d, h = divmod(h, 24)
     y, d = divmod(d, 365)
-    
+
     if y>=4 : # if leap year occurred
         n_leap_years = int(y/4)
         d = d-n_leap_years
-    
+
     if y != 0:
         time_str = "{:0.0f}y {:0.0f}d {:0.0f}h {:0.0f}m {:0.2f}s".format(y,d,h,m,s)
     elif d != 0:
@@ -3414,7 +3414,7 @@ def seconds_to_ydhms(t_sec):
         time_str = "{:0.2f}s".format(s)
     else:
         time_str = ""
-        
+
     return time_str
 
 
@@ -3448,43 +3448,42 @@ def seconds_to_ydhms(t_sec):
 
 
 show_output_from_example = False
-if show_output_from_example:   
+if show_output_from_example:
     test_folder = r'example\\'
     test_basename = 'example_Na22'
-    
+
     output = process_dchain_simulation_output(test_folder,test_basename)
-    
+
     print('\n')
-     
+
     print('Output times relative to start (in seconds):',output['time']['from_start_sec'])
     print('Output times relative to EOB (in seconds):  ',output.time.from_EOB_sec)
-    
+
     print('\n')
-    
+
     print('Total neutron flux in first region (in n/cm^2/sec):',output['region']['neutron_flux'][0])
     print('Fractional uncertainty in total neutron flux in first region:',output['neutron']['total_flux']['error'][0]/output['neutron']['total_flux']['value'][0])
-    
+
     print('\n')
-    
+
     print('All produced nuclides (in DCHAIN-formatted strings):',output['nuclides']['names'])
     #print(np.shape(np.array(output['gamma']['spectra']['flux']['value'])))
     #print(output['gamma']['spectra']['flux']['value'][0][0,:])
-    
+
     #pprint.pprint(output['top10']['activity']['rank'][0][0,:])
-    
+
     print('\n')
-    
+
     print('[T-Yield] high energy reaction-produced nuclides:',output['yields']['names'][0])
     print('[T-Yield] nuclide yields per source particle:',output['yields']['unit_rate']['value'][0])
-    
+
     print('\n')
-    
+
     library_file = r'C:\phits\dchain-sp\data\JEFF-3-3--_n_act_xs_lib'
     #xs_out, rxn_str_out = retrieve_rxn_xs_from_lib(library_file,'F-19','p')
     xs_1g = calc_one_group_nrxn_xs_dchain(output['neutron']['unit_spectra']['flux']['value'][0],output['neutron']['unit_spectra']['flux']['error'][0],library_file,'F-19','p')
     print('Single group cross section (and its absolute uncertainty) for 19F(n,p)19O reaction in provided neutron flux (in barns): ',xs_1g)
-    
-    
+
+
     figs = plot_top10_nuclides(output,region_indices=1,rank_cutoff=5,xaxis_val='time',xaxis_type='indices',xscale='linear')
     plt.show()
-
