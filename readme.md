@@ -1,6 +1,7 @@
 #### Online documentation: [lindt8.github.io/DCHAIN-Tools/](https://lindt8.github.io/DCHAIN-Tools/)
 
 # DCHAIN Tools
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14267236.svg)](https://doi.org/10.5281/zenodo.14267236)
 
 This module is just a collection of Python 3 functions which serve to automatically process output from the DCHAIN-PHITS code, the nuclide activation, buildup, burnup, and decay code which is coupled to and distributed with the PHITS general purpose Monte Carlo particle transport code. These codes can be obtained at [https://phits.jaea.go.jp/](https://phits.jaea.go.jp/).
 
