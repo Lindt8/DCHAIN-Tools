@@ -3,6 +3,9 @@
 This module serves to function as a library of functions related to DCHAIN which can be easily
 imported into and used by scripts for processing DCHIAN output.  They are summarized below.
 
+###  Main function for DCHAIN output parsing
+- `process_dchain_simulation_output`           : **This is main master function for parsing DCHAIN output and is generally the function one should use for this purpose.**  It processes all DCHAIN output for a given DCHAIN run.
+
 
 ### General Purpose Functions
 
@@ -11,13 +14,6 @@ imported into and used by scripts for processing DCHIAN output.  They are summar
 - `Dname_to_Latex`                             : converts a DCHAIN-formatted nuclide name to pretty LaTeX formatting
 - `nuclide_plain_str_to_Dname`                 : converts a plaintext string for a nuclide to a DCHAIN-formatted nuclide name string
 
-### Relating to DCHAIN data libraries
-
-- `rxn_to_dchain_str`                          : converts a reaction to the format used by the neutron reaction cross section libraries
-- `ZZZAAAM_to_dchain_xs_lib_str`               : converts a ZZZAAAM number to the 7-character nuclide string used by the n rxn xs libs
-- `ECCO1968_Ebins`                             : returns the n highest energy bins of the ECCO 1968-group structure
-- `retrieve_rxn_xs_from_lib`                   : returns cross section for a reaction from a provided n rxn xs library file
-- `calc_one_group_nrxn_xs_dchain`              : provided a neutron flux, reaction, and library file, determine 1-grp nrxn xs
 
 ###  DCHAIN output file parsing
 - `parse_DCHAIN_act_file`                      : parser for the *.act file from DCHAIN
@@ -27,7 +23,16 @@ imported into and used by scripts for processing DCHIAN output.  They are summar
 - `parse_DCS_file_from_DCHAIN`                 : parser for the *.dcs file from DCHAIN
 - `parse_dtrk_file`                            : parser for the *.dtrk file from PHITS meant for DCHAIN
 - `parse_dyld_files`                           : parser for the *.dyld files from PHITS meant for DCHAIN
-- `process_dchain_simulation_output`           : **This is main master function for parsing DCHAIN output and is generally the function one should use for this purpose.**
+
+
+### Relating to DCHAIN data libraries
+
+- `rxn_to_dchain_str`                          : converts a reaction to the format used by the neutron reaction cross section libraries
+- `ZZZAAAM_to_dchain_xs_lib_str`               : converts a ZZZAAAM number to the 7-character nuclide string used by the n rxn xs libs
+- `ECCO1968_Ebins`                             : returns the n highest energy bins of the ECCO 1968-group structure
+- `retrieve_rxn_xs_from_lib`                   : returns cross section for a reaction from a provided n rxn xs library file
+- `calc_one_group_nrxn_xs_dchain`              : provided a neutron flux, reaction, and library file, determine 1-grp nrxn xs
+
 
 ###  DCHAIN output data plotting
 - `plot_top10_nuclides`                        : generates a nice visualization on the ranking of nuclides
@@ -57,12 +62,674 @@ import time
 import re
 import bisect
 import unicodedata as ud
-from munch import *
 try:
-    from  Hunters_tools import *
+    from munch import *
+except:
+    pass
+try:
+    from Hunters_tools import fancy_plot
     Hunters_tools_is_available = True
 except:
     Hunters_tools_is_available = False
+
+
+def process_dchain_simulation_output(simulation_folder_path,simulation_basename,dtrk_filepath=None,dyld_filepath=None,process_DCS_file=False):
+    '''
+    Description:
+        This is intended to be a single master function for processing DCHAIN output.
+
+    Dependencies:
+        from munch import *
+
+    Inputs:
+        - `simulation_folder_path` = text string of path to folder containing simulation output (should end with forward slash `/` or backslash `\`)
+        - `simulation_basename` = common string of the DCHAIN simulations; output files are named THIS_NAME.*
+        - `dtrk_filepath` = file path to \*.dtrk file, only necessary if it has a different basename and there are multiple \*.dtrk files in the folder
+        - `dyld_filepath` = file path to \*.dyld files, only necessary if it has a different basename and there are multiple \*.dyld files in the folder
+        - `process_DCS_file` (optional) = Boolean variable specifying whether the DCS file should be processed too. (D=False)
+
+    Outputs:
+        - `dchain_output` = a dictionary object containing all information from DCHAIN's output files.  See the keys breakdown below.
+
+            Technically, it tries to return a "munchify" object which can be used both exactly like a dictionary but also
+            provides attribute-style access like a namedtuple or Class object such as `dchain_output.time.of_EOB_sec` rather
+            than the dictionary style `dchain_output['time']['of_EOB_sec']`
+
+
+    dchain_output dictionary structure:
+    --------
+        # Notation for output array dimensions
+        #   R  regions
+        #   T  time steps
+        #   N  max number of nuclides found in a single region
+        #   E  number of gamma energy bins
+        # le10 for top 10 lists, a number <= 10
+
+        {
+        dchain_output = {
+        'time':{                            #  ~  Time information
+            'from_start_sec'                # [T] list of times from start time [sec]
+            'from_EOB_sec'                  # [T] times from end of final bombardment [sec]
+            'of_EOB_sec'                    #     scalar time of end of final bombardment [sec]
+            }
+
+        'region':{                          #  ~  Information which only varies with region
+            'numbers'                       # [R] region numbers
+            'number'                        # [R] region numbers
+            'irradiation_time_sec'          # [R] irradiation time per region
+            'volume'                        # [R] volume in [cc] per region
+            'neutron_flux'                  # [R] neutron flux in [n/cm^2/s] per region
+            'beam_power_MW'                 # [R] beam power in [MW] per region
+            'beam_energy_GeV'               # [R] beam energy in [GeV] per region
+            'beam_current_mA'               # [R] beam current in [mA] per region
+            }
+
+        'nuclides':{                        #  ~  Main nuclide results from *.act file
+            'names'                         # [R][N] names of nuclides produced in each region
+            'TeX_names'                     # [R][N] LaTeX-formatted names of nuclides produced
+            'ZZZAAAM'                       # [R][N] ZZZAAAM values (=10000Z+10A+M) of nuclides
+                                            #        (ground state m=0, metastable m=1,2,etc.)
+            'half_life'                     # [R][N] half lives of nuclides produced [sec]
+            'inventory':{'value'            # [R][T,N] atoms [#/cc]
+                         'error'}           # [R][T,N] atoms [#/cc]
+            'activity':{'value'             # [R][T,N] activity [Bq/cc]
+                        'error'}            # [R][T,N] activity [Bq/cc]
+            'dose_rate':{'value'            # [R][T,N] dose-rate [uSv/h*m^2]
+                         'error'}           # [R][T,N] dose-rate [uSv/h*m^2]
+            'decay_heat':{
+                'total':{'value'            # [R][T,N] total decay heat [W/cc]
+                         'error'}           # [R][T,N] total decay heat [W/cc]
+                'beta':{'value'             # [R][T,N] beta decay heat [W/cc]
+                        'error'}            # [R][T,N] beta decay heat [W/cc]
+                'gamma':{'value'            # [R][T,N] gamma decay heat [W/cc]
+                         'error'}           # [R][T,N] gamma decay heat [W/cc]
+                'alpha':{'value'            # [R][T,N] alpha decay heat [W/cc]
+                         'error'}           # [R][T,N] alpha decay heat [W/cc]
+                }
+            'column_headers'                # Length 7 list of the *.act columns' descriptions
+            'total':{                       #  ~  Total values summed over all nuclides
+                'activity':{'value'         # [R][T] total activity [Bq/cc]
+                            'error'}        # [R][T] total activity [Bq/cc]
+                'decay_heat':{'value'       # [R][T] total decay heat [W/cc]
+                              'error'}      # [R][T] total decay heat [W/cc]
+                'beta_heat':{'value'        # [R][T] total beta decay heat [W/cc]
+                             'error'}       # [R][T] total beta decay heat [W/cc]
+                'gamma_heat':{'value'       # [R][T] total gamma decay heat [W/cc]
+                              'error'}      # [R][T] total gamma decay heat [W/cc]
+                'alpha_heat':{'value'       # [R][T] total alpha decay heat [W/cc]
+                              'error'}      # [R][T] total alpha decay heat [W/cc]
+                'activated_atoms':{'value'  # [R][T] total activated atoms [#/cc]
+                                   'error'} # [R][T] total activated atoms [#/cc]
+                'gamma_dose_rate':{'value'  # [R][T] total gamma dose rate [uSV/h*m^2]
+                                   'error'} # [R][T] total gamma dose rate [uSV/h*m^2]
+                }
+            }
+
+        'gamma':{                           #  ~  Gamma spectra and totals
+            'spectra':{
+                'group_number'              # [R][T,E] group number
+                'E_lower'                   # [R][T,E] bin energy lower-bound [MeV]
+                'E_upper'                   # [R][T,E] bin energy upper-bound [MeV]
+                'flux':{'value'             # [R][T,E] flux [#/s/cc]
+                        'error'}            # [R][T,E] flux [#/s/cc]
+                'energy_flux':{'value'      # [R][T,E] energy flux [MeV/s/cc]
+                               'error'}     # [R][T,E] energy flux [MeV/s/cc]
+                }
+            'total_flux':{'value'           # [R][T] total gamma flux [#/s/cc]
+                          'error'}          # [R][T] total gamma flux [#/s/cc]
+            'total_energy_flux':{'value'    # [R][T] total gamma energy flux [MeV/s/cc]
+                                 'error'}   # [R][T] total gamma energy flux [MeV/s/cc]
+            'annihilation_flux':{'value'    # [R][T] annihilation gamma flux [#/s/cc]
+                                 'error'}   # [R][T] annihilation gamma flux [#/s/cc]
+            'current_underflow':{'value'    # [R][T] gamma current underflow [#/s]
+                                 'error'}   # no error reported
+            'current_overflow':{'value'     # [R][T] gamma current overflow [#/s]
+                                'error'}    # no error reported
+            }
+
+        'top10':{                           #  ~  Top 10 lists from *.act file
+            'activity':{
+                'rank'                      # [R][T,le10] rank
+                'nuclide'                   # [R][T,le10] nuclide name
+                'value'                     # [R][T,le10] activity [Bq/cc]
+                'error'                     # [R][T,le10] activity [Bq/cc]
+                'percent'                   # [R][T,le10] percent of total activity
+                }
+            'decay_heat':{
+                'rank'                      # [R][T,le10] rank
+                'nuclide'                   # [R][T,le10] nuclide name
+                'value'                     # [R][T,le10] decay heat [W/cc]
+                'error'                     # [R][T,le10] decay heat [W/cc]
+                'percent'                   # [R][T,le10] percent of total decay heat
+                }
+            'gamma_dose':{
+                'rank':                     # [R][T,le10] rank
+                'nuclide'                   # [R][T,le10] nuclide name
+                'value'                     # [R][T,le10] dose-rate [uSv/h*m^2]
+                'error'                     # [R][T,le10] dose-rate [uSv/h*m^2]
+                'percent'                   # [R][T,le10] percent of total gamma dose rate
+                }
+            }
+
+        'number_of':{                       #  ~  Maximum values of R, T, N, and E
+            'regions'                       #  R  = total number of regions
+            'time_steps'                    #  T  = total number of time steps
+            'max_nuclides_in_any_region'    #  N  = maximum unique nuclides found in any region
+            'gamma_energy_bins'             #  E  = number of gamma energy bins (default=42)
+            }
+
+        }
+
+        if process_dtrk_file:
+        dchain_output.update({
+        'neutron':{                         #  ~  Neutron spectra and totals
+            'spectra':{                     #  -  Actual values used in DCHAIN
+                'E_lower'                   # [R][E] bin energy lower-bound [MeV]
+                'E_upper'                   # [R][E] bin energy upper-bound [MeV]
+                'flux':{'value'             # [R][E] neutron flux [#/s/cm^2]
+                        'error'}            # [R][E] neutron flux [#/s/cm^2]
+                }
+            'total_flux':{'value'           # [R] total neutron flux [#/s/cm^2]
+                          'error'}          # [R] total neutron flux [#/s/cm^2]
+            'unit_spectra':{                #  -  Flux per unit source particle
+                'E_lower'                   # [R][E] bin energy lower-bound [MeV]
+                'E_upper'                   # [R][E] bin energy upper-bound [MeV]
+                'flux':{'value'             # [R][E] neutron flux [#/s/cm^2/s.p.]
+                        'error'}            # [R][E] neutron flux [#/s/cm^2/s.p.]
+                }
+            }
+        })
+
+        if process_dyld_files:
+        dchain_output.update({
+        'yields':{                          #  ~  Yield spectra
+            'all_names'                     # [N] names of all nuclides produced
+            'names'                         # [R][N] names of nuclides produced in each region
+            'TeX_names'                     # [R][N] LaTeX-formatted names of nuclides produced
+            'ZZZAAAM'                       # [R][N] ZZZAAAM values (=10000Z+10A+M) of nuclides
+                                            #        (ground state m=0, metastable m=1,2,etc.)
+            'rate':{                        #  -  Actual values used in DCHAIN (100% beam power)
+                   'value'                  # [R][E] nuclide yield rate [#/s/cm^3]
+                   'error'                  # [R][E] nuclide yield rate [#/s/cm^3]
+                }
+            'unit_spectra':{                #  -  Yields per unit source particle
+                   'value'                  # [R][E] nuclide yield rate [#/s.p.]
+                   'error'                  # [R][E] nuclide yield rate [#/s.p.]
+                }
+            }
+        })
+
+        if process_DCS_file: # add extra information
+            # Notation for output array dimensions
+            #   R  (n_reg)    regions
+            #   Td (ntsteps)  time steps in DCS file (usually differs from that of *.act file!)
+            #   Nd (nnuc_max) max number of nuclides (this index differs from the *.act N index)
+            #   C  (chni_max) maximum index of relevant chains
+            #   L  (chln_max) maximum number of links per chain
+
+        dchain_output.update({
+
+        'DCS':{
+            'time':{
+                'from_start_sec'            # [Td] list of times from start time [sec]
+                'from_EOB_sec'              # [Td] times from end of final bombardment [sec]
+                'of_EOB_sec'                #      scalar time of end of final bombardment [sec]
+                }
+
+            'number_of':{                   #  ~  Maximum values of R, Td, Nd, C, and L
+                'regions'                   #  R  = total number of regions
+                'time_steps'                #  Td = total number of time steps
+                'max_nuclides'              #  Nd = max number of end nuclides in any time step
+                'max_number_of_chains'      #  C  = highest index of a relevant chain found
+                'max_chain_length'          #  L  = max number of links (nuclides) in any chain
+                }
+
+            'end_nuclide':{                 #  ~  Informtaion on nuclides ending each chain
+                'names'                     # [R][Td,Nd] nuclide names
+                'inventory':{
+                    'N_previous'            # [R][Td,Nd,C] N in previous time step [atoms/cc]
+                    'N_now'                 # [R][Td,Nd,C] N in current time step [atoms/cc]
+                    'dN'                    # [R][Td,Nd,C] change in N of end nuclide from
+                                            #              prev. to current time step [atoms/cc]
+                    }
+                'activity':{
+                    'A_previous'            # [R][Td,Nd,C] A in previous time step [Bq/cc]
+                    'A_now'                 # [R][Td,Nd,C] A in the current time step [Bq/cc]
+                    'dA'                    # [R][Td,Nd,C] change in A of end nuclide from
+                                            #              prev. to current time step [Bq/cc]
+                    }
+                }
+
+            'chains':{                      #  ~  Chains, links, and their contributions
+                'indices_of_printed_chains' # [R][Td,Nd]     list of chain indices printed to
+                                            #                *.dcs, valid values of C index
+                'length'                    # [R][Td,Nd,C]   length of listed chain, L max index
+                'link_nuclides'             # [R][Td,Nd,C,L] strings of nuclides in each chain
+                'link_decay_modes'          # [R][Td,Nd,C,L] strings of decay modes each link
+                                            #                undergoes to produce the next link
+                'link_dN':{                 # (only filled if values in file, 'None' otherwise)
+                    'beam'                  # [R][Td,Nd,C,L] beam contribution to dN per link
+                    'decay_nrxn'            # [R][Td,Nd,C,L] decay/neutron rxn dN contribution
+                    'total'                 # [R][Td,Nd,C,L] total contribution to dN per link
+                    }
+                }
+
+            'relevant_nuclides':{           #  ~  A vs t of nuclides over relevancy threshold
+                'names'                     # [R]        list of relevant nuclides per region
+                'times'                     # [R][Td,Nd] time [s]
+                'inventory'                 # [R][Td,Nd] inventory [atm/cc]
+                'activity'                  # [R][Td,Nd] activity [Bq/cc]
+                }
+            }
+        })
+
+    '''
+    global start
+
+    try:
+        start_time = start
+    except:
+        start_time = time.time()
+    start = start_time
+
+    if simulation_basename[-3:] == '.in': simulation_basename = simulation_basename[:-3]
+    simulation_file_basic_path = simulation_folder_path + simulation_basename # only need to add output file extension
+
+    act_file = simulation_file_basic_path + '.act'
+    dcs_file = simulation_file_basic_path + '.dcs'
+
+    process_dtrk_file = True
+    if dtrk_filepath: # DTRK file manually provided
+        dtrk_file = dtrk_filepath
+        if not os.path.exists(dtrk_file):
+            print('    Provided .dtrk file could not be found: {}'.format(dtrk_filepath))
+            process_dtrk_file = False
+    else: # automatically find DTRK file
+        dtrk_file = simulation_file_basic_path + '.dtrk'
+        if not os.path.exists(dtrk_file):
+            # look for any files with the .dtrk extension in the simulation folder path
+            valid_files = []
+            valid_filepaths = []
+            for file in os.listdir(simulation_folder_path):
+                if file.endswith(".dtrk"):
+                    valid_files.append(file)
+                    valid_filepaths.append(os.path.join(simulation_folder_path, file))
+            if len(valid_files)>0:
+                print('    Could not find default .dtrk file {}, using {} in same directory instead.'.format(simulation_basename + '.dtrk',valid_files[0]))
+                dtrk_file = valid_filepaths[0]
+            else:
+                print('    No .dtrk files could not be found in provided simulation folder: {}'.format(simulation_folder_path))
+                process_dtrk_file = False
+
+    if process_dtrk_file:
+        neutron_flux, dtrk_metadata = parse_dtrk_file(dtrk_file,return_metadata=True)
+
+    process_dyld_file = True
+    if dyld_filepath: # dyld file manually provided
+        dyld_file = dyld_filepath
+        if not os.path.exists(dyld_file):
+            print('    Provided .dyld file could not be found: {}'.format(dyld_filepath))
+            process_dyld_file = False
+    else: # automatically find dyld file
+        dyld_file = simulation_file_basic_path + '.dyld'
+        if not os.path.exists(dyld_file):
+            # look for any files with the .dyld extension in the simulation folder path
+            valid_files = []
+            valid_filepaths = []
+            for file in os.listdir(simulation_folder_path):
+                if file.endswith(".dyld"):
+                    valid_files.append(file)
+                    valid_filepaths.append(os.path.join(simulation_folder_path, file))
+            if len(valid_files)>0:
+                print('    Could not find default .dyld file {}, using {} in same directory instead.'.format(simulation_basename + '.dyld',valid_files[0]))
+                dyld_file = valid_filepaths[0]
+            else:
+                print('    No .dyld files could not be found in provided simulation folder: {}'.format(simulation_folder_path))
+                process_dyld_file = False
+
+    print('{:<50}     ({:0.2f} seconds elapsed)'.format('    Parsing DCHAIN activation file...',time.time()-start))
+
+    parse_DCHAIN_act_file_OUTPUT = parse_DCHAIN_act_file(act_file)
+    reg_nos           = parse_DCHAIN_act_file_OUTPUT[0]  # length R list of region numbers
+    time_list_sec     = parse_DCHAIN_act_file_OUTPUT[1]  # length T list of measurement times (in sec) from start of irradiation
+    time_list_sec_after_EOB = parse_DCHAIN_act_file_OUTPUT[2] # length T list of measurement times (in sec) from end of last irradiation
+    irradiation_end_t = parse_DCHAIN_act_file_OUTPUT[3]  # time of end of irradiation (in sec)
+    nuclides_produced = parse_DCHAIN_act_file_OUTPUT[4]  # NumPy array of dimension RxTxNx11x2 of nuclide table data (N=max recorded table lenth) (last index 0=value, 1=abs error) [0='nuclide',1='atoms [#/cc]',2='activity [Bq/cc]',3='activity [Bq]',4='rate [%]',5='beta decay heat [W/cc]',6='gamma decay heat [W/cc]',7='alpha decay heat [W/cc]',8='total decay heat [W/cc]',9='half life [s]',10='dose-rate [uSv/h*m^2]']
+    gamma_spectra     = parse_DCHAIN_act_file_OUTPUT[5]  # NumPy array of dimension RxTxEx5x2 of gamma spectrum table data (last index 0=value, 1=abs error) [0='group number',1='bin energy lower-bound [MeV]',2='bin energy upper-bound [MeV]',3='flux [#/s/cc]',4='energy flux [MeV/s/cc]']
+    top10_lists       = parse_DCHAIN_act_file_OUTPUT[6]  # NumPy array of dimension RxTxNx12x2 of top-10 list table data (last index 0=value, 1=abs error) [0='rank',1='nuclide -  Activity ranking',2='activity [Bq/cc]',3='activity [Bq]',4='rate [%]',5='nuclide - Decay heat ranking',6='decay heat [W/cc]',7='decay heat [W]',8='rate [%]',9='nuclide - Dose rate ranking',10='dose-rate [uSv/h*m^2]',11='rate [%]']
+    column_headers    = parse_DCHAIN_act_file_OUTPUT[7]  # List containing 3 lists of column headers for the preceding three NumPy arrays
+    summary_info      = parse_DCHAIN_act_file_OUTPUT[8]  # list of the below lists/arrays of summary information
+    r_summary_info              = summary_info[0]  # NumPy array of dimension Rx7 of region-specific summary info [0='region number',1='irradiation time [s]',2='region volume [cc]',3='neutron flux [n/cm^2/s]',4='beam power [MW]',5='beam energy [GeV]',6='beam current [mA]']
+    r_summary_info_description  = summary_info[1]  # list of length 7 containing descriptions of the above items [0='region number',1='irradiation time [s]',2='region volume [cc]',3='neutron flux [n/cm^2/s]',4='beam power [MW]',5='beam energy [GeV]',6='beam current [mA]']
+    rt_summary_info             = summary_info[2]  # NumPy array of dimension RxTx12x2 of region and time-specific summary info (last index 0=value, 1=abs error) [0='total gamma flux [#/s/cc]',1='total gamma energy flux [MeV/s/cc]',2='annihilation gamma flux [#/s/cc]',3='gamma current underflow [#/s]',4='gamma current overflow [#/s]',5='total activity [Bq/cc]',6='total decay heat [W/cc]',7='beta decay heat [W/cc]',8='gamma decay heat [W/cc]',9='alpha decay heat [W/cc]',10='activated atoms [#/cc]',11='total gamma dose rate [uSV/h*m^2]']
+    rt_summary_info_description = summary_info[3]  # list of length 12 containing descriptions of the above items [0='total gamma flux [#/s/cc]',1='total gamma energy flux [MeV/s/cc]',2='annihilation gamma flux [#/s/cc]',3='gamma current underflow [#/s]',4='gamma current overflow [#/s]',5='total activity [Bq/cc]',6='total decay heat [W/cc]',7='beta decay heat [W/cc]',8='gamma decay heat [W/cc]',9='alpha decay heat [W/cc]',10='activated atoms [#/cc]',11='total gamma dose rate [uSV/h*m^2]']
+
+
+    print('{:<50}     ({:0.2f} seconds elapsed)'.format('    Restructuring nuclide data table array...',time.time()-start))
+
+    generate_nuclide_time_profiles_OUTPUT = generate_nuclide_time_profiles(nuclides_produced)
+    nuclide_names        = generate_nuclide_time_profiles_OUTPUT[0]  # List of length R of lists containing names of nuclides produced in each region
+    LaTeX_nuclide_names  = generate_nuclide_time_profiles_OUTPUT[1]  # List of length R of lists containing LaTeX-formatted names of nuclides produced in each region
+    nuclide_ZAM_vals     = generate_nuclide_time_profiles_OUTPUT[2]  # List of length R of lists containing ZZZAAAM values (=10000*Z+10*A+M) of nuclides produced in each region (ground state m=0, metastable m=1,2,etc.)
+    nuclide_half_lives   = generate_nuclide_time_profiles_OUTPUT[3]  # List of length R of lists containing half lives of nuclides produced in each region (in seconds)
+    nuclide_info         = generate_nuclide_time_profiles_OUTPUT[4]  # List of length R of NumPy arrays of dimension TxNx7x2 of nuclide info (last index 0=value, 1=abs error) [0='atoms [#/cc]',1='activity [Bq/cc]','2=beta decay heat [W/cc]','3=gamma decay heat [W/cc]','4=alpha decay heat [W/cc]','5=total decay heat [W/cc]','6=dose-rate [uSv/h*m^2]']
+    nuclide_info_headers = generate_nuclide_time_profiles_OUTPUT[5]  # List of length 7 containing text descriptions of the 7 columns of the info arrays [0='atoms [#/cc]',1='activity [Bq/cc]','2=beta decay heat [W/cc]','3=gamma decay heat [W/cc]','4=alpha decay heat [W/cc]','5=total decay heat [W/cc]','6=dose-rate [uSv/h*m^2]']
+
+
+    if process_dyld_file:
+        if process_dtrk_file:
+            if dtrk_metadata[0]=='dchain':
+                iredufmt=1
+            else: # dtrk_metadata[0]=='eng'
+                iredufmt=0
+        else:
+            iredufmt=0
+        yields, nuclide_names_yld = parse_dyld_files(dyld_file,iredufmt=iredufmt)
+
+        # Now reformat for more user-friendly output values
+        # regionwise values
+        beam_fluxs = (6.2415064e15)*r_summary_info[:,6] # particles/sec (converted from mA)
+        reg_vols = r_summary_info[:,2]
+        nregs,nnuc = np.shape(yields)[0],np.shape(yields)[1]
+        reg_yld_names = []
+        reg_yld_texnames = []
+        reg_yld_zam = []
+        yield_values_by_reg = [[],[],[],[]] # yield, yield abs err, unit yield, unit yield abs err
+        for ri in range(nregs):
+            for ni in range(nnuc):
+                if ni==0:
+                    reg_yld_names.append([])
+                    reg_yld_texnames.append([])
+                    reg_yld_zam.append([])
+                    for j in range(4):
+                        yield_values_by_reg[j].append([])
+                if yields[ri,ni,0] != 0.0:
+                    reg_yld_names[-1].append(nuclide_names_yld[ni])
+                    reg_yld_texnames[-1].append(Dname_to_Latex(nuclide_names_yld[ni]))
+                    reg_yld_zam[-1].append(Dname_to_ZAM(nuclide_names_yld[ni]))
+                    yield_values_by_reg[0][-1].append(beam_fluxs[ri]*yields[ri,ni,0]/reg_vols[ri])
+                    yield_values_by_reg[1][-1].append(beam_fluxs[ri]*yields[ri,ni,1]/reg_vols[ri])
+                    yield_values_by_reg[2][-1].append(yields[ri,ni,0])
+                    yield_values_by_reg[3][-1].append(yields[ri,ni,1])
+
+
+
+    if process_DCS_file:
+        # Control parameters
+        relevancy_threshold=0.01 # fraction of total activity an isotope must be at any time step in DCS file to be placed in the "relevant" array
+
+        fcn_out = parse_DCS_file_from_DCHAIN(dcs_file,relevancy_threshold=relevancy_threshold)
+
+        # Notation for output array dimensions
+        #   R (n_reg)    regions
+        #   T (ntsteps)  time steps
+        #   N (nnuc_max) max number of nuclides
+        #   C (chni_max) maximum index of relevant chains
+        #   L (chln_max) maximum number of links per chain
+
+        inventory  = fcn_out[0] # universal columns of DCS file [R,T,N,C,vi], vi: 0=N_i-1/V, 1=dN/V, 2=N_i/V, 3=A_i/V, 4=A_i
+        l_chains   = fcn_out[1] # [R,T,N,C], length of listed chain
+        prod_nuc   = fcn_out[2] # [R,T,N], strings of the nuclide being produced
+        chn_indx   = fcn_out[3] # [R,T,N], lists of the chain indices printed
+        link_nuc   = fcn_out[4] # [R,T,N,C,L], strings of the nuclides in each chain
+        decay_mode = fcn_out[5] # [R,T,N,C,L], strings of the decay modes each link undergoes to produce the next link
+        link_dN_info=fcn_out[6] # [R,T,N,C,L,di], extra dN info di: 0=dN_Beam, 1=dN_Decay/nrxn, 2=dN_Total (only generated if these values are found in file, 'None' otherwise)
+        end_of_irradiation_time = fcn_out[7] # time of end of final irradiation step [seconds]
+        notable_nuclides_names_by_region = fcn_out[8] # list of lists (one per region) containing the relevant nuclides per region
+        notable_nuclides_AvT_by_region   = fcn_out[9] # list of arrays (one per region, [T,N_rlv-nuc,3]) containing the time[s]/inventory[atm/cc]/activity[Bq/cc] data of relevant nuclides
+
+        n_reg,ntsteps,nnuc_max,chni_max,chln_max = np.shape(decay_mode)
+
+        relevant_nuclides = notable_nuclides_names_by_region[0]
+        n_relevant_nuclides = len(relevant_nuclides)
+        relv_nuc_inv = notable_nuclides_AvT_by_region[0]
+
+        t_from_start = relv_nuc_inv[:,0,0]
+        t_after_irrad_sec = ((relv_nuc_inv[:,0,0]-end_of_irradiation_time))
+
+    nreg = len(reg_nos)
+    rilist = range(nreg)
+    #regionwise_gamma_spectra = [gamma_spectra[ri,:,:,:,:] for ri in range(nreg)]
+    #rw_totgflux_val = [rt_summary_info[ri,:,0,0] for ri in range(nreg)]
+    #rw_totgflux_ae = [rt_summary_info[ri,:,0,1] for ri in range(nreg)]
+    #rw_totegflux = [rt_summary_info[ri,:,1,:] for ri in range(nreg)]
+
+
+    # Notation for output array dimensions
+    #   R  regions
+    #   T  time steps
+    #   N  max number of nuclides found in a single region
+    #   E  number of gamma energy bins
+    # le10 for top 10 lists, a number <= 10
+
+    dchain_output = {
+        'time':{                                              #  ~  Time information
+            'from_start_sec':time_list_sec,                   # [T] list of times from start time [sec]
+            'from_EOB_sec':time_list_sec_after_EOB,           # [T] list of times from end of final bombardment [sec]
+            'of_EOB_sec':irradiation_end_t,                   #     scalar time marking end of final bombardment [sec]
+            },
+
+        'region':{                                            #  ~  Information which only varies with region
+            'numbers':reg_nos,                                # [R] list of all region numbers
+            'number': r_summary_info[:,0],                    # [R] list of all region numbers
+            'irradiation_time_sec': r_summary_info[:,1],      # [R] list of irradiation time per region
+            'volume': r_summary_info[:,2],                    # [R] list of volume in cc per region
+            'neutron_flux': r_summary_info[:,3],              # [R] list of neutron flux in n/cm^2/s per region
+            'beam_power_MW': r_summary_info[:,4],             # [R] list of beam power in MW per region
+            'beam_energy_GeV': r_summary_info[:,5],           # [R] list of beam energy in GeV per region
+            'beam_current_mA': r_summary_info[:,6]            # [R] list of beam current in mA per region
+            },
+
+        'nuclides':{                                          #  ~  Main nuclide results from *.act file
+            'names':nuclide_names,                            # [R][N] list of lists containing names of nuclides produced in each region
+            'TeX_names':LaTeX_nuclide_names,                  # [R][N] list of lists containing LaTeX-formatted names of nuclides produced in each region
+            'ZZZAAAM':nuclide_ZAM_vals,                       # [R][N] list of lists containing ZZZAAAM values (=10000*Z+10*A+M) of nuclides produced in each region (ground state m=0, metastable m=1,2,etc.)
+            'half_life':nuclide_half_lives,                   # [R][N] list of lists containing half lives of nuclides produced in each region (in seconds)
+            'inventory':{'value':[nuclide_info[ri][:,:,0,0] for ri in rilist],       # [R][T,N] atoms [#/cc]
+                         'error':[nuclide_info[ri][:,:,0,1] for ri in rilist]},      # [R][T,N] atoms [#/cc]
+            'activity':{'value':[nuclide_info[ri][:,:,1,0] for ri in rilist],        # [R][T,N] activity [Bq/cc]
+                        'error':[nuclide_info[ri][:,:,1,1] for ri in rilist]},       # [R][T,N] activity [Bq/cc]
+            'dose_rate':{'value':[nuclide_info[ri][:,:,6,0] for ri in rilist],       # [R][T,N] dose-rate [uSv/h*m^2]
+                         'error':[nuclide_info[ri][:,:,6,1] for ri in rilist]},      # [R][T,N] dose-rate [uSv/h*m^2]
+            'decay_heat':{
+                'total':{'value':[nuclide_info[ri][:,:,5,0] for ri in rilist],       # [R][T,N] total decay heat [W/cc]
+                         'error':[nuclide_info[ri][:,:,5,1] for ri in rilist]},      # [R][T,N] total decay heat [W/cc]
+                'beta':{'value':[nuclide_info[ri][:,:,2,0] for ri in rilist],        # [R][T,N] beta decay heat [W/cc]
+                        'error':[nuclide_info[ri][:,:,2,1] for ri in rilist]},       # [R][T,N] beta decay heat [W/cc]
+                'gamma':{'value':[nuclide_info[ri][:,:,3,0] for ri in rilist],       # [R][T,N] gamma decay heat [W/cc]
+                         'error':[nuclide_info[ri][:,:,3,1] for ri in rilist]},      # [R][T,N] gamma decay heat [W/cc]
+                'alpha':{'value':[nuclide_info[ri][:,:,4,0] for ri in rilist],       # [R][T,N] alpha decay heat [W/cc]
+                         'error':[nuclide_info[ri][:,:,4,1] for ri in rilist]},      # [R][T,N] alpha decay heat [W/cc]
+                },
+            'column_headers':nuclide_info_headers, # List of length 7 containing text descriptions of the 7 columns of the info arrays [0='atoms [#/cc]',1='activity [Bq/cc]','2=beta decay heat [W/cc]','3=gamma decay heat [W/cc]','4=alpha decay heat [W/cc]','5=total decay heat [W/cc]','6=dose-rate [uSv/h*m^2]']
+            'total':{                                                                       #  ~  Total values summed over all nuclides
+                'activity':{'value':[rt_summary_info[ri,:,5,0] for ri in rilist] ,          # [R][T] total activity [Bq/cc]
+                            'error':[rt_summary_info[ri,:,5,1] for ri in rilist]},          # [R][T] total activity [Bq/cc]
+                'decay_heat':{'value':[rt_summary_info[ri,:,6,0] for ri in rilist] ,        # [R][T] total decay heat [W/cc]
+                              'error':[rt_summary_info[ri,:,6,1] for ri in rilist]},        # [R][T] total decay heat [W/cc]
+                'beta_heat':{'value':[rt_summary_info[ri,:,7,0] for ri in rilist] ,         # [R][T] total beta decay heat [W/cc]
+                             'error':[rt_summary_info[ri,:,7,1] for ri in rilist]},         # [R][T] total beta decay heat [W/cc]
+                'gamma_heat':{'value':[rt_summary_info[ri,:,8,0] for ri in rilist] ,        # [R][T] total gamma decay heat [W/cc]
+                              'error':[rt_summary_info[ri,:,8,1] for ri in rilist]},        # [R][T] total gamma decay heat [W/cc]
+                'alpha_heat':{'value':[rt_summary_info[ri,:,9,0] for ri in rilist] ,        # [R][T] total alpha decay heat [W/cc]
+                              'error':[rt_summary_info[ri,:,9,1] for ri in rilist]},        # [R][T] total alpha decay heat [W/cc]
+                'activated_atoms':{'value':[rt_summary_info[ri,:,10,0] for ri in rilist],   # [R][T] total activated atoms [#/cc]
+                                   'error':[rt_summary_info[ri,:,10,1] for ri in rilist]},  # [R][T] total activated atoms [#/cc]
+                'gamma_dose_rate':{'value':[rt_summary_info[ri,:,11,0] for ri in rilist],   # [R][T] total gamma dose rate [uSV/h*m^2]
+                                   'error':[rt_summary_info[ri,:,11,1] for ri in rilist]}   # [R][T] total gamma dose rate [uSV/h*m^2]
+                }
+            },
+
+
+        'gamma':{                                                                                              #  ~  Gamma spectra and totals
+            'spectra':{
+                'group_number':[gamma_spectra[ri,:,:,0,0] for ri in rilist],                                   # [R][T,E] group number
+                'E_lower':[gamma_spectra[ri,:,:,1,0] for ri in rilist],                                        # [R][T,E] bin energy lower-bound [MeV]
+                'E_upper':[gamma_spectra[ri,:,:,2,0] for ri in rilist],                                        # [R][T,E] bin energy upper-bound [MeV]
+                'flux':{'value':[gamma_spectra[ri,:,:,3,0] for ri in rilist],                                  # [R][T,E] flux [#/s/cc]
+                        'error':[gamma_spectra[ri,:,:,3,0]*gamma_spectra[ri,:,:,3,1] for ri in rilist]},       # [R][T,E] flux [#/s/cc]
+                'energy_flux':{'value':[gamma_spectra[ri,:,:,4,0] for ri in rilist],                           # [R][T,E] energy flux [MeV/s/cc]
+                               'error':[gamma_spectra[ri,:,:,4,0]*gamma_spectra[ri,:,:,4,1] for ri in rilist]} # [R][T,E] energy flux [MeV/s/cc]
+                },
+            'total_flux':{'value':[rt_summary_info[ri,:,0,0] for ri in rilist],                                # [R][T] total gamma flux [#/s/cc]
+                          'error':[rt_summary_info[ri,:,0,1] for ri in rilist]},                               # [R][T] total gamma flux [#/s/cc]
+            'total_energy_flux':{'value':[rt_summary_info[ri,:,1,0] for ri in rilist] ,                        # [R][T] total gamma energy flux [MeV/s/cc]
+                                 'error':[rt_summary_info[ri,:,1,1] for ri in rilist]},                        # [R][T] total gamma energy flux [MeV/s/cc]
+            'annihilation_flux':{'value':[rt_summary_info[ri,:,2,0] for ri in rilist] ,                        # [R][T] annihilation gamma flux [#/s/cc]
+                                 'error':[rt_summary_info[ri,:,2,1] for ri in rilist]},                        # [R][T] annihilation gamma flux [#/s/cc]
+            'current_underflow':{'value':[rt_summary_info[ri,:,3,0] for ri in rilist] ,                        # [R][T] gamma current underflow [#/s]
+                                 'error':[rt_summary_info[ri,:,3,1] for ri in rilist]}, # no error reported
+            'current_overflow':{'value':[rt_summary_info[ri,:,4,0] for ri in rilist],                          # [R][T] gamma current overflow [#/s]
+                                'error':[rt_summary_info[ri,:,4,1] for ri in rilist]}   # no error reported
+            },
+
+        'top10':{                                                          #  ~  Top 10 lists from *.act file
+            'activity':{
+                'rank':[top10_lists[ri,:,:,0,0] for ri in rilist],         # [R][T,le10] rank
+                'nuclide':[top10_lists[ri,:,:,1,0] for ri in rilist],      # [R][T,le10] nuclide name
+                'value':[top10_lists[ri,:,:,2,0] for ri in rilist],        # [R][T,le10] activity [Bq/cc]
+                'error':[top10_lists[ri,:,:,2,1] for ri in rilist],        # [R][T,le10] activity [Bq/cc]
+                'percent':[top10_lists[ri,:,:,4,0] for ri in rilist],      # [R][T,le10] percent of total activity
+                },
+            'decay_heat':{
+                'rank':[top10_lists[ri,:,:,0,0] for ri in rilist],         # [R][T,le10] rank
+                'nuclide':[top10_lists[ri,:,:,5,0] for ri in rilist],      # [R][T,le10] nuclide name
+                'value':[top10_lists[ri,:,:,6,0] for ri in rilist],        # [R][T,le10] decay heat [W/cc]
+                'error':[top10_lists[ri,:,:,6,1] for ri in rilist],        # [R][T,le10] decay heat [W/cc]
+                'percent':[top10_lists[ri,:,:,8,0] for ri in rilist],      # [R][T,le10] percent of total decay heat
+                },
+            'gamma_dose':{
+                'rank':[top10_lists[ri,:,:,0,0] for ri in rilist],         # [R][T,le10] rank
+                'nuclide':[top10_lists[ri,:,:,9,0] for ri in rilist],      # [R][T,le10] nuclide name
+                'value':[top10_lists[ri,:,:,10,0] for ri in rilist],       # [R][T,le10] dose-rate [uSv/h*m^2]
+                'error':[top10_lists[ri,:,:,10,1] for ri in rilist],       # [R][T,le10] dose-rate [uSv/h*m^2]
+                'percent':[top10_lists[ri,:,:,11,0] for ri in rilist],     # [R][T,le10] percent of total gamma dose rate
+                }
+            },
+
+        'number_of':{                                                      #  ~  Maximum values of R, T, N, and E
+            'regions':nreg,                                                #  R  = total number of regions
+            'time_steps':len(time_list_sec),                               #  T  = total number of time steps
+            'max_nuclides_in_any_region':np.shape(nuclides_produced)[2],   #  N  = maximum unique nuclides found in any region
+            'gamma_energy_bins':np.shape(gamma_spectra)[2]                 #  E  = number of gamma energy bins (default=42)
+            }
+
+        }
+
+    if process_dtrk_file:
+        dflux_norm = []
+        for ri in rilist:
+            if np.sum(neutron_flux[ri,:,2]) != 0:
+                dflux_norm.append(r_summary_info[ri,3]/np.sum(neutron_flux[ri,:,2]))
+            else:
+                dflux_norm.append(0.0)
+        #dflux_norm = [r_summary_info[ri,3]/np.sum(neutron_flux[ri,:,2]) for ri in rilist] # normalize unit flux to total flux
+        dchain_output.update({
+            'neutron':{
+                'spectra':{                                                                                         # Actual values used by DCHAIN for rate calcs
+                    'E_lower':[neutron_flux[ri,:,0] for ri in rilist],                                              # [R][E] bin energy lower-bound [MeV]
+                    'E_upper':[neutron_flux[ri,:,1] for ri in rilist],                                              # [R][E] bin energy upper-bound [MeV]
+                    'flux':{'value':[neutron_flux[ri,:,2]*dflux_norm[ri] for ri in rilist],                         # [R][E] neutron flux [#/s/cm^2]
+                            'error':[neutron_flux[ri,:,3]*dflux_norm[ri] for ri in rilist]},                        # [R][E] neutron flux [#/s/cm^2]
+                    },
+                'total_flux':{'value':[np.sum(neutron_flux[ri,:,2])*dflux_norm[ri] for ri in rilist],               # [R] total neutron flux [#/s/cm^2]
+                              'error':[np.sqrt(np.sum(neutron_flux[ri,:,3]**2))*dflux_norm[ri] for ri in rilist]},  # [R] total neutron flux [#/s/cm^2]
+                'unit_spectra':{                                                         # Raw T-Track output from PHITS
+                    'E_lower':[neutron_flux[ri,:,0] for ri in rilist],                   # [R][E] bin energy lower-bound [MeV]
+                    'E_upper':[neutron_flux[ri,:,1] for ri in rilist],                   # [R][E] bin energy upper-bound [MeV]
+                    'flux':{'value':[neutron_flux[ri,:,2] for ri in rilist],             # [R][E] neutron flux [#/s/cm^2]
+                            'error':[neutron_flux[ri,:,3] for ri in rilist]},            # [R][E] neutron flux [#/s/cm^2]
+                    },
+                }
+            })
+
+    if process_dyld_file:
+        dchain_output.update({
+            'yields':{                                              #  ~  Yield spectra
+                'all_names':nuclide_names_yld,                      # [N] names of nuclides produced in all regions
+                'names':reg_yld_names,                              # [R][N] names of nuclides produced in each region
+                'TeX_names':reg_yld_texnames,                       # [R][N] LaTeX-formatted names of nuclides produced
+                'ZZZAAAM':reg_yld_zam,                              # [R][N] ZZZAAAM values (=10000Z+10A+M) of nuclides
+                'rate':{'value':yield_values_by_reg[0],             # [R][E] nuclide yield rate [#/s/cm^3]
+                        'error':yield_values_by_reg[1]},            # [R][E] nuclide yield rate [#/s/cm^3]
+                'unit_rate':{'value':yield_values_by_reg[2],        # [R][E] unit nuclide yield rate [#/s.p.]
+                             'error':yield_values_by_reg[3]}        # [R][E] unit nuclide yield rate [#/s.p.]
+                }
+            })
+
+    if process_DCS_file: # add extra information
+        # Notation for output array dimensions
+        #   R  (n_reg)    regions
+        #   Td (ntsteps)  time steps in DCS file (usually different from that of ACT file!)
+        #   Nd (nnuc_max) max number of nuclides (this index differs from the ACT N index)
+        #   C  (chni_max) maximum index of relevant chains
+        #   L  (chln_max) maximum number of links per chain
+
+        dchain_output.update({'DCS':{
+            'time':{
+                'from_start_sec':t_from_start,         # [Td] list
+                'from_EOB_sec':t_after_irrad_sec,      # [Td] list
+                'of_EOB_sec':irradiation_end_t         #      scalar
+                },
+
+            'number_of':{                              #  ~  Maximum values of R, Td, Nd, C, and L
+                'regions':n_reg,                       #  R  = total number of regions
+                'time_steps':ntsteps,                  #  Td = total number of time steps
+                'max_nuclides':nnuc_max,               #  Nd = maximum number of nuclides listed in a time step
+                'max_number_of_chains':chni_max,       #  C  = highest index of a relevant chain found
+                'max_chain_length':chln_max            #  L  = maximum number of links (nuclides) found in any chain
+                },
+
+            'end_nuclide':{
+                'names':[prod_nuc[ri,:,:] for ri in rilist],                  # [R][Td,Nd] nuclide names
+
+                'inventory':{
+                    'N_previous':[inventory[ri,:,:,:,0] for ri in rilist],    # [R][Td,Nd,C] inventory of end nuclide in previous time step [atoms/cc]
+                    'N_now':[inventory[ri,:,:,:,2] for ri in rilist],         # [R][Td,Nd,C] inventory of end nuclide in the current time step [atoms/cc]
+                    'dN':[inventory[ri,:,:,:,1] for ri in rilist]             # [R][Td,Nd,C] change in inventory of end nuclide from the previous to the current time step [atoms/cc]
+                    },
+
+                'activity':{
+                    'A_previous':[inventory[ri,:,:,:,0]*(inventory[ri,:,:,:,3]/inventory[ri,:,:,:,2]) for ri in rilist], # [R][Td,Nd,C] activity of end nuclide in previous time step [Bq/cc]
+                    'A_now':[inventory[ri,:,:,:,3] for ri in rilist],                                                    # [R][Td,Nd,C] activity of end nuclide in the current time step [Bq/cc]
+                    'dA':[inventory[ri,:,:,:,1]*(inventory[ri,:,:,:,3]/inventory[ri,:,:,:,2]) for ri in rilist]          # [R][Td,Nd,C] change in activity of end nuclide from the previous to the current time step [Bq/cc]
+                    }
+                },
+
+
+            'chains':{
+                'indices_of_printed_chains':[chn_indx[ri,:,:] for ri in rilist],           # [R][Td,Nd]     lists of the chain indices printed
+                'length':[l_chains[ri,:,:,:] for ri in rilist],                            # [R][Td,Nd,C]   length of listed chain
+                'link_nuclides':[link_nuc[ri,:,:,:,:] for ri in rilist],                   # [R][Td,Nd,C,L] strings of the nuclides in each chain
+                'link_decay_modes':[decay_mode[ri,:,:,:,:] for ri in rilist],              # [R][Td,Nd,C,L] strings of the decay modes each link undergoes to produce the next link
+                'link_dN':{
+                    'beam':[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,0] for ri in rilist],                  # [R][Td,Nd,C,L] beam contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
+                    'decay_nrxn':[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,1] for ri in rilist],            # [R][Td,Nd,C,L] decay + neutron rxn contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
+                    'total':[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
+                    }
+                },
+
+            'relevant_nuclides':{
+                'names':notable_nuclides_names_by_region,                                  # [R]        list of relevant nuclides per region
+                'times':[notable_nuclides_AvT_by_region[ri][:,:,0] for ri in rilist],      # [R][Td,Nd] time [s]
+                'inventory':[notable_nuclides_AvT_by_region[ri][:,:,1] for ri in rilist],  # [R][Td,Nd] inventory [atm/cc]
+                'activity':[notable_nuclides_AvT_by_region[ri][:,:,2] for ri in rilist]    # [R][Td,Nd] activity [Bq/cc]
+                }
+
+            }})
+
+
+    # https://github.com/Infinidat/munch
+    try:
+        dchain_output = munchify(dchain_output)
+    except:
+        print("munchify failed.  Returned object is a conventional dictionary rather than a munchify object.")
+
+    return dchain_output
+
+
+
+
 
 
 def Dname_to_ZAM(Dname):
@@ -1963,659 +2630,7 @@ def parse_dyld_files(path_to_dyld_file,iredufmt=None):
     return yields, nuclide_names_yld
 
 
-def process_dchain_simulation_output(simulation_folder_path,simulation_basename,dtrk_filepath=None,dyld_filepath=None,process_DCS_file=False):
-    '''
-    Description:
-        This is intended to be a single master function for processing DCHAIN output.
 
-    Dependencies:
-        from munch import *
-
-    Inputs:
-        - `simulation_folder_path` = text string of path to folder containing simulation output (should end with forward slash `/` or backslash `\`)
-        - `simulation_basename` = common string of the DCHAIN simulations; output files are named THIS_NAME.*
-        - `dtrk_filepath` = file path to \*.dtrk file, only necessary if it has a different basename and there are multiple \*.dtrk files in the folder
-        - `dyld_filepath` = file path to \*.dyld files, only necessary if it has a different basename and there are multiple \*.dyld files in the folder
-        - `process_DCS_file` (optional) = Boolean variable specifying whether the DCS file should be processed too. (D=False)
-
-    Outputs:
-        - `dchain_output` = a dictionary object containing all information from DCHAIN's output files.  See the keys breakdown below.
-
-            Technically, it tries to return a "munchify" object which can be used both exactly like a dictionary but also
-            provides attribute-style access like a namedtuple or Class object such as `dchain_output.time.of_EOB_sec` rather
-            than the dictionary style `dchain_output['time']['of_EOB_sec']`
-
-
-    dchain_output dictionary structure:
-    --------
-        # Notation for output array dimensions
-        #   R  regions
-        #   T  time steps
-        #   N  max number of nuclides found in a single region
-        #   E  number of gamma energy bins
-        # le10 for top 10 lists, a number <= 10
-
-        {
-        dchain_output = {
-        'time':{                            #  ~  Time information
-            'from_start_sec'                # [T] list of times from start time [sec]
-            'from_EOB_sec'                  # [T] times from end of final bombardment [sec]
-            'of_EOB_sec'                    #     scalar time of end of final bombardment [sec]
-            }
-
-        'region':{                          #  ~  Information which only varies with region
-            'numbers'                       # [R] region numbers
-            'number'                        # [R] region numbers
-            'irradiation_time_sec'          # [R] irradiation time per region
-            'volume'                        # [R] volume in [cc] per region
-            'neutron_flux'                  # [R] neutron flux in [n/cm^2/s] per region
-            'beam_power_MW'                 # [R] beam power in [MW] per region
-            'beam_energy_GeV'               # [R] beam energy in [GeV] per region
-            'beam_current_mA'               # [R] beam current in [mA] per region
-            }
-
-        'nuclides':{                        #  ~  Main nuclide results from *.act file
-            'names'                         # [R][N] names of nuclides produced in each region
-            'TeX_names'                     # [R][N] LaTeX-formatted names of nuclides produced
-            'ZZZAAAM'                       # [R][N] ZZZAAAM values (=10000Z+10A+M) of nuclides
-                                            #        (ground state m=0, metastable m=1,2,etc.)
-            'half_life'                     # [R][N] half lives of nuclides produced [sec]
-            'inventory':{'value'            # [R][T,N] atoms [#/cc]
-                         'error'}           # [R][T,N] atoms [#/cc]
-            'activity':{'value'             # [R][T,N] activity [Bq/cc]
-                        'error'}            # [R][T,N] activity [Bq/cc]
-            'dose_rate':{'value'            # [R][T,N] dose-rate [uSv/h*m^2]
-                         'error'}           # [R][T,N] dose-rate [uSv/h*m^2]
-            'decay_heat':{
-                'total':{'value'            # [R][T,N] total decay heat [W/cc]
-                         'error'}           # [R][T,N] total decay heat [W/cc]
-                'beta':{'value'             # [R][T,N] beta decay heat [W/cc]
-                        'error'}            # [R][T,N] beta decay heat [W/cc]
-                'gamma':{'value'            # [R][T,N] gamma decay heat [W/cc]
-                         'error'}           # [R][T,N] gamma decay heat [W/cc]
-                'alpha':{'value'            # [R][T,N] alpha decay heat [W/cc]
-                         'error'}           # [R][T,N] alpha decay heat [W/cc]
-                }
-            'column_headers'                # Length 7 list of the *.act columns' descriptions
-            'total':{                       #  ~  Total values summed over all nuclides
-                'activity':{'value'         # [R][T] total activity [Bq/cc]
-                            'error'}        # [R][T] total activity [Bq/cc]
-                'decay_heat':{'value'       # [R][T] total decay heat [W/cc]
-                              'error'}      # [R][T] total decay heat [W/cc]
-                'beta_heat':{'value'        # [R][T] total beta decay heat [W/cc]
-                             'error'}       # [R][T] total beta decay heat [W/cc]
-                'gamma_heat':{'value'       # [R][T] total gamma decay heat [W/cc]
-                              'error'}      # [R][T] total gamma decay heat [W/cc]
-                'alpha_heat':{'value'       # [R][T] total alpha decay heat [W/cc]
-                              'error'}      # [R][T] total alpha decay heat [W/cc]
-                'activated_atoms':{'value'  # [R][T] total activated atoms [#/cc]
-                                   'error'} # [R][T] total activated atoms [#/cc]
-                'gamma_dose_rate':{'value'  # [R][T] total gamma dose rate [uSV/h*m^2]
-                                   'error'} # [R][T] total gamma dose rate [uSV/h*m^2]
-                }
-            }
-
-        'gamma':{                           #  ~  Gamma spectra and totals
-            'spectra':{
-                'group_number'              # [R][T,E] group number
-                'E_lower'                   # [R][T,E] bin energy lower-bound [MeV]
-                'E_upper'                   # [R][T,E] bin energy upper-bound [MeV]
-                'flux':{'value'             # [R][T,E] flux [#/s/cc]
-                        'error'}            # [R][T,E] flux [#/s/cc]
-                'energy_flux':{'value'      # [R][T,E] energy flux [MeV/s/cc]
-                               'error'}     # [R][T,E] energy flux [MeV/s/cc]
-                }
-            'total_flux':{'value'           # [R][T] total gamma flux [#/s/cc]
-                          'error'}          # [R][T] total gamma flux [#/s/cc]
-            'total_energy_flux':{'value'    # [R][T] total gamma energy flux [MeV/s/cc]
-                                 'error'}   # [R][T] total gamma energy flux [MeV/s/cc]
-            'annihilation_flux':{'value'    # [R][T] annihilation gamma flux [#/s/cc]
-                                 'error'}   # [R][T] annihilation gamma flux [#/s/cc]
-            'current_underflow':{'value'    # [R][T] gamma current underflow [#/s]
-                                 'error'}   # no error reported
-            'current_overflow':{'value'     # [R][T] gamma current overflow [#/s]
-                                'error'}    # no error reported
-            }
-
-        'top10':{                           #  ~  Top 10 lists from *.act file
-            'activity':{
-                'rank'                      # [R][T,le10] rank
-                'nuclide'                   # [R][T,le10] nuclide name
-                'value'                     # [R][T,le10] activity [Bq/cc]
-                'error'                     # [R][T,le10] activity [Bq/cc]
-                'percent'                   # [R][T,le10] percent of total activity
-                }
-            'decay_heat':{
-                'rank'                      # [R][T,le10] rank
-                'nuclide'                   # [R][T,le10] nuclide name
-                'value'                     # [R][T,le10] decay heat [W/cc]
-                'error'                     # [R][T,le10] decay heat [W/cc]
-                'percent'                   # [R][T,le10] percent of total decay heat
-                }
-            'gamma_dose':{
-                'rank':                     # [R][T,le10] rank
-                'nuclide'                   # [R][T,le10] nuclide name
-                'value'                     # [R][T,le10] dose-rate [uSv/h*m^2]
-                'error'                     # [R][T,le10] dose-rate [uSv/h*m^2]
-                'percent'                   # [R][T,le10] percent of total gamma dose rate
-                }
-            }
-
-        'number_of':{                       #  ~  Maximum values of R, T, N, and E
-            'regions'                       #  R  = total number of regions
-            'time_steps'                    #  T  = total number of time steps
-            'max_nuclides_in_any_region'    #  N  = maximum unique nuclides found in any region
-            'gamma_energy_bins'             #  E  = number of gamma energy bins (default=42)
-            }
-
-        }
-
-        if process_dtrk_file:
-        dchain_output.update({
-        'neutron':{                         #  ~  Neutron spectra and totals
-            'spectra':{                     #  -  Actual values used in DCHAIN
-                'E_lower'                   # [R][E] bin energy lower-bound [MeV]
-                'E_upper'                   # [R][E] bin energy upper-bound [MeV]
-                'flux':{'value'             # [R][E] neutron flux [#/s/cm^2]
-                        'error'}            # [R][E] neutron flux [#/s/cm^2]
-                }
-            'total_flux':{'value'           # [R] total neutron flux [#/s/cm^2]
-                          'error'}          # [R] total neutron flux [#/s/cm^2]
-            'unit_spectra':{                #  -  Flux per unit source particle
-                'E_lower'                   # [R][E] bin energy lower-bound [MeV]
-                'E_upper'                   # [R][E] bin energy upper-bound [MeV]
-                'flux':{'value'             # [R][E] neutron flux [#/s/cm^2/s.p.]
-                        'error'}            # [R][E] neutron flux [#/s/cm^2/s.p.]
-                }
-            }
-        })
-
-        if process_dyld_files:
-        dchain_output.update({
-        'yields':{                          #  ~  Yield spectra
-            'all_names'                     # [N] names of all nuclides produced
-            'names'                         # [R][N] names of nuclides produced in each region
-            'TeX_names'                     # [R][N] LaTeX-formatted names of nuclides produced
-            'ZZZAAAM'                       # [R][N] ZZZAAAM values (=10000Z+10A+M) of nuclides
-                                            #        (ground state m=0, metastable m=1,2,etc.)
-            'rate':{                        #  -  Actual values used in DCHAIN (100% beam power)
-                   'value'                  # [R][E] nuclide yield rate [#/s/cm^3]
-                   'error'                  # [R][E] nuclide yield rate [#/s/cm^3]
-                }
-            'unit_spectra':{                #  -  Yields per unit source particle
-                   'value'                  # [R][E] nuclide yield rate [#/s.p.]
-                   'error'                  # [R][E] nuclide yield rate [#/s.p.]
-                }
-            }
-        })
-
-        if process_DCS_file: # add extra information
-            # Notation for output array dimensions
-            #   R  (n_reg)    regions
-            #   Td (ntsteps)  time steps in DCS file (usually differs from that of *.act file!)
-            #   Nd (nnuc_max) max number of nuclides (this index differs from the *.act N index)
-            #   C  (chni_max) maximum index of relevant chains
-            #   L  (chln_max) maximum number of links per chain
-
-        dchain_output.update({
-
-        'DCS':{
-            'time':{
-                'from_start_sec'            # [Td] list of times from start time [sec]
-                'from_EOB_sec'              # [Td] times from end of final bombardment [sec]
-                'of_EOB_sec'                #      scalar time of end of final bombardment [sec]
-                }
-
-            'number_of':{                   #  ~  Maximum values of R, Td, Nd, C, and L
-                'regions'                   #  R  = total number of regions
-                'time_steps'                #  Td = total number of time steps
-                'max_nuclides'              #  Nd = max number of end nuclides in any time step
-                'max_number_of_chains'      #  C  = highest index of a relevant chain found
-                'max_chain_length'          #  L  = max number of links (nuclides) in any chain
-                }
-
-            'end_nuclide':{                 #  ~  Informtaion on nuclides ending each chain
-                'names'                     # [R][Td,Nd] nuclide names
-                'inventory':{
-                    'N_previous'            # [R][Td,Nd,C] N in previous time step [atoms/cc]
-                    'N_now'                 # [R][Td,Nd,C] N in current time step [atoms/cc]
-                    'dN'                    # [R][Td,Nd,C] change in N of end nuclide from
-                                            #              prev. to current time step [atoms/cc]
-                    }
-                'activity':{
-                    'A_previous'            # [R][Td,Nd,C] A in previous time step [Bq/cc]
-                    'A_now'                 # [R][Td,Nd,C] A in the current time step [Bq/cc]
-                    'dA'                    # [R][Td,Nd,C] change in A of end nuclide from
-                                            #              prev. to current time step [Bq/cc]
-                    }
-                }
-
-            'chains':{                      #  ~  Chains, links, and their contributions
-                'indices_of_printed_chains' # [R][Td,Nd]     list of chain indices printed to
-                                            #                *.dcs, valid values of C index
-                'length'                    # [R][Td,Nd,C]   length of listed chain, L max index
-                'link_nuclides'             # [R][Td,Nd,C,L] strings of nuclides in each chain
-                'link_decay_modes'          # [R][Td,Nd,C,L] strings of decay modes each link
-                                            #                undergoes to produce the next link
-                'link_dN':{                 # (only filled if values in file, 'None' otherwise)
-                    'beam'                  # [R][Td,Nd,C,L] beam contribution to dN per link
-                    'decay_nrxn'            # [R][Td,Nd,C,L] decay/neutron rxn dN contribution
-                    'total'                 # [R][Td,Nd,C,L] total contribution to dN per link
-                    }
-                }
-
-            'relevant_nuclides':{           #  ~  A vs t of nuclides over relevancy threshold
-                'names'                     # [R]        list of relevant nuclides per region
-                'times'                     # [R][Td,Nd] time [s]
-                'inventory'                 # [R][Td,Nd] inventory [atm/cc]
-                'activity'                  # [R][Td,Nd] activity [Bq/cc]
-                }
-            }
-        })
-
-    '''
-    global start
-
-    try:
-        start_time = start
-    except:
-        start_time = time.time()
-    start = start_time
-
-    if simulation_basename[-3:] == '.in': simulation_basename = simulation_basename[:-3]
-    simulation_file_basic_path = simulation_folder_path + simulation_basename # only need to add output file extension
-
-    act_file = simulation_file_basic_path + '.act'
-    dcs_file = simulation_file_basic_path + '.dcs'
-
-    process_dtrk_file = True
-    if dtrk_filepath: # DTRK file manually provided
-        dtrk_file = dtrk_filepath
-        if not os.path.exists(dtrk_file):
-            print('    Provided .dtrk file could not be found: {}'.format(dtrk_filepath))
-            process_dtrk_file = False
-    else: # automatically find DTRK file
-        dtrk_file = simulation_file_basic_path + '.dtrk'
-        if not os.path.exists(dtrk_file):
-            # look for any files with the .dtrk extension in the simulation folder path
-            valid_files = []
-            valid_filepaths = []
-            for file in os.listdir(simulation_folder_path):
-                if file.endswith(".dtrk"):
-                    valid_files.append(file)
-                    valid_filepaths.append(os.path.join(simulation_folder_path, file))
-            if len(valid_files)>0:
-                print('    Could not find default .dtrk file {}, using {} in same directory instead.'.format(simulation_basename + '.dtrk',valid_files[0]))
-                dtrk_file = valid_filepaths[0]
-            else:
-                print('    No .dtrk files could not be found in provided simulation folder: {}'.format(simulation_folder_path))
-                process_dtrk_file = False
-
-    if process_dtrk_file:
-        neutron_flux, dtrk_metadata = parse_dtrk_file(dtrk_file,return_metadata=True)
-
-    process_dyld_file = True
-    if dyld_filepath: # dyld file manually provided
-        dyld_file = dyld_filepath
-        if not os.path.exists(dyld_file):
-            print('    Provided .dyld file could not be found: {}'.format(dyld_filepath))
-            process_dyld_file = False
-    else: # automatically find dyld file
-        dyld_file = simulation_file_basic_path + '.dyld'
-        if not os.path.exists(dyld_file):
-            # look for any files with the .dyld extension in the simulation folder path
-            valid_files = []
-            valid_filepaths = []
-            for file in os.listdir(simulation_folder_path):
-                if file.endswith(".dyld"):
-                    valid_files.append(file)
-                    valid_filepaths.append(os.path.join(simulation_folder_path, file))
-            if len(valid_files)>0:
-                print('    Could not find default .dyld file {}, using {} in same directory instead.'.format(simulation_basename + '.dyld',valid_files[0]))
-                dyld_file = valid_filepaths[0]
-            else:
-                print('    No .dyld files could not be found in provided simulation folder: {}'.format(simulation_folder_path))
-                process_dyld_file = False
-
-    print('{:<50}     ({:0.2f} seconds elapsed)'.format('    Parsing DCHAIN activation file...',time.time()-start))
-
-    parse_DCHAIN_act_file_OUTPUT = parse_DCHAIN_act_file(act_file)
-    reg_nos           = parse_DCHAIN_act_file_OUTPUT[0]  # length R list of region numbers
-    time_list_sec     = parse_DCHAIN_act_file_OUTPUT[1]  # length T list of measurement times (in sec) from start of irradiation
-    time_list_sec_after_EOB = parse_DCHAIN_act_file_OUTPUT[2] # length T list of measurement times (in sec) from end of last irradiation
-    irradiation_end_t = parse_DCHAIN_act_file_OUTPUT[3]  # time of end of irradiation (in sec)
-    nuclides_produced = parse_DCHAIN_act_file_OUTPUT[4]  # NumPy array of dimension RxTxNx11x2 of nuclide table data (N=max recorded table lenth) (last index 0=value, 1=abs error) [0='nuclide',1='atoms [#/cc]',2='activity [Bq/cc]',3='activity [Bq]',4='rate [%]',5='beta decay heat [W/cc]',6='gamma decay heat [W/cc]',7='alpha decay heat [W/cc]',8='total decay heat [W/cc]',9='half life [s]',10='dose-rate [uSv/h*m^2]']
-    gamma_spectra     = parse_DCHAIN_act_file_OUTPUT[5]  # NumPy array of dimension RxTxEx5x2 of gamma spectrum table data (last index 0=value, 1=abs error) [0='group number',1='bin energy lower-bound [MeV]',2='bin energy upper-bound [MeV]',3='flux [#/s/cc]',4='energy flux [MeV/s/cc]']
-    top10_lists       = parse_DCHAIN_act_file_OUTPUT[6]  # NumPy array of dimension RxTxNx12x2 of top-10 list table data (last index 0=value, 1=abs error) [0='rank',1='nuclide -  Activity ranking',2='activity [Bq/cc]',3='activity [Bq]',4='rate [%]',5='nuclide - Decay heat ranking',6='decay heat [W/cc]',7='decay heat [W]',8='rate [%]',9='nuclide - Dose rate ranking',10='dose-rate [uSv/h*m^2]',11='rate [%]']
-    column_headers    = parse_DCHAIN_act_file_OUTPUT[7]  # List containing 3 lists of column headers for the preceding three NumPy arrays
-    summary_info      = parse_DCHAIN_act_file_OUTPUT[8]  # list of the below lists/arrays of summary information
-    r_summary_info              = summary_info[0]  # NumPy array of dimension Rx7 of region-specific summary info [0='region number',1='irradiation time [s]',2='region volume [cc]',3='neutron flux [n/cm^2/s]',4='beam power [MW]',5='beam energy [GeV]',6='beam current [mA]']
-    r_summary_info_description  = summary_info[1]  # list of length 7 containing descriptions of the above items [0='region number',1='irradiation time [s]',2='region volume [cc]',3='neutron flux [n/cm^2/s]',4='beam power [MW]',5='beam energy [GeV]',6='beam current [mA]']
-    rt_summary_info             = summary_info[2]  # NumPy array of dimension RxTx12x2 of region and time-specific summary info (last index 0=value, 1=abs error) [0='total gamma flux [#/s/cc]',1='total gamma energy flux [MeV/s/cc]',2='annihilation gamma flux [#/s/cc]',3='gamma current underflow [#/s]',4='gamma current overflow [#/s]',5='total activity [Bq/cc]',6='total decay heat [W/cc]',7='beta decay heat [W/cc]',8='gamma decay heat [W/cc]',9='alpha decay heat [W/cc]',10='activated atoms [#/cc]',11='total gamma dose rate [uSV/h*m^2]']
-    rt_summary_info_description = summary_info[3]  # list of length 12 containing descriptions of the above items [0='total gamma flux [#/s/cc]',1='total gamma energy flux [MeV/s/cc]',2='annihilation gamma flux [#/s/cc]',3='gamma current underflow [#/s]',4='gamma current overflow [#/s]',5='total activity [Bq/cc]',6='total decay heat [W/cc]',7='beta decay heat [W/cc]',8='gamma decay heat [W/cc]',9='alpha decay heat [W/cc]',10='activated atoms [#/cc]',11='total gamma dose rate [uSV/h*m^2]']
-
-
-    print('{:<50}     ({:0.2f} seconds elapsed)'.format('    Restructuring nuclide data table array...',time.time()-start))
-
-    generate_nuclide_time_profiles_OUTPUT = generate_nuclide_time_profiles(nuclides_produced)
-    nuclide_names        = generate_nuclide_time_profiles_OUTPUT[0]  # List of length R of lists containing names of nuclides produced in each region
-    LaTeX_nuclide_names  = generate_nuclide_time_profiles_OUTPUT[1]  # List of length R of lists containing LaTeX-formatted names of nuclides produced in each region
-    nuclide_ZAM_vals     = generate_nuclide_time_profiles_OUTPUT[2]  # List of length R of lists containing ZZZAAAM values (=10000*Z+10*A+M) of nuclides produced in each region (ground state m=0, metastable m=1,2,etc.)
-    nuclide_half_lives   = generate_nuclide_time_profiles_OUTPUT[3]  # List of length R of lists containing half lives of nuclides produced in each region (in seconds)
-    nuclide_info         = generate_nuclide_time_profiles_OUTPUT[4]  # List of length R of NumPy arrays of dimension TxNx7x2 of nuclide info (last index 0=value, 1=abs error) [0='atoms [#/cc]',1='activity [Bq/cc]','2=beta decay heat [W/cc]','3=gamma decay heat [W/cc]','4=alpha decay heat [W/cc]','5=total decay heat [W/cc]','6=dose-rate [uSv/h*m^2]']
-    nuclide_info_headers = generate_nuclide_time_profiles_OUTPUT[5]  # List of length 7 containing text descriptions of the 7 columns of the info arrays [0='atoms [#/cc]',1='activity [Bq/cc]','2=beta decay heat [W/cc]','3=gamma decay heat [W/cc]','4=alpha decay heat [W/cc]','5=total decay heat [W/cc]','6=dose-rate [uSv/h*m^2]']
-
-
-    if process_dyld_file:
-        if process_dtrk_file:
-            if dtrk_metadata[0]=='dchain':
-                iredufmt=1
-            else: # dtrk_metadata[0]=='eng'
-                iredufmt=0
-        else:
-            iredufmt=0
-        yields, nuclide_names_yld = parse_dyld_files(dyld_file,iredufmt=iredufmt)
-
-        # Now reformat for more user-friendly output values
-        # regionwise values
-        beam_fluxs = (6.2415064e15)*r_summary_info[:,6] # particles/sec (converted from mA)
-        reg_vols = r_summary_info[:,2]
-        nregs,nnuc = np.shape(yields)[0],np.shape(yields)[1]
-        reg_yld_names = []
-        reg_yld_texnames = []
-        reg_yld_zam = []
-        yield_values_by_reg = [[],[],[],[]] # yield, yield abs err, unit yield, unit yield abs err
-        for ri in range(nregs):
-            for ni in range(nnuc):
-                if ni==0:
-                    reg_yld_names.append([])
-                    reg_yld_texnames.append([])
-                    reg_yld_zam.append([])
-                    for j in range(4):
-                        yield_values_by_reg[j].append([])
-                if yields[ri,ni,0] != 0.0:
-                    reg_yld_names[-1].append(nuclide_names_yld[ni])
-                    reg_yld_texnames[-1].append(Dname_to_Latex(nuclide_names_yld[ni]))
-                    reg_yld_zam[-1].append(Dname_to_ZAM(nuclide_names_yld[ni]))
-                    yield_values_by_reg[0][-1].append(beam_fluxs[ri]*yields[ri,ni,0]/reg_vols[ri])
-                    yield_values_by_reg[1][-1].append(beam_fluxs[ri]*yields[ri,ni,1]/reg_vols[ri])
-                    yield_values_by_reg[2][-1].append(yields[ri,ni,0])
-                    yield_values_by_reg[3][-1].append(yields[ri,ni,1])
-
-
-
-    if process_DCS_file:
-        # Control parameters
-        relevancy_threshold=0.01 # fraction of total activity an isotope must be at any time step in DCS file to be placed in the "relevant" array
-
-        fcn_out = parse_DCS_file_from_DCHAIN(dcs_file,relevancy_threshold=relevancy_threshold)
-
-        # Notation for output array dimensions
-        #   R (n_reg)    regions
-        #   T (ntsteps)  time steps
-        #   N (nnuc_max) max number of nuclides
-        #   C (chni_max) maximum index of relevant chains
-        #   L (chln_max) maximum number of links per chain
-
-        inventory  = fcn_out[0] # universal columns of DCS file [R,T,N,C,vi], vi: 0=N_i-1/V, 1=dN/V, 2=N_i/V, 3=A_i/V, 4=A_i
-        l_chains   = fcn_out[1] # [R,T,N,C], length of listed chain
-        prod_nuc   = fcn_out[2] # [R,T,N], strings of the nuclide being produced
-        chn_indx   = fcn_out[3] # [R,T,N], lists of the chain indices printed
-        link_nuc   = fcn_out[4] # [R,T,N,C,L], strings of the nuclides in each chain
-        decay_mode = fcn_out[5] # [R,T,N,C,L], strings of the decay modes each link undergoes to produce the next link
-        link_dN_info=fcn_out[6] # [R,T,N,C,L,di], extra dN info di: 0=dN_Beam, 1=dN_Decay/nrxn, 2=dN_Total (only generated if these values are found in file, 'None' otherwise)
-        end_of_irradiation_time = fcn_out[7] # time of end of final irradiation step [seconds]
-        notable_nuclides_names_by_region = fcn_out[8] # list of lists (one per region) containing the relevant nuclides per region
-        notable_nuclides_AvT_by_region   = fcn_out[9] # list of arrays (one per region, [T,N_rlv-nuc,3]) containing the time[s]/inventory[atm/cc]/activity[Bq/cc] data of relevant nuclides
-
-        n_reg,ntsteps,nnuc_max,chni_max,chln_max = np.shape(decay_mode)
-
-        relevant_nuclides = notable_nuclides_names_by_region[0]
-        n_relevant_nuclides = len(relevant_nuclides)
-        relv_nuc_inv = notable_nuclides_AvT_by_region[0]
-
-        t_from_start = relv_nuc_inv[:,0,0]
-        t_after_irrad_sec = ((relv_nuc_inv[:,0,0]-end_of_irradiation_time))
-
-    nreg = len(reg_nos)
-    rilist = range(nreg)
-    #regionwise_gamma_spectra = [gamma_spectra[ri,:,:,:,:] for ri in range(nreg)]
-    #rw_totgflux_val = [rt_summary_info[ri,:,0,0] for ri in range(nreg)]
-    #rw_totgflux_ae = [rt_summary_info[ri,:,0,1] for ri in range(nreg)]
-    #rw_totegflux = [rt_summary_info[ri,:,1,:] for ri in range(nreg)]
-
-
-    # Notation for output array dimensions
-    #   R  regions
-    #   T  time steps
-    #   N  max number of nuclides found in a single region
-    #   E  number of gamma energy bins
-    # le10 for top 10 lists, a number <= 10
-
-    dchain_output = {
-        'time':{                                              #  ~  Time information
-            'from_start_sec':time_list_sec,                   # [T] list of times from start time [sec]
-            'from_EOB_sec':time_list_sec_after_EOB,           # [T] list of times from end of final bombardment [sec]
-            'of_EOB_sec':irradiation_end_t,                   #     scalar time marking end of final bombardment [sec]
-            },
-
-        'region':{                                            #  ~  Information which only varies with region
-            'numbers':reg_nos,                                # [R] list of all region numbers
-            'number': r_summary_info[:,0],                    # [R] list of all region numbers
-            'irradiation_time_sec': r_summary_info[:,1],      # [R] list of irradiation time per region
-            'volume': r_summary_info[:,2],                    # [R] list of volume in cc per region
-            'neutron_flux': r_summary_info[:,3],              # [R] list of neutron flux in n/cm^2/s per region
-            'beam_power_MW': r_summary_info[:,4],             # [R] list of beam power in MW per region
-            'beam_energy_GeV': r_summary_info[:,5],           # [R] list of beam energy in GeV per region
-            'beam_current_mA': r_summary_info[:,6]            # [R] list of beam current in mA per region
-            },
-
-        'nuclides':{                                          #  ~  Main nuclide results from *.act file
-            'names':nuclide_names,                            # [R][N] list of lists containing names of nuclides produced in each region
-            'TeX_names':LaTeX_nuclide_names,                  # [R][N] list of lists containing LaTeX-formatted names of nuclides produced in each region
-            'ZZZAAAM':nuclide_ZAM_vals,                       # [R][N] list of lists containing ZZZAAAM values (=10000*Z+10*A+M) of nuclides produced in each region (ground state m=0, metastable m=1,2,etc.)
-            'half_life':nuclide_half_lives,                   # [R][N] list of lists containing half lives of nuclides produced in each region (in seconds)
-            'inventory':{'value':[nuclide_info[ri][:,:,0,0] for ri in rilist],       # [R][T,N] atoms [#/cc]
-                         'error':[nuclide_info[ri][:,:,0,1] for ri in rilist]},      # [R][T,N] atoms [#/cc]
-            'activity':{'value':[nuclide_info[ri][:,:,1,0] for ri in rilist],        # [R][T,N] activity [Bq/cc]
-                        'error':[nuclide_info[ri][:,:,1,1] for ri in rilist]},       # [R][T,N] activity [Bq/cc]
-            'dose_rate':{'value':[nuclide_info[ri][:,:,6,0] for ri in rilist],       # [R][T,N] dose-rate [uSv/h*m^2]
-                         'error':[nuclide_info[ri][:,:,6,1] for ri in rilist]},      # [R][T,N] dose-rate [uSv/h*m^2]
-            'decay_heat':{
-                'total':{'value':[nuclide_info[ri][:,:,5,0] for ri in rilist],       # [R][T,N] total decay heat [W/cc]
-                         'error':[nuclide_info[ri][:,:,5,1] for ri in rilist]},      # [R][T,N] total decay heat [W/cc]
-                'beta':{'value':[nuclide_info[ri][:,:,2,0] for ri in rilist],        # [R][T,N] beta decay heat [W/cc]
-                        'error':[nuclide_info[ri][:,:,2,1] for ri in rilist]},       # [R][T,N] beta decay heat [W/cc]
-                'gamma':{'value':[nuclide_info[ri][:,:,3,0] for ri in rilist],       # [R][T,N] gamma decay heat [W/cc]
-                         'error':[nuclide_info[ri][:,:,3,1] for ri in rilist]},      # [R][T,N] gamma decay heat [W/cc]
-                'alpha':{'value':[nuclide_info[ri][:,:,4,0] for ri in rilist],       # [R][T,N] alpha decay heat [W/cc]
-                         'error':[nuclide_info[ri][:,:,4,1] for ri in rilist]},      # [R][T,N] alpha decay heat [W/cc]
-                },
-            'column_headers':nuclide_info_headers, # List of length 7 containing text descriptions of the 7 columns of the info arrays [0='atoms [#/cc]',1='activity [Bq/cc]','2=beta decay heat [W/cc]','3=gamma decay heat [W/cc]','4=alpha decay heat [W/cc]','5=total decay heat [W/cc]','6=dose-rate [uSv/h*m^2]']
-            'total':{                                                                       #  ~  Total values summed over all nuclides
-                'activity':{'value':[rt_summary_info[ri,:,5,0] for ri in rilist] ,          # [R][T] total activity [Bq/cc]
-                            'error':[rt_summary_info[ri,:,5,1] for ri in rilist]},          # [R][T] total activity [Bq/cc]
-                'decay_heat':{'value':[rt_summary_info[ri,:,6,0] for ri in rilist] ,        # [R][T] total decay heat [W/cc]
-                              'error':[rt_summary_info[ri,:,6,1] for ri in rilist]},        # [R][T] total decay heat [W/cc]
-                'beta_heat':{'value':[rt_summary_info[ri,:,7,0] for ri in rilist] ,         # [R][T] total beta decay heat [W/cc]
-                             'error':[rt_summary_info[ri,:,7,1] for ri in rilist]},         # [R][T] total beta decay heat [W/cc]
-                'gamma_heat':{'value':[rt_summary_info[ri,:,8,0] for ri in rilist] ,        # [R][T] total gamma decay heat [W/cc]
-                              'error':[rt_summary_info[ri,:,8,1] for ri in rilist]},        # [R][T] total gamma decay heat [W/cc]
-                'alpha_heat':{'value':[rt_summary_info[ri,:,9,0] for ri in rilist] ,        # [R][T] total alpha decay heat [W/cc]
-                              'error':[rt_summary_info[ri,:,9,1] for ri in rilist]},        # [R][T] total alpha decay heat [W/cc]
-                'activated_atoms':{'value':[rt_summary_info[ri,:,10,0] for ri in rilist],   # [R][T] total activated atoms [#/cc]
-                                   'error':[rt_summary_info[ri,:,10,1] for ri in rilist]},  # [R][T] total activated atoms [#/cc]
-                'gamma_dose_rate':{'value':[rt_summary_info[ri,:,11,0] for ri in rilist],   # [R][T] total gamma dose rate [uSV/h*m^2]
-                                   'error':[rt_summary_info[ri,:,11,1] for ri in rilist]}   # [R][T] total gamma dose rate [uSV/h*m^2]
-                }
-            },
-
-
-        'gamma':{                                                                                              #  ~  Gamma spectra and totals
-            'spectra':{
-                'group_number':[gamma_spectra[ri,:,:,0,0] for ri in rilist],                                   # [R][T,E] group number
-                'E_lower':[gamma_spectra[ri,:,:,1,0] for ri in rilist],                                        # [R][T,E] bin energy lower-bound [MeV]
-                'E_upper':[gamma_spectra[ri,:,:,2,0] for ri in rilist],                                        # [R][T,E] bin energy upper-bound [MeV]
-                'flux':{'value':[gamma_spectra[ri,:,:,3,0] for ri in rilist],                                  # [R][T,E] flux [#/s/cc]
-                        'error':[gamma_spectra[ri,:,:,3,0]*gamma_spectra[ri,:,:,3,1] for ri in rilist]},       # [R][T,E] flux [#/s/cc]
-                'energy_flux':{'value':[gamma_spectra[ri,:,:,4,0] for ri in rilist],                           # [R][T,E] energy flux [MeV/s/cc]
-                               'error':[gamma_spectra[ri,:,:,4,0]*gamma_spectra[ri,:,:,4,1] for ri in rilist]} # [R][T,E] energy flux [MeV/s/cc]
-                },
-            'total_flux':{'value':[rt_summary_info[ri,:,0,0] for ri in rilist],                                # [R][T] total gamma flux [#/s/cc]
-                          'error':[rt_summary_info[ri,:,0,1] for ri in rilist]},                               # [R][T] total gamma flux [#/s/cc]
-            'total_energy_flux':{'value':[rt_summary_info[ri,:,1,0] for ri in rilist] ,                        # [R][T] total gamma energy flux [MeV/s/cc]
-                                 'error':[rt_summary_info[ri,:,1,1] for ri in rilist]},                        # [R][T] total gamma energy flux [MeV/s/cc]
-            'annihilation_flux':{'value':[rt_summary_info[ri,:,2,0] for ri in rilist] ,                        # [R][T] annihilation gamma flux [#/s/cc]
-                                 'error':[rt_summary_info[ri,:,2,1] for ri in rilist]},                        # [R][T] annihilation gamma flux [#/s/cc]
-            'current_underflow':{'value':[rt_summary_info[ri,:,3,0] for ri in rilist] ,                        # [R][T] gamma current underflow [#/s]
-                                 'error':[rt_summary_info[ri,:,3,1] for ri in rilist]}, # no error reported
-            'current_overflow':{'value':[rt_summary_info[ri,:,4,0] for ri in rilist],                          # [R][T] gamma current overflow [#/s]
-                                'error':[rt_summary_info[ri,:,4,1] for ri in rilist]}   # no error reported
-            },
-
-        'top10':{                                                          #  ~  Top 10 lists from *.act file
-            'activity':{
-                'rank':[top10_lists[ri,:,:,0,0] for ri in rilist],         # [R][T,le10] rank
-                'nuclide':[top10_lists[ri,:,:,1,0] for ri in rilist],      # [R][T,le10] nuclide name
-                'value':[top10_lists[ri,:,:,2,0] for ri in rilist],        # [R][T,le10] activity [Bq/cc]
-                'error':[top10_lists[ri,:,:,2,1] for ri in rilist],        # [R][T,le10] activity [Bq/cc]
-                'percent':[top10_lists[ri,:,:,4,0] for ri in rilist],      # [R][T,le10] percent of total activity
-                },
-            'decay_heat':{
-                'rank':[top10_lists[ri,:,:,0,0] for ri in rilist],         # [R][T,le10] rank
-                'nuclide':[top10_lists[ri,:,:,5,0] for ri in rilist],      # [R][T,le10] nuclide name
-                'value':[top10_lists[ri,:,:,6,0] for ri in rilist],        # [R][T,le10] decay heat [W/cc]
-                'error':[top10_lists[ri,:,:,6,1] for ri in rilist],        # [R][T,le10] decay heat [W/cc]
-                'percent':[top10_lists[ri,:,:,8,0] for ri in rilist],      # [R][T,le10] percent of total decay heat
-                },
-            'gamma_dose':{
-                'rank':[top10_lists[ri,:,:,0,0] for ri in rilist],         # [R][T,le10] rank
-                'nuclide':[top10_lists[ri,:,:,9,0] for ri in rilist],      # [R][T,le10] nuclide name
-                'value':[top10_lists[ri,:,:,10,0] for ri in rilist],       # [R][T,le10] dose-rate [uSv/h*m^2]
-                'error':[top10_lists[ri,:,:,10,1] for ri in rilist],       # [R][T,le10] dose-rate [uSv/h*m^2]
-                'percent':[top10_lists[ri,:,:,11,0] for ri in rilist],     # [R][T,le10] percent of total gamma dose rate
-                }
-            },
-
-        'number_of':{                                                      #  ~  Maximum values of R, T, N, and E
-            'regions':nreg,                                                #  R  = total number of regions
-            'time_steps':len(time_list_sec),                               #  T  = total number of time steps
-            'max_nuclides_in_any_region':np.shape(nuclides_produced)[2],   #  N  = maximum unique nuclides found in any region
-            'gamma_energy_bins':np.shape(gamma_spectra)[2]                 #  E  = number of gamma energy bins (default=42)
-            }
-
-        }
-
-    if process_dtrk_file:
-        dflux_norm = []
-        for ri in rilist:
-            if np.sum(neutron_flux[ri,:,2]) != 0:
-                dflux_norm.append(r_summary_info[ri,3]/np.sum(neutron_flux[ri,:,2]))
-            else:
-                dflux_norm.append(0.0)
-        #dflux_norm = [r_summary_info[ri,3]/np.sum(neutron_flux[ri,:,2]) for ri in rilist] # normalize unit flux to total flux
-        dchain_output.update({
-            'neutron':{
-                'spectra':{                                                                                         # Actual values used by DCHAIN for rate calcs
-                    'E_lower':[neutron_flux[ri,:,0] for ri in rilist],                                              # [R][E] bin energy lower-bound [MeV]
-                    'E_upper':[neutron_flux[ri,:,1] for ri in rilist],                                              # [R][E] bin energy upper-bound [MeV]
-                    'flux':{'value':[neutron_flux[ri,:,2]*dflux_norm[ri] for ri in rilist],                         # [R][E] neutron flux [#/s/cm^2]
-                            'error':[neutron_flux[ri,:,3]*dflux_norm[ri] for ri in rilist]},                        # [R][E] neutron flux [#/s/cm^2]
-                    },
-                'total_flux':{'value':[np.sum(neutron_flux[ri,:,2])*dflux_norm[ri] for ri in rilist],               # [R] total neutron flux [#/s/cm^2]
-                              'error':[np.sqrt(np.sum(neutron_flux[ri,:,3]**2))*dflux_norm[ri] for ri in rilist]},  # [R] total neutron flux [#/s/cm^2]
-                'unit_spectra':{                                                         # Raw T-Track output from PHITS
-                    'E_lower':[neutron_flux[ri,:,0] for ri in rilist],                   # [R][E] bin energy lower-bound [MeV]
-                    'E_upper':[neutron_flux[ri,:,1] for ri in rilist],                   # [R][E] bin energy upper-bound [MeV]
-                    'flux':{'value':[neutron_flux[ri,:,2] for ri in rilist],             # [R][E] neutron flux [#/s/cm^2]
-                            'error':[neutron_flux[ri,:,3] for ri in rilist]},            # [R][E] neutron flux [#/s/cm^2]
-                    },
-                }
-            })
-
-    if process_dyld_file:
-        dchain_output.update({
-            'yields':{                                              #  ~  Yield spectra
-                'all_names':nuclide_names_yld,                      # [N] names of nuclides produced in all regions
-                'names':reg_yld_names,                              # [R][N] names of nuclides produced in each region
-                'TeX_names':reg_yld_texnames,                       # [R][N] LaTeX-formatted names of nuclides produced
-                'ZZZAAAM':reg_yld_zam,                              # [R][N] ZZZAAAM values (=10000Z+10A+M) of nuclides
-                'rate':{'value':yield_values_by_reg[0],             # [R][E] nuclide yield rate [#/s/cm^3]
-                        'error':yield_values_by_reg[1]},            # [R][E] nuclide yield rate [#/s/cm^3]
-                'unit_rate':{'value':yield_values_by_reg[2],        # [R][E] unit nuclide yield rate [#/s.p.]
-                             'error':yield_values_by_reg[3]}        # [R][E] unit nuclide yield rate [#/s.p.]
-                }
-            })
-
-    if process_DCS_file: # add extra information
-        # Notation for output array dimensions
-        #   R  (n_reg)    regions
-        #   Td (ntsteps)  time steps in DCS file (usually different from that of ACT file!)
-        #   Nd (nnuc_max) max number of nuclides (this index differs from the ACT N index)
-        #   C  (chni_max) maximum index of relevant chains
-        #   L  (chln_max) maximum number of links per chain
-
-        dchain_output.update({'DCS':{
-            'time':{
-                'from_start_sec':t_from_start,         # [Td] list
-                'from_EOB_sec':t_after_irrad_sec,      # [Td] list
-                'of_EOB_sec':irradiation_end_t         #      scalar
-                },
-
-            'number_of':{                              #  ~  Maximum values of R, Td, Nd, C, and L
-                'regions':n_reg,                       #  R  = total number of regions
-                'time_steps':ntsteps,                  #  Td = total number of time steps
-                'max_nuclides':nnuc_max,               #  Nd = maximum number of nuclides listed in a time step
-                'max_number_of_chains':chni_max,       #  C  = highest index of a relevant chain found
-                'max_chain_length':chln_max            #  L  = maximum number of links (nuclides) found in any chain
-                },
-
-            'end_nuclide':{
-                'names':[prod_nuc[ri,:,:] for ri in rilist],                  # [R][Td,Nd] nuclide names
-
-                'inventory':{
-                    'N_previous':[inventory[ri,:,:,:,0] for ri in rilist],    # [R][Td,Nd,C] inventory of end nuclide in previous time step [atoms/cc]
-                    'N_now':[inventory[ri,:,:,:,2] for ri in rilist],         # [R][Td,Nd,C] inventory of end nuclide in the current time step [atoms/cc]
-                    'dN':[inventory[ri,:,:,:,1] for ri in rilist]             # [R][Td,Nd,C] change in inventory of end nuclide from the previous to the current time step [atoms/cc]
-                    },
-
-                'activity':{
-                    'A_previous':[inventory[ri,:,:,:,0]*(inventory[ri,:,:,:,3]/inventory[ri,:,:,:,2]) for ri in rilist], # [R][Td,Nd,C] activity of end nuclide in previous time step [Bq/cc]
-                    'A_now':[inventory[ri,:,:,:,3] for ri in rilist],                                                    # [R][Td,Nd,C] activity of end nuclide in the current time step [Bq/cc]
-                    'dA':[inventory[ri,:,:,:,1]*(inventory[ri,:,:,:,3]/inventory[ri,:,:,:,2]) for ri in rilist]          # [R][Td,Nd,C] change in activity of end nuclide from the previous to the current time step [Bq/cc]
-                    }
-                },
-
-
-            'chains':{
-                'indices_of_printed_chains':[chn_indx[ri,:,:] for ri in rilist],           # [R][Td,Nd]     lists of the chain indices printed
-                'length':[l_chains[ri,:,:,:] for ri in rilist],                            # [R][Td,Nd,C]   length of listed chain
-                'link_nuclides':[link_nuc[ri,:,:,:,:] for ri in rilist],                   # [R][Td,Nd,C,L] strings of the nuclides in each chain
-                'link_decay_modes':[decay_mode[ri,:,:,:,:] for ri in rilist],              # [R][Td,Nd,C,L] strings of the decay modes each link undergoes to produce the next link
-                'link_dN':{
-                    'beam':[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,0] for ri in rilist],                  # [R][Td,Nd,C,L] beam contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
-                    'decay_nrxn':[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,1] for ri in rilist],            # [R][Td,Nd,C,L] decay + neutron rxn contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
-                    'total':[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
-                    }
-                },
-
-            'relevant_nuclides':{
-                'names':notable_nuclides_names_by_region,                                  # [R]        list of relevant nuclides per region
-                'times':[notable_nuclides_AvT_by_region[ri][:,:,0] for ri in rilist],      # [R][Td,Nd] time [s]
-                'inventory':[notable_nuclides_AvT_by_region[ri][:,:,1] for ri in rilist],  # [R][Td,Nd] inventory [atm/cc]
-                'activity':[notable_nuclides_AvT_by_region[ri][:,:,2] for ri in rilist]    # [R][Td,Nd] activity [Bq/cc]
-                }
-
-            }})
-
-
-    # https://github.com/Infinidat/munch
-    try:
-        dchain_output = munchify(dchain_output)
-    except:
-        print("munchify failed.  Returned object is a conventional dictionary rather than a munchify object.")
-
-    return dchain_output
 
 
 def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis_type='indices',regions=None,region_indices=None,times=None,time_indices=None,rank_cutoff=10,xscale='linear'):
