@@ -703,9 +703,9 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 'link_nuclides':[link_nuc[ri,:,:,:,:] for ri in rilist],                   # [R][Td,Nd,C,L] strings of the nuclides in each chain
                 'link_decay_modes':[decay_mode[ri,:,:,:,:] for ri in rilist],              # [R][Td,Nd,C,L] strings of the decay modes each link undergoes to produce the next link
                 'link_dN':{
-                    'beam':[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,0] for ri in rilist],                  # [R][Td,Nd,C,L] beam contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
-                    'decay_nrxn':[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,1] for ri in rilist],            # [R][Td,Nd,C,L] decay + neutron rxn contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
-                    'total':[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
+                    'beam':[None if link_dN_info is None else link_dN_info[ri,:,:,:,:,0] for ri in rilist],                  # [R][Td,Nd,C,L] beam contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
+                    'decay_nrxn':[None if link_dN_info is None else link_dN_info[ri,:,:,:,:,1] for ri in rilist],            # [R][Td,Nd,C,L] decay + neutron rxn contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
+                    'total':[None if link_dN_info is None else link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, 'None' otherwise)
                     }
                 },
 
