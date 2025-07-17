@@ -1,7 +1,22 @@
 '''
 
-This module serves to function as a library of functions related to DCHAIN which can be easily
-imported into and used by scripts for processing DCHIAN output.  They are summarized below.
+This submodule serves to function as a library of functions related to DCHAIN which can be easily
+imported into and used by scripts for processing DCHIAN output.  They are summarized further below.
+
+DCHAIN Tools is distributed as a submodule of [PHITS Tools](https://github.com/Lindt8/PHITS-Tools) 
+and is primarily intended to be accessed as such, though it is still fully functional as a standalone module. 
+The reccomended way of installing DCHAIN Tools is via PHITS Tools, with `pip install PHITS-Tools`. 
+Then, one can import `dchain_tools` as `from PHITS_tools import dchain_tools` / `from PHITS_tools.dchain_tools import *` and so on.
+
+If the PHITS Tools main output processing function is provided DCHAIN-related files, 
+[`parse_tally_output_file()`](https://lindt8.github.io/PHITS-Tools/#PHITS_tools.parse_tally_output_file) (and passed to it via [`parse_all_tally_output_in_dir()`](https://lindt8.github.io/PHITS-Tools/#PHITS_tools.parse_all_tally_output_in_dir)),
+the appropriate functions within DCHAIN Tools will be automatically called to perform their analysis, 
+namely `process_dchain_simulation_output`, `parse_dtrk_file`, and `parse_dyld_files`,
+using a set of assumed default parameter options.  While this may suffice for most cases, 
+the functions in this `dchain_tools` submodule can be employed directly for more granular 
+control over these options and their extra functionalities.
+
+
 
 ###  Main function for DCHAIN output parsing
 - `process_dchain_simulation_output`           : **This is main master function for parsing DCHAIN output and is generally the function one should use for this purpose.**  It processes all DCHAIN output for a given DCHAIN run.

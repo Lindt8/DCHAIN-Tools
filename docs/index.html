@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>dchain_tools API documentation</title>
-<meta name="description" content="This module serves to function as a library of functions related to DCHAIN which can be easily
-imported into and used by scripts for processing DCHIAN …" />
+<meta name="description" content="This submodule serves to function as a library of functions related to DCHAIN which can be easily
+imported into and used by scripts for processing �" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -20,12 +20,24 @@ imported into and used by scripts for processing DCHIAN …" />
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>dchain_tools</code></h1>
+<h1 class="title">Submodule <code>dchain_tools</code></h1>
 </header>
 <section id="section-intro">
-<p>This module serves to function as a library of functions related to DCHAIN which can be easily
+<p>This submodule serves to function as a library of functions related to DCHAIN which can be easily
 imported into and used by scripts for processing DCHIAN output.
-They are summarized below.</p>
+They are summarized further below.</p>
+<p>DCHAIN Tools is distributed as a submodule of <a href="https://github.com/Lindt8/PHITS-Tools">PHITS Tools</a>
+and is primarily intended to be accessed as such, though it is still fully functional as a standalone module.
+The reccomended way of installing DCHAIN Tools is via PHITS Tools, with <code>pip install PHITS-Tools</code>.
+Then, one can import <code><a title="dchain_tools" href="#dchain_tools">dchain_tools</a></code> as <code>from PHITS_tools import <a title="dchain_tools" href="#dchain_tools">dchain_tools</a></code> / <code>from PHITS_tools.dchain_tools import *</code> and so on.</p>
+<p>If the PHITS Tools main output processing function is provided DCHAIN-related files,
+<a href="https://lindt8.github.io/PHITS-Tools/#PHITS_tools.parse_tally_output_file"><code>parse_tally_output_file()</code></a> (and passed to it via <a href="https://lindt8.github.io/PHITS-Tools/#PHITS_tools.parse_all_tally_output_in_dir"><code>parse_all_tally_output_in_dir()</code></a>),
+the appropriate functions within DCHAIN Tools will be automatically called to perform their analysis,
+namely <code><a title="dchain_tools.process_dchain_simulation_output" href="#dchain_tools.process_dchain_simulation_output">process_dchain_simulation_output()</a></code>, <code><a title="dchain_tools.parse_dtrk_file" href="#dchain_tools.parse_dtrk_file">parse_dtrk_file()</a></code>, and <code><a title="dchain_tools.parse_dyld_files" href="#dchain_tools.parse_dyld_files">parse_dyld_files()</a></code>,
+using a set of assumed default parameter options.
+While this may suffice for most cases,
+the functions in this <code><a title="dchain_tools" href="#dchain_tools">dchain_tools</a></code> submodule can be employed directly for more granular
+control over these options and their extra functionalities.</p>
 <h3 id="main-function-for-dchain-output-parsing">Main function for DCHAIN output parsing</h3>
 <ul>
 <li><code><a title="dchain_tools.process_dchain_simulation_output" href="#dchain_tools.process_dchain_simulation_output">process_dchain_simulation_output()</a></code>
@@ -109,8 +121,23 @@ It processes all DCHAIN output for a given DCHAIN run.</li>
 </summary>
 <pre><code class="python">&#39;&#39;&#39;
 
-This module serves to function as a library of functions related to DCHAIN which can be easily
-imported into and used by scripts for processing DCHIAN output.  They are summarized below.
+This submodule serves to function as a library of functions related to DCHAIN which can be easily
+imported into and used by scripts for processing DCHIAN output.  They are summarized further below.
+
+DCHAIN Tools is distributed as a submodule of [PHITS Tools](https://github.com/Lindt8/PHITS-Tools) 
+and is primarily intended to be accessed as such, though it is still fully functional as a standalone module. 
+The reccomended way of installing DCHAIN Tools is via PHITS Tools, with `pip install PHITS-Tools`. 
+Then, one can import `dchain_tools` as `from PHITS_tools import dchain_tools` / `from PHITS_tools.dchain_tools import *` and so on.
+
+If the PHITS Tools main output processing function is provided DCHAIN-related files, 
+[`parse_tally_output_file()`](https://lindt8.github.io/PHITS-Tools/#PHITS_tools.parse_tally_output_file) (and passed to it via [`parse_all_tally_output_in_dir()`](https://lindt8.github.io/PHITS-Tools/#PHITS_tools.parse_all_tally_output_in_dir)),
+the appropriate functions within DCHAIN Tools will be automatically called to perform their analysis, 
+namely `process_dchain_simulation_output`, `parse_dtrk_file`, and `parse_dyld_files`,
+using a set of assumed default parameter options.  While this may suffice for most cases, 
+the functions in this `dchain_tools` submodule can be employed directly for more granular 
+control over these options and their extra functionalities.
+
+
 
 ###  Main function for DCHAIN output parsing
 - `process_dchain_simulation_output`           : **This is main master function for parsing DCHAIN output and is generally the function one should use for this purpose.**  It processes all DCHAIN output for a given DCHAIN run.
@@ -181,6 +208,10 @@ try:
 except:
     Hunters_tools_is_available = False
 
+if __name__ == &#34;__main__&#34;:
+    in_dchain_tools_debug_mode = True
+else:
+    in_dchain_tools_debug_mode = False
 
 def process_dchain_simulation_output(simulation_folder_path,simulation_basename,dtrk_filepath=None,dyld_filepath=None,process_DCS_file=False):
     &#39;&#39;&#39;
@@ -439,7 +470,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
         start_time = start
     except:
         start_time = time.time()
-    start = start_time
+    start = start_time 
 
     if simulation_basename[-3:] == &#39;.in&#39;: simulation_basename = simulation_basename[:-3]
     simulation_file_basic_path = simulation_folder_path + simulation_basename # only need to add output file extension
@@ -496,7 +527,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 print(&#39;    No .dyld files could not be found in provided simulation folder: {}&#39;.format(simulation_folder_path))
                 process_dyld_file = False
 
-    print(&#39;{:&lt;50}     ({:0.2f} seconds elapsed)&#39;.format(&#39;    Parsing DCHAIN activation file...&#39;,time.time()-start))
+    print(&#39;{:&lt;50}     ({:0.2f} seconds elapsed)&#39;.format(&#39;\tParsing DCHAIN activation file...&#39;,time.time()-start))
 
     parse_DCHAIN_act_file_OUTPUT = parse_DCHAIN_act_file(act_file)
     reg_nos           = parse_DCHAIN_act_file_OUTPUT[0]  # length R list of region numbers
@@ -514,7 +545,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
     rt_summary_info_description = summary_info[3]  # list of length 12 containing descriptions of the above items [0=&#39;total gamma flux [#/s/cc]&#39;,1=&#39;total gamma energy flux [MeV/s/cc]&#39;,2=&#39;annihilation gamma flux [#/s/cc]&#39;,3=&#39;gamma current underflow [#/s]&#39;,4=&#39;gamma current overflow [#/s]&#39;,5=&#39;total activity [Bq/cc]&#39;,6=&#39;total decay heat [W/cc]&#39;,7=&#39;beta decay heat [W/cc]&#39;,8=&#39;gamma decay heat [W/cc]&#39;,9=&#39;alpha decay heat [W/cc]&#39;,10=&#39;activated atoms [#/cc]&#39;,11=&#39;total gamma dose rate [uSV/h*m^2]&#39;]
 
 
-    print(&#39;{:&lt;50}     ({:0.2f} seconds elapsed)&#39;.format(&#39;    Restructuring nuclide data table array...&#39;,time.time()-start))
+    if in_dchain_tools_debug_mode: print(&#39;{:&lt;50}     ({:0.2f} seconds elapsed)&#39;.format(&#39;    Restructuring nuclide data table array...&#39;,time.time()-start))
 
     generate_nuclide_time_profiles_OUTPUT = generate_nuclide_time_profiles(nuclides_produced)
     nuclide_names        = generate_nuclide_time_profiles_OUTPUT[0]  # List of length R of lists containing names of nuclides produced in each region
@@ -773,7 +804,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
         #   Nd (nnuc_max) max number of nuclides (this index differs from the ACT N index)
         #   C  (chni_max) maximum index of relevant chains
         #   L  (chln_max) maximum number of links per chain
-
+        np.seterr(divide=&#39;ignore&#39;, invalid=&#39;ignore&#39;)
         dchain_output.update({&#39;DCS&#39;:{
             &#39;time&#39;:{
                 &#39;from_start_sec&#39;:t_from_start,         # [Td] list
@@ -812,9 +843,9 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 &#39;link_nuclides&#39;:[link_nuc[ri,:,:,:,:] for ri in rilist],                   # [R][Td,Nd,C,L] strings of the nuclides in each chain
                 &#39;link_decay_modes&#39;:[decay_mode[ri,:,:,:,:] for ri in rilist],              # [R][Td,Nd,C,L] strings of the decay modes each link undergoes to produce the next link
                 &#39;link_dN&#39;:{
-                    &#39;beam&#39;:[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,0] for ri in rilist],                  # [R][Td,Nd,C,L] beam contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
-                    &#39;decay_nrxn&#39;:[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,1] for ri in rilist],            # [R][Td,Nd,C,L] decay + neutron rxn contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
-                    &#39;total&#39;:[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
+                    &#39;beam&#39;:[None if link_dN_info is None else link_dN_info[ri,:,:,:,:,0] for ri in rilist],                  # [R][Td,Nd,C,L] beam contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
+                    &#39;decay_nrxn&#39;:[None if link_dN_info is None else link_dN_info[ri,:,:,:,:,1] for ri in rilist],            # [R][Td,Nd,C,L] decay + neutron rxn contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
+                    &#39;total&#39;:[None if link_dN_info is None else link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
                     }
                 },
 
@@ -826,6 +857,7 @@ def process_dchain_simulation_output(simulation_folder_path,simulation_basename,
                 }
 
             }})
+        np.seterr(divide=&#39;warn&#39;, invalid=&#39;warn&#39;)
 
 
     # https://github.com/Infinidat/munch
@@ -1282,7 +1314,7 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
     start = start_time
 
 
-    print(&#39;Processing the *.DCS decay chain file...     ({:0.2f} seconds elapsed)&#39;.format(time.time()-start))
+    print(&#39;\tProcessing the *.DCS decay chain file...     ({:0.2f} seconds elapsed)&#39;.format(time.time()-start))
 
     # Extract text from file
     f = open(filepath)
@@ -1305,7 +1337,7 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
             reg_nos.append(int(line[12:19]))
         if &#39;c&lt;&gt;-&lt;&gt;   region label :&#39; in line:
             reg_labels.append(line[23:52].strip())
-    print(&#39;{} regions found...     ({:0.2f} seconds elapsed)&#39;.format(n_reg,time.time()-start))
+    if in_dchain_tools_debug_mode: print(&#39;{} regions found...     ({:0.2f} seconds elapsed)&#39;.format(n_reg,time.time()-start))
 
 
     # Then, scan for time steps.  Need all individual times from beginning and time of end of irradiation.
@@ -1339,7 +1371,7 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
 
     pstr = &#39;{} time steps found\nend of irradiation at t = {:g} sec ({})\nend of calculation at t = {:g} sec ({})...                ({:0.2f} seconds elapsed)&#39;.format(
             ntsteps,end_of_irradiation_time,seconds_to_ydhms(end_of_irradiation_time),wtimes[-1],seconds_to_ydhms(wtimes[-1]),time.time()-start)
-    print(pstr)
+    if in_dchain_tools_debug_mode: print(pstr)
 
 
 
@@ -1371,7 +1403,7 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
     pstr =  &#39;{} = maximum number of nuclides listed in a single time step\n&#39;.format(nnuc_max)
     pstr += &#39;{} = highest index found of all relevant chains\n&#39;.format(chni_max)
     pstr += &#39;{} = length of longest chain listed...                          ({:0.2f} seconds elapsed)&#39;.format(chln_max,time.time()-start)
-    print(pstr)
+    if in_dchain_tools_debug_mode: print(pstr)
 
 
     # Construct arrays to hold decay chain information
@@ -1460,13 +1492,14 @@ def parse_DCS_file_from_DCHAIN(filepath,relevancy_threshold=0.01,print_progress=
 
 
     # Now extract results from the data arrays
-    print(&#39;\nNow processing decay chain results...        ({:0.2f} seconds elapsed)&#39;.format(time.time()-start))
+    if in_dchain_tools_debug_mode: print()
+    print(&#39;\tNow processing decay chain results...        ({:0.2f} seconds elapsed)&#39;.format(time.time()-start))
 
     notable_nuclides_AvT_by_region = [] # list of arrays (one per region) containing the time/inventory/activity data of relevant nuclides
     notable_nuclides_names_by_region = [] # list of lists (one per region) containing the relevant nuclides per region
 
     for ri in range(n_reg):
-        print(&#39;Region no. {} ({})&#39;.format(reg_nos[ri],reg_labels[ri]))
+        if in_dchain_tools_debug_mode: print(&#39;Region no. {} ({})&#39;.format(reg_nos[ri],reg_labels[ri]))
         relevant_nuclides = []
         for ti in range(ntsteps):
             t = wtimes[ti]
@@ -4143,7 +4176,7 @@ dchain_output.update({
         start_time = start
     except:
         start_time = time.time()
-    start = start_time
+    start = start_time 
 
     if simulation_basename[-3:] == &#39;.in&#39;: simulation_basename = simulation_basename[:-3]
     simulation_file_basic_path = simulation_folder_path + simulation_basename # only need to add output file extension
@@ -4200,7 +4233,7 @@ dchain_output.update({
                 print(&#39;    No .dyld files could not be found in provided simulation folder: {}&#39;.format(simulation_folder_path))
                 process_dyld_file = False
 
-    print(&#39;{:&lt;50}     ({:0.2f} seconds elapsed)&#39;.format(&#39;    Parsing DCHAIN activation file...&#39;,time.time()-start))
+    print(&#39;{:&lt;50}     ({:0.2f} seconds elapsed)&#39;.format(&#39;\tParsing DCHAIN activation file...&#39;,time.time()-start))
 
     parse_DCHAIN_act_file_OUTPUT = parse_DCHAIN_act_file(act_file)
     reg_nos           = parse_DCHAIN_act_file_OUTPUT[0]  # length R list of region numbers
@@ -4218,7 +4251,7 @@ dchain_output.update({
     rt_summary_info_description = summary_info[3]  # list of length 12 containing descriptions of the above items [0=&#39;total gamma flux [#/s/cc]&#39;,1=&#39;total gamma energy flux [MeV/s/cc]&#39;,2=&#39;annihilation gamma flux [#/s/cc]&#39;,3=&#39;gamma current underflow [#/s]&#39;,4=&#39;gamma current overflow [#/s]&#39;,5=&#39;total activity [Bq/cc]&#39;,6=&#39;total decay heat [W/cc]&#39;,7=&#39;beta decay heat [W/cc]&#39;,8=&#39;gamma decay heat [W/cc]&#39;,9=&#39;alpha decay heat [W/cc]&#39;,10=&#39;activated atoms [#/cc]&#39;,11=&#39;total gamma dose rate [uSV/h*m^2]&#39;]
 
 
-    print(&#39;{:&lt;50}     ({:0.2f} seconds elapsed)&#39;.format(&#39;    Restructuring nuclide data table array...&#39;,time.time()-start))
+    if in_dchain_tools_debug_mode: print(&#39;{:&lt;50}     ({:0.2f} seconds elapsed)&#39;.format(&#39;    Restructuring nuclide data table array...&#39;,time.time()-start))
 
     generate_nuclide_time_profiles_OUTPUT = generate_nuclide_time_profiles(nuclides_produced)
     nuclide_names        = generate_nuclide_time_profiles_OUTPUT[0]  # List of length R of lists containing names of nuclides produced in each region
@@ -4477,7 +4510,7 @@ dchain_output.update({
         #   Nd (nnuc_max) max number of nuclides (this index differs from the ACT N index)
         #   C  (chni_max) maximum index of relevant chains
         #   L  (chln_max) maximum number of links per chain
-
+        np.seterr(divide=&#39;ignore&#39;, invalid=&#39;ignore&#39;)
         dchain_output.update({&#39;DCS&#39;:{
             &#39;time&#39;:{
                 &#39;from_start_sec&#39;:t_from_start,         # [Td] list
@@ -4516,9 +4549,9 @@ dchain_output.update({
                 &#39;link_nuclides&#39;:[link_nuc[ri,:,:,:,:] for ri in rilist],                   # [R][Td,Nd,C,L] strings of the nuclides in each chain
                 &#39;link_decay_modes&#39;:[decay_mode[ri,:,:,:,:] for ri in rilist],              # [R][Td,Nd,C,L] strings of the decay modes each link undergoes to produce the next link
                 &#39;link_dN&#39;:{
-                    &#39;beam&#39;:[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,0] for ri in rilist],                  # [R][Td,Nd,C,L] beam contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
-                    &#39;decay_nrxn&#39;:[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,1] for ri in rilist],            # [R][Td,Nd,C,L] decay + neutron rxn contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
-                    &#39;total&#39;:[None if link_dN_info==None else link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
+                    &#39;beam&#39;:[None if link_dN_info is None else link_dN_info[ri,:,:,:,:,0] for ri in rilist],                  # [R][Td,Nd,C,L] beam contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
+                    &#39;decay_nrxn&#39;:[None if link_dN_info is None else link_dN_info[ri,:,:,:,:,1] for ri in rilist],            # [R][Td,Nd,C,L] decay + neutron rxn contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
+                    &#39;total&#39;:[None if link_dN_info is None else link_dN_info[ri,:,:,:,:,2] for ri in rilist]                  # [R][Td,Nd,C,L] total contribution to dN from each link (only generated if these values are found in file, &#39;None&#39; otherwise)
                     }
                 },
 
@@ -4530,6 +4563,7 @@ dchain_output.update({
                 }
 
             }})
+        np.seterr(divide=&#39;warn&#39;, invalid=&#39;warn&#39;)
 
 
     # https://github.com/Infinidat/munch
@@ -5117,7 +5151,7 @@ Rank, [nuclide, A/cc, A, %], [nuclide, P/cc, P, %], [nuclide, H, %] with values 
     start = start_time
 
 
-    print(&#39;Processing the *.DCS decay chain file...     ({:0.2f} seconds elapsed)&#39;.format(time.time()-start))
+    print(&#39;\tProcessing the *.DCS decay chain file...     ({:0.2f} seconds elapsed)&#39;.format(time.time()-start))
 
     # Extract text from file
     f = open(filepath)
@@ -5140,7 +5174,7 @@ Rank, [nuclide, A/cc, A, %], [nuclide, P/cc, P, %], [nuclide, H, %] with values 
             reg_nos.append(int(line[12:19]))
         if &#39;c&lt;&gt;-&lt;&gt;   region label :&#39; in line:
             reg_labels.append(line[23:52].strip())
-    print(&#39;{} regions found...     ({:0.2f} seconds elapsed)&#39;.format(n_reg,time.time()-start))
+    if in_dchain_tools_debug_mode: print(&#39;{} regions found...     ({:0.2f} seconds elapsed)&#39;.format(n_reg,time.time()-start))
 
 
     # Then, scan for time steps.  Need all individual times from beginning and time of end of irradiation.
@@ -5174,7 +5208,7 @@ Rank, [nuclide, A/cc, A, %], [nuclide, P/cc, P, %], [nuclide, H, %] with values 
 
     pstr = &#39;{} time steps found\nend of irradiation at t = {:g} sec ({})\nend of calculation at t = {:g} sec ({})...                ({:0.2f} seconds elapsed)&#39;.format(
             ntsteps,end_of_irradiation_time,seconds_to_ydhms(end_of_irradiation_time),wtimes[-1],seconds_to_ydhms(wtimes[-1]),time.time()-start)
-    print(pstr)
+    if in_dchain_tools_debug_mode: print(pstr)
 
 
 
@@ -5206,7 +5240,7 @@ Rank, [nuclide, A/cc, A, %], [nuclide, P/cc, P, %], [nuclide, H, %] with values 
     pstr =  &#39;{} = maximum number of nuclides listed in a single time step\n&#39;.format(nnuc_max)
     pstr += &#39;{} = highest index found of all relevant chains\n&#39;.format(chni_max)
     pstr += &#39;{} = length of longest chain listed...                          ({:0.2f} seconds elapsed)&#39;.format(chln_max,time.time()-start)
-    print(pstr)
+    if in_dchain_tools_debug_mode: print(pstr)
 
 
     # Construct arrays to hold decay chain information
@@ -5295,13 +5329,14 @@ Rank, [nuclide, A/cc, A, %], [nuclide, P/cc, P, %], [nuclide, H, %] with values 
 
 
     # Now extract results from the data arrays
-    print(&#39;\nNow processing decay chain results...        ({:0.2f} seconds elapsed)&#39;.format(time.time()-start))
+    if in_dchain_tools_debug_mode: print()
+    print(&#39;\tNow processing decay chain results...        ({:0.2f} seconds elapsed)&#39;.format(time.time()-start))
 
     notable_nuclides_AvT_by_region = [] # list of arrays (one per region) containing the time/inventory/activity data of relevant nuclides
     notable_nuclides_names_by_region = [] # list of lists (one per region) containing the relevant nuclides per region
 
     for ri in range(n_reg):
-        print(&#39;Region no. {} ({})&#39;.format(reg_nos[ri],reg_labels[ri]))
+        if in_dchain_tools_debug_mode: print(&#39;Region no. {} ({})&#39;.format(reg_nos[ri],reg_labels[ri]))
         relevant_nuclides = []
         for ti in range(ntsteps):
             t = wtimes[ti]
