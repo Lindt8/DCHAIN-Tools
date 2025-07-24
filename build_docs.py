@@ -32,7 +32,7 @@ for mod in modules:
         else:
             html_file_name = module_name + '.html'
         html = html.replace('width:70%;max-width:100ch;', 'width:70%;max-width:120ch;',1)  # make page contents wider
-        if module_name == 'manage_mc_materials':
+        if module_name == 'dchain_tools':
             html = html.replace('<h1 class="title">Module <code>dchain_tools</code></h1>','<h1 class="title">Submodule <code>dchain_tools</code></h1>',1)
         # add version number
         html = html.replace('</code></h1>','</code> <i><small>(v'+VERSION_NUMBER+')</small></i></h1>', 1)
