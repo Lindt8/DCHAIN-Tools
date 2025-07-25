@@ -52,19 +52,21 @@ control over these options and their extra functionalities.
 
 
 ###  Other
-- `parse_DCHAIN_act_file_legacy`               : legacy version of parse_DCHAIN_act_file from before error implementation
-- `generate_nuclide_time_profiles_legacy`      : legacy version of generate_nuclide_time_profiles from before error implementation
-- `find`                                       : return index of the first instance of a value in a list
-- `Element_Z_to_Sym`                           : returns elemental symbol provided the atomic number Z
-- `Element_Sym_to_Z`                           : returns an atomic number Z provided the elemental symbol
-- `Element_ZorSym_to_name`                     : returns a string of the name of an element provided its atomic number Z or symbol
-- `Element_ZorSym_to_mass`                     : returns the average atomic mass of an element provided its atomic number Z or symbol
-- `nuclide_to_Latex_form`                      : form a LaTeX-formatted string of a nuclide provided its information
-- `nuclide_plain_str_to_latex_str`             : convert a plaintext string for a nuclide to a LaTeX formatted raw string
-- `nuclide_plain_str_ZZZAAAM`                  : convert a plaintext string for a nuclide to an integer ZZZAAAM value
 - `time_str_to_sec_multiplier`                 : determine multiplier to convert a time unit to seconds
 - `seconds_to_dhms`                            : convert a time in seconds to a string of human-relatable time units
 - `seconds_to_ydhms`                           : convert a time in seconds to a string of human-relatable time units (also with years)
+- `Element_ZorSym_to_name`                     : returns a string of the name of an element provided its atomic number Z or symbol
+- `Element_ZorSym_to_mass`                     : returns the average atomic mass of an element provided its atomic number Z or symbol
+- `nuclide_to_Latex_form`                      : form a LaTeX-formatted string of a nuclide provided its information
+
+### Deprecated or superseded by PHITS Tools
+- `parse_DCHAIN_act_file_legacy`               : legacy version of `parse_DCHAIN_act_file` from before error implementation
+- `generate_nuclide_time_profiles_legacy`      : legacy version of `generate_nuclide_time_profiles` from before error implementation
+- `find`                                       : return index of the first instance of a value in a list
+- `Element_Z_to_Sym`                           : returns elemental symbol provided the atomic number Z
+- `Element_Sym_to_Z`                           : returns an atomic number Z provided the elemental symbol
+- `nuclide_plain_str_to_latex_str`             : convert a plaintext string for a nuclide to a LaTeX formatted raw string
+- `nuclide_plain_str_ZZZAAAM`                  : convert a plaintext string for a nuclide to an integer ZZZAAAM value
 
 '''
 
@@ -77,6 +79,9 @@ import time
 import re
 import bisect
 import unicodedata as ud
+import functools
+import inspect
+import warnings
 try:
     from munch import *
 except:
@@ -91,6 +96,30 @@ if __name__ == "__main__":
     in_dchain_tools_debug_mode = True
 else:
     in_dchain_tools_debug_mode = False
+
+
+def _deprecated_alias(new_func_name):
+    '''@private
+    Decorator for backward-compatible aliasing of renamed functions.
+    '''
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            stack = inspect.stack()
+            try:
+                caller_module = inspect.getmodule(stack[1][0])
+                this_module = inspect.getmodule(stack[0][0])
+                if caller_module is not this_module:
+                    warnings.warn(
+                        f"'{func.__name__}' is deprecated. It retains its original functionality, but it has been replaced by '{new_func_name}'.",
+                        FutureWarning, stacklevel=2
+                    )
+            finally:
+                del stack
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
 
 def process_dchain_simulation_output(simulation_folder_path,simulation_basename,dtrk_filepath=None,dyld_filepath=None,process_DCS_file=False):
     '''
@@ -1753,120 +1782,252 @@ def parse_dyld_files(path_to_dyld_file,iredufmt=None):
 
 
 
-def Dname_to_ZAM(Dname):
+def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis_type='indices',regions=None,region_indices=None,times=None,time_indices=None,rank_cutoff=10,xscale='linear'):
     '''
     Description:
-        Converts a DCHAIN-formatted nuclide name to a ZZZAAAM number
-
-    Inputs:
-        - `Dname` = nuclide identification string in DCHAIN format
-
-    Outputs:
-        - `ZZZAAAM` = nuclide identification ineger, calculated as 10000\*Z + 10\*A + m
-
-    '''
-    elms = ["n ",\
-            "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
-            "Na","Mg","Al","Si","P ","S ","Cl","Ar","K ","Ca",\
-            "Sc","Ti","V ","Cr","Mn","Fe","Co","Ni","Cu","Zn",\
-            "Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y ","Zr",\
-            "Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn",\
-            "Sb","Te","I ","Xe","Cs","Ba","La","Ce","Pr","Nd",\
-            "Pm","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb",\
-            "Lu","Hf","Ta","W ","Re","Os","Ir","Pt","Au","Hg",\
-            "Tl","Pb","Bi","Po","At","Rn","Fr","Ra","Ac","Th",\
-            "Pa","U ","Np","Pu","Am","Cm","Bk","Cf","Es","Fm",\
-            "Md","No","Lr","Rf","Db","Sg","Bh","Hs","Mt","Ds",\
-            "Rg","Cn","Nh","Fl","Mc","Lv","Ts","Og"]
-    AAA = Dname[2:5]
-    A = int(AAA)
-    symbol = Dname[0:2]
-    if 'XX' in symbol: symbol='n '
-    Z = find(symbol,elms)
-    if Dname[-1] == ' ':
-        m = 0
-    elif Dname[-1] == 'm':
-        m = 1
-    elif Dname[-1] == 'n':
-        m = 2
-    ZAM = int(10000*Z + 10*A + m)
-    return ZAM
-
-def ZAM_to_Dname(ZAM):
-    '''
-    Description:
-        Converts a ZZZAAAM number to a DCHAIN-formatted nuclide name
-
-    Inputs:
-        - `ZZZAAAM` = nuclide identification ineger, calculated as 10000\*Z + 10\*A + m
-
-    Outputs:
-        - `Dname` = nuclide identification string in DCHAIN format
-    '''
-    elms = ["n ",\
-            "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
-            "Na","Mg","Al","Si","P ","S ","Cl","Ar","K ","Ca",\
-            "Sc","Ti","V ","Cr","Mn","Fe","Co","Ni","Cu","Zn",\
-            "Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y ","Zr",\
-            "Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn",\
-            "Sb","Te","I ","Xe","Cs","Ba","La","Ce","Pr","Nd",\
-            "Pm","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb",\
-            "Lu","Hf","Ta","W ","Re","Os","Ir","Pt","Au","Hg",\
-            "Tl","Pb","Bi","Po","At","Rn","Fr","Ra","Ac","Th",\
-            "Pa","U ","Np","Pu","Am","Cm","Bk","Cf","Es","Fm",\
-            "Md","No","Lr","Rf","Db","Sg","Bh","Hs","Mt","Ds",\
-            "Rg","Cn","Nh","Fl","Mc","Lv","Ts","Og"]
-    m = int(str(ZAM)[-1])
-    A = int(str(ZAM)[-4:-1])
-    Z = int(str(ZAM)[:-4])
-    sym = elms[Z]
-    A_str = '{:>3}'.format(A)
-    m_str_list = [' ','m','n']
-    m_str = m_str_list[m]
-    Dname = sym + A_str + m_str
-    return Dname
-
-def Dname_to_Latex(Dname):
-    '''
-    Description:
-        Converts a DCHAIN-formatted nuclide name to a LaTeX-formatted string
-
-    Inputs:
-        - `Dname` = nuclide identification string in DCHAIN format
-
-    Outputs:
-        - nuclide name as a LaTeX-formatted raw string
-    '''
-    AAA = Dname[2:5].strip()
-    symbol = Dname[0:2].strip()
-    m = Dname[-1].strip()
-    latex_str = r"$^{{{}{}}}$".format(AAA,m) + "{}".format(symbol)
-    return latex_str
-
-
-def nuclide_plain_str_to_Dname(nuc_str):
-    '''
-    Description:
-        Converts a plaintext string of a nuclide to a DCHAIN-formatted nuclide string
+        Generate a nice plot illustrating dominant nuclides as a function of time or region
 
     Dependencies:
-        - `nuclide_plain_str_ZZZAAAM`
-        - `ZAM_to_Dname`
+        - `import numpy as np`
+        - `import matplotlib.pyplot as plt`
+        - `process_dchain_simulation_output`
 
     Inputs:
+        (required)
 
-       - `nuc_str` = string to be converted; a huge variety of formats are supported, but they all must follow the following rules:
-            + Isomeric/metastable state characters must always immediately follow the atomic mass characters.
-                Isomeric state labels MUST either:
-                  - (1) be a single lower-case character
-                  - (2) begin with any non-numeric character and end with a number
-            + Atomic mass numbers must be nonnegative integers OR the string `"nat"` (in which case no metastable states can be written)
-            + Elemental symbols MUST begin with an upper-case character
+        - `dchain_output` = dictionary output from the process_dchain_simulation_output for a simulation
+
+    Inputs:
+        (optional, keyword)
+
+        - `rank_val` = which top 10 list is selected. (D=`'activity'`, options include `'activity'`, `'decay_heat'`, and `'gamma_dose'`)
+        - `xaxis_val` = value to be plotted on x-axis; can be either `"time"` (default) or `"region"`
+        - `xaxis_type` = space xaxis entries either equally by `"indices"` (default) or realistically by `"values"`
+        - `regions` = list of region numbers (or individual value) to generate plots for (D=`None`, plotting all regions)
+        - `region_indices` = same as above but uses indices rather than region numbers; this has higher priority if specified (D=`None`, plot all regions)
+        - `times` = list of times (from start in seconds) (or individual value) to generate plots for (D=`None`, plotting all times)
+        - `time_indices` = same as above but uses indices rather than time values; this has higher priority if specified (D=`None`, plot all times)
+        - `rank_cutoff` = highest rank (or number of ranks) to be displayed (D=`10`, cannot be any greater than 10)
+        - `xscale` = string specifying scale of x-axis, either `'linear'` (default) or `'log'`
 
     Outputs:
-        - DCHAIN-formatted string of nuclide name
+        - `fig_list` = list of figures which can be plotted.
     '''
-    return ZAM_to_Dname(nuclide_plain_str_ZZZAAAM(nuc_str))
+
+    max_nregs = len(dchain_output['region']['numbers'])
+    all_regs = dchain_output['region']['numbers']
+    max_ntimes = len(dchain_output['time']['from_start_sec'])
+    all_times = dchain_output['time']['from_start_sec']
+
+    if not regions and not region_indices:
+        regions = dchain_output['region']['numbers']
+        region_indices  = range(len(regions))
+    elif region_indices:
+        if isinstance(region_indices, list):
+            regions = []
+            for i in region_indices:
+                if i >= max_nregs:
+                    print('region index {} greater than number of regions {}, skipping...'.format(i,max_nregs))
+                    region_indices.remove(i)
+                    continue
+                regions.append(dchain_output['region']['numbers'][i])
+        else:
+            if region_indices < max_nregs:
+                regions = [dchain_output['region']['numbers'][region_indices]]
+                region_indices = [region_indices]
+            else:
+                print('Single provided region index {} is out of bounds of total number of regions {}, aborting...'.format(region_indices,max_nregs))
+                return None
+    elif regions:
+        if isinstance(regions, list):
+            region_indices = []
+            for i in regions:
+                if i not in all_regs:
+                    print('region {} is not contained in list of region numbers, skipping...'.format(i))
+                    regions.remove(i)
+                    continue
+                region_indices.append(dchain_output['region']['numbers'].index(i))
+        else:
+            if regions in all_regs:
+                region_indices = [dchain_output['region']['numbers'].index(regions)]
+                regions = [regions]
+            else:
+                print('Single provided region {} is not in the simulated region numbers, aborting...'.format(region_indices))
+                return None
+
+    if not times and not time_indices:
+        times = dchain_output['time']['from_start_sec']
+        time_indices  = range(len(times))
+    elif time_indices:
+        if isinstance(time_indices, list):
+            times = []
+            for i in time_indices:
+                if i >= max_ntimes:
+                    print('time index {} greater than number of times {}, skipping...'.format(i,max_ntimes))
+                    time_indices.remove(i)
+                    continue
+                times.append(dchain_output['time']['from_start_sec'][i])
+        else:
+            if time_indices < max_ntimes:
+                times = [dchain_output['time']['from_start_sec'][time_indices]]
+                time_indices = [time_indices]
+            else:
+                print('Single provided time index {} is out of bounds of total number of times {}, aborting...'.format(time_indices,max_ntimes))
+                return None
+    elif times:
+        if isinstance(times, list):
+            time_indices = []
+            for i in times:
+                if i not in all_times:
+                    print('time {} is not contained in list of times, skipping...'.format(i))
+                    times.remove(i)
+                    continue
+                time_indices.append(dchain_output['time']['from_start_sec'].index(i))
+        else:
+            if times in all_times:
+                time_indices = [dchain_output['time']['from_start_sec'].index(times)]
+                times = [times]
+            else:
+                print('Single provided time {} is not in the outputted times, aborting...'.format(time_indices))
+                return None
+
+    if rank_val=='photon_dose':
+        rank_val = 'gamma_dose'
+    if rank_val not in ['activity','decay_heat','gamma_dose']:
+        print("rank_val must be either 'activity', 'decay_heat', or 'gamma_dose', aborting...")
+        return None
+
+    if xaxis_val not in ['time','region']:
+        print("xaxis_val must be either 'time' or 'region', aborting...")
+        return None
+
+    if xaxis_type=='index': xaxis_type = 'indices'
+    if xaxis_type=='value': xaxis_type = 'values'
+    if xaxis_type not in ['indices','values']:
+        print("xaxis_val must be either 'indices' or 'values', aborting...")
+        return None
+
+    fig_list = []
+    ax_list = []
+    figi = 0
+
+    if xaxis_val=='time':
+        major_indices = region_indices
+        minor_indices = time_indices
+        major_values = regions
+        minor_values = times
+        xstr = 'Time'
+    else:
+        major_indices = time_indices
+        minor_indices = region_indices
+        major_values = times
+        minor_values = regions
+        xstr = 'Region'
+
+    if xaxis_type=='indices':
+        xdata = minor_indices
+        xstr += ' (index)'
+    else:
+        xdata = minor_values
+
+    for majori in major_indices:
+        figi += 1
+        # Assemble list of all ranked nuclides
+        nuclides = []
+        for minori in minor_indices:
+
+            if xaxis_val=='time':
+                ri = majori
+                ti = minori
+            else:
+                ri = minori
+                ti = majori
+
+            for tti in range(len(dchain_output['top10'][rank_val]['nuclide'][ri][ti,:])):
+                if (dchain_output['top10'][rank_val]['nuclide'][ri][ti,tti]!=None) and (dchain_output['top10'][rank_val]['nuclide'][ri][ti,tti] not in nuclides) and (dchain_output['top10'][rank_val]['rank'][ri][ti,tti]<=rank_cutoff):
+                    nuclides.append(dchain_output['top10'][rank_val]['nuclide'][ri][ti,tti])
+        # Now assemble plot for each nuclide
+        plot_dicts = []
+        for nuclide in nuclides:
+            ni = nuclides.index(nuclide)
+            ydata = []
+            for minori in minor_indices:
+                if xaxis_val=='time':
+                    ri = majori
+                    ti = minori
+                else:
+                    ri = minori
+                    ti = majori
+                if nuclide in dchain_output['top10'][rank_val]['nuclide'][ri][ti,:]:
+                    tti = dchain_output['top10'][rank_val]['nuclide'][ri][ti,:].tolist().index(nuclide)
+                    #tti = np.where(dchain_output['top10'][rank_val]['nuclide'][ri][ti,:]==nuclide)
+                    if dchain_output['top10'][rank_val]['rank'][ri][ti,tti]<=rank_cutoff:
+                        ydata.append( 1 + rank_cutoff - dchain_output['top10'][rank_val]['rank'][ri][ti,tti] )
+                    else:
+                        ydata.append(np.nan)
+                else:
+                    ydata.append(np.nan)
+            tex_name = nuclide_plain_str_to_latex_str(nuclide)
+            # dict = {'xdata':xdata,'ydata':ydata,'marker':tex_name,'markersize':30,'color':colors_list_12(ni%12)}
+            dict = {'xdata':xdata,'ydata':ydata,'marker':tex_name,'markersize':30}
+            plot_dicts.append(dict)
+        # Now generate plot
+
+        if xaxis_val=='time':
+            title_str = 'Top {} nuclides by {} in region {}'.format(rank_cutoff,rank_val.replace('_',' '),major_values[major_indices.index(majori)])
+        else:
+            title_str = 'Top {} nuclides by {} at t = {} seconds'.format(rank_cutoff,rank_val.replace('_',' '),major_values[major_indices.index(majori)])
+        ystr = 'Rank'
+
+
+        if Hunters_tools_is_available:
+            fig1, ax1 = fancy_plot(
+                                   xdata_lists=None,
+                                   ydata_lists=None,
+                                   dictionaries=plot_dicts,
+                                   figi=figi,
+                                   title_str=title_str,
+                                   x_label_str=xstr,
+                                   y_label_str=ystr,
+                                   x_scale=xscale,
+                                   y_scale='linear',
+                                   fig_height_inch=6.5*(rank_cutoff/10)+0.1*(10-rank_cutoff)
+                                   )
+        else:
+            # For public version, just make this a basic plot rather than using my complicated personal plotting function
+            fig1 = plt.figure()
+            ax1 = plt.subplot(111)
+
+            for entry in plot_dicts:
+                ax1.plot(entry['xdata'],entry['ydata'],marker=entry['marker'],markersize=entry['markersize'],ls='')
+
+            plt.xlabel(xstr,fontsize=14)
+            plt.ylabel(ystr,fontsize=14)
+            plt.xscale(xscale)
+            fig1.tight_layout()
+            fig1.set_size_inches(0.2+6.3*(len(plot_dicts[0]['xdata'])/12),6.5*(rank_cutoff/10)+0.1*(10-rank_cutoff))
+
+
+        ax1.set_yticks(range(1,rank_cutoff+1))
+        ax1.set_yticklabels([str(i) for i in range(rank_cutoff,0,-1)])
+
+        if xaxis_type=='indices':
+            ax1.set_xticks(minor_indices)
+            ax1.set_xticklabels([str(i) for i in minor_indices])
+
+        plt.grid(visible=True, which='major', linestyle='-', alpha=0)#0.25)
+        plt.grid(visible=True, which='minor', linestyle='-', alpha=0)#0.10)
+
+        fig_list.append(fig1)
+        ax_list.append(ax1)
+
+
+    return fig_list #, ax_list
+
+
+
+
+
 
 def rxn_to_dchain_str(target,reaction=None,product=None):
     '''
@@ -2346,6 +2507,232 @@ def calc_one_group_nrxn_xs_dchain(neutron_flux,neutron_flux_errors,libfile,targe
 
 
 
+
+
+def Dname_to_ZAM(Dname):
+    '''
+    Description:
+        Converts a DCHAIN-formatted nuclide name to a ZZZAAAM number
+
+    Inputs:
+        - `Dname` = nuclide identification string in DCHAIN format
+
+    Outputs:
+        - `ZZZAAAM` = nuclide identification ineger, calculated as 10000\*Z + 10\*A + m
+
+    '''
+    elms = ["n ",\
+            "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
+            "Na","Mg","Al","Si","P ","S ","Cl","Ar","K ","Ca",\
+            "Sc","Ti","V ","Cr","Mn","Fe","Co","Ni","Cu","Zn",\
+            "Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y ","Zr",\
+            "Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn",\
+            "Sb","Te","I ","Xe","Cs","Ba","La","Ce","Pr","Nd",\
+            "Pm","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb",\
+            "Lu","Hf","Ta","W ","Re","Os","Ir","Pt","Au","Hg",\
+            "Tl","Pb","Bi","Po","At","Rn","Fr","Ra","Ac","Th",\
+            "Pa","U ","Np","Pu","Am","Cm","Bk","Cf","Es","Fm",\
+            "Md","No","Lr","Rf","Db","Sg","Bh","Hs","Mt","Ds",\
+            "Rg","Cn","Nh","Fl","Mc","Lv","Ts","Og"]
+    AAA = Dname[2:5]
+    A = int(AAA)
+    symbol = Dname[0:2]
+    if 'XX' in symbol: symbol='n '
+    Z = find(symbol,elms)
+    if Dname[-1] == ' ':
+        m = 0
+    elif Dname[-1] == 'm':
+        m = 1
+    elif Dname[-1] == 'n':
+        m = 2
+    ZAM = int(10000*Z + 10*A + m)
+    return ZAM
+
+def ZAM_to_Dname(ZAM):
+    '''
+    Description:
+        Converts a ZZZAAAM number to a DCHAIN-formatted nuclide name
+
+    Inputs:
+        - `ZZZAAAM` = nuclide identification ineger, calculated as 10000\*Z + 10\*A + m
+
+    Outputs:
+        - `Dname` = nuclide identification string in DCHAIN format
+    '''
+    elms = ["n ",\
+            "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
+            "Na","Mg","Al","Si","P ","S ","Cl","Ar","K ","Ca",\
+            "Sc","Ti","V ","Cr","Mn","Fe","Co","Ni","Cu","Zn",\
+            "Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y ","Zr",\
+            "Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn",\
+            "Sb","Te","I ","Xe","Cs","Ba","La","Ce","Pr","Nd",\
+            "Pm","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb",\
+            "Lu","Hf","Ta","W ","Re","Os","Ir","Pt","Au","Hg",\
+            "Tl","Pb","Bi","Po","At","Rn","Fr","Ra","Ac","Th",\
+            "Pa","U ","Np","Pu","Am","Cm","Bk","Cf","Es","Fm",\
+            "Md","No","Lr","Rf","Db","Sg","Bh","Hs","Mt","Ds",\
+            "Rg","Cn","Nh","Fl","Mc","Lv","Ts","Og"]
+    m = int(str(ZAM)[-1])
+    A = int(str(ZAM)[-4:-1])
+    Z = int(str(ZAM)[:-4])
+    sym = elms[Z]
+    A_str = '{:>3}'.format(A)
+    m_str_list = [' ','m','n']
+    m_str = m_str_list[m]
+    Dname = sym + A_str + m_str
+    return Dname
+
+def Dname_to_Latex(Dname):
+    '''
+    Description:
+        Converts a DCHAIN-formatted nuclide name to a LaTeX-formatted string
+
+    Inputs:
+        - `Dname` = nuclide identification string in DCHAIN format
+
+    Outputs:
+        - nuclide name as a LaTeX-formatted raw string
+    '''
+    AAA = Dname[2:5].strip()
+    symbol = Dname[0:2].strip()
+    m = Dname[-1].strip()
+    latex_str = r"$^{{{}{}}}$".format(AAA,m) + "{}".format(symbol)
+    return latex_str
+
+
+def nuclide_plain_str_to_Dname(nuc_str):
+    '''
+    Description:
+        Converts a plaintext string of a nuclide to a DCHAIN-formatted nuclide string
+
+    Dependencies:
+        - `nuclide_plain_str_ZZZAAAM`
+        - `ZAM_to_Dname`
+
+    Inputs:
+
+       - `nuc_str` = string to be converted; a huge variety of formats are supported, but they all must follow the following rules:
+            + Isomeric/metastable state characters must always immediately follow the atomic mass characters.
+                Isomeric state labels MUST either:
+                  - (1) be a single lower-case character
+                  - (2) begin with any non-numeric character and end with a number
+            + Atomic mass numbers must be nonnegative integers OR the string `"nat"` (in which case no metastable states can be written)
+            + Elemental symbols MUST begin with an upper-case character
+
+    Outputs:
+        - DCHAIN-formatted string of nuclide name
+    '''
+    return ZAM_to_Dname(nuclide_plain_str_ZZZAAAM(nuc_str))
+
+
+
+
+
+def time_str_to_sec_multiplier(time_str):
+    '''
+    Description:
+        Provide a time unit and this function provides what those time units need to be multiplied by to obtain seconds.
+
+    Inputs:
+        - `time_str` = string containing time units character(s) [s,m,h,d,y,ms,us,ns,ps,fs]
+
+    Outputs:
+        - `m` = multiplier to convert a time of the supplied units to seconds
+
+    '''
+    try:
+        if time_str == 's':
+            m = 1
+        elif time_str == 'm':
+            m = 60
+        elif time_str == 'h':
+            m = 60*60
+        elif time_str == 'd':
+            m = 60*60*24
+        elif time_str == 'y':
+            m = 60*60*24*365.25
+        elif time_str == 'ms':
+            m = 1e-3
+        elif time_str == 'us':
+            m = 1e-6
+        elif time_str == 'ns':
+            m = 1e-9
+        elif time_str == 'ps':
+            m = 1e-12
+        elif time_str == 'fs':
+            m = 1e-15
+        return m
+    except:
+        print('"{}" is not a valid time unit; please use one of the following: [s,m,h,d,y,ms,us,ns,ps,fs]'.format(time_str))
+        return None
+
+def seconds_to_dhms(t_sec):
+    '''
+    Description:
+        Provide a time in seconds and obtain a string with the time in days, hours, minutes, and seconds
+
+    Inputs:
+        - `t_sec` = a time in seconds (float or int)
+
+    Outputs:
+        - `time_str` = string containing the time prettily formatted in d/h/m/s format
+
+    '''
+    m, s = divmod(t_sec, 60)
+    h, m = divmod(m, 60)
+    d, h = divmod(h, 24)
+
+    if d != 0:
+        time_str = "{:0.0f}d {:0.0f}h {:0.0f}m {:0.2f}s".format(d,h,m,s)
+    elif h != 0:
+        time_str = "{:0.0f}h {:0.0f}m {:0.2f}s".format(h,m,s)
+    elif m != 0:
+        time_str = "{:0.0f}m {:0.2f}s".format(m,s)
+    elif s != 0:
+        time_str = "{:0.2f}s".format(s)
+    else:
+        time_str = ""
+
+    return time_str
+
+def seconds_to_ydhms(t_sec):
+    '''
+    Description:
+        Provide a time in seconds and obtain a string with the time in years, days, hours, minutes, and seconds
+
+    Inputs:
+        - `t_sec` = a time in seconds (float or int)
+
+    Outputs:
+        - `time_str` = string containing the time prettily formatted in y/d/h/m/s format
+
+    '''
+    m, s = divmod(t_sec, 60)
+    h, m = divmod(m, 60)
+    d, h = divmod(h, 24)
+    y, d = divmod(d, 365)
+
+    if y>=4 : # if leap year occurred
+        n_leap_years = int(y/4)
+        d = d-n_leap_years
+
+    if y != 0:
+        time_str = "{:0.0f}y {:0.0f}d {:0.0f}h {:0.0f}m {:0.2f}s".format(y,d,h,m,s)
+    elif d != 0:
+        time_str = "{:0.0f}d {:0.0f}h {:0.0f}m {:0.2f}s".format(d,h,m,s)
+    elif h != 0:
+        time_str = "{:0.0f}h {:0.0f}m {:0.2f}s".format(h,m,s)
+    elif m != 0:
+        time_str = "{:0.0f}m {:0.2f}s".format(m,s)
+    elif s != 0:
+        time_str = "{:0.2f}s".format(s)
+    else:
+        time_str = ""
+
+    return time_str
+
+
+
 def parse_DCHAIN_act_file_legacy(act_file_path):
     '''
     Description:
@@ -2654,251 +3041,6 @@ def generate_nuclide_time_profiles_legacy(nuclides_info_array):
 
 
 
-def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis_type='indices',regions=None,region_indices=None,times=None,time_indices=None,rank_cutoff=10,xscale='linear'):
-    '''
-    Description:
-        Generate a nice plot illustrating dominant nuclides as a function of time or region
-
-    Dependencies:
-        - `import numpy as np`
-        - `import matplotlib.pyplot as plt`
-        - `process_dchain_simulation_output`
-
-    Inputs:
-        (required)
-
-        - `dchain_output` = dictionary output from the process_dchain_simulation_output for a simulation
-
-    Inputs:
-        (optional, keyword)
-
-        - `rank_val` = which top 10 list is selected. (D=`'activity'`, options include `'activity'`, `'decay_heat'`, and `'gamma_dose'`)
-        - `xaxis_val` = value to be plotted on x-axis; can be either `"time"` (default) or `"region"`
-        - `xaxis_type` = space xaxis entries either equally by `"indices"` (default) or realistically by `"values"`
-        - `regions` = list of region numbers (or individual value) to generate plots for (D=`None`, plotting all regions)
-        - `region_indices` = same as above but uses indices rather than region numbers; this has higher priority if specified (D=`None`, plot all regions)
-        - `times` = list of times (from start in seconds) (or individual value) to generate plots for (D=`None`, plotting all times)
-        - `time_indices` = same as above but uses indices rather than time values; this has higher priority if specified (D=`None`, plot all times)
-        - `rank_cutoff` = highest rank (or number of ranks) to be displayed (D=`10`, cannot be any greater than 10)
-        - `xscale` = string specifying scale of x-axis, either `'linear'` (default) or `'log'`
-
-    Outputs:
-        - `fig_list` = list of figures which can be plotted.
-    '''
-
-    max_nregs = len(dchain_output['region']['numbers'])
-    all_regs = dchain_output['region']['numbers']
-    max_ntimes = len(dchain_output['time']['from_start_sec'])
-    all_times = dchain_output['time']['from_start_sec']
-
-    if not regions and not region_indices:
-        regions = dchain_output['region']['numbers']
-        region_indices  = range(len(regions))
-    elif region_indices:
-        if isinstance(region_indices, list):
-            regions = []
-            for i in region_indices:
-                if i >= max_nregs:
-                    print('region index {} greater than number of regions {}, skipping...'.format(i,max_nregs))
-                    region_indices.remove(i)
-                    continue
-                regions.append(dchain_output['region']['numbers'][i])
-        else:
-            if region_indices < max_nregs:
-                regions = [dchain_output['region']['numbers'][region_indices]]
-                region_indices = [region_indices]
-            else:
-                print('Single provided region index {} is out of bounds of total number of regions {}, aborting...'.format(region_indices,max_nregs))
-                return None
-    elif regions:
-        if isinstance(regions, list):
-            region_indices = []
-            for i in regions:
-                if i not in all_regs:
-                    print('region {} is not contained in list of region numbers, skipping...'.format(i))
-                    regions.remove(i)
-                    continue
-                region_indices.append(dchain_output['region']['numbers'].index(i))
-        else:
-            if regions in all_regs:
-                region_indices = [dchain_output['region']['numbers'].index(regions)]
-                regions = [regions]
-            else:
-                print('Single provided region {} is not in the simulated region numbers, aborting...'.format(region_indices))
-                return None
-
-    if not times and not time_indices:
-        times = dchain_output['time']['from_start_sec']
-        time_indices  = range(len(times))
-    elif time_indices:
-        if isinstance(time_indices, list):
-            times = []
-            for i in time_indices:
-                if i >= max_ntimes:
-                    print('time index {} greater than number of times {}, skipping...'.format(i,max_ntimes))
-                    time_indices.remove(i)
-                    continue
-                times.append(dchain_output['time']['from_start_sec'][i])
-        else:
-            if time_indices < max_ntimes:
-                times = [dchain_output['time']['from_start_sec'][time_indices]]
-                time_indices = [time_indices]
-            else:
-                print('Single provided time index {} is out of bounds of total number of times {}, aborting...'.format(time_indices,max_ntimes))
-                return None
-    elif times:
-        if isinstance(times, list):
-            time_indices = []
-            for i in times:
-                if i not in all_times:
-                    print('time {} is not contained in list of times, skipping...'.format(i))
-                    times.remove(i)
-                    continue
-                time_indices.append(dchain_output['time']['from_start_sec'].index(i))
-        else:
-            if times in all_times:
-                time_indices = [dchain_output['time']['from_start_sec'].index(times)]
-                times = [times]
-            else:
-                print('Single provided time {} is not in the outputted times, aborting...'.format(time_indices))
-                return None
-
-    if rank_val=='photon_dose':
-        rank_val = 'gamma_dose'
-    if rank_val not in ['activity','decay_heat','gamma_dose']:
-        print("rank_val must be either 'activity', 'decay_heat', or 'gamma_dose', aborting...")
-        return None
-
-    if xaxis_val not in ['time','region']:
-        print("xaxis_val must be either 'time' or 'region', aborting...")
-        return None
-
-    if xaxis_type=='index': xaxis_type = 'indices'
-    if xaxis_type=='value': xaxis_type = 'values'
-    if xaxis_type not in ['indices','values']:
-        print("xaxis_val must be either 'indices' or 'values', aborting...")
-        return None
-
-    fig_list = []
-    ax_list = []
-    figi = 0
-
-    if xaxis_val=='time':
-        major_indices = region_indices
-        minor_indices = time_indices
-        major_values = regions
-        minor_values = times
-        xstr = 'Time'
-    else:
-        major_indices = time_indices
-        minor_indices = region_indices
-        major_values = times
-        minor_values = regions
-        xstr = 'Region'
-
-    if xaxis_type=='indices':
-        xdata = minor_indices
-        xstr += ' (index)'
-    else:
-        xdata = minor_values
-
-    for majori in major_indices:
-        figi += 1
-        # Assemble list of all ranked nuclides
-        nuclides = []
-        for minori in minor_indices:
-
-            if xaxis_val=='time':
-                ri = majori
-                ti = minori
-            else:
-                ri = minori
-                ti = majori
-
-            for tti in range(len(dchain_output['top10'][rank_val]['nuclide'][ri][ti,:])):
-                if (dchain_output['top10'][rank_val]['nuclide'][ri][ti,tti]!=None) and (dchain_output['top10'][rank_val]['nuclide'][ri][ti,tti] not in nuclides) and (dchain_output['top10'][rank_val]['rank'][ri][ti,tti]<=rank_cutoff):
-                    nuclides.append(dchain_output['top10'][rank_val]['nuclide'][ri][ti,tti])
-        # Now assemble plot for each nuclide
-        plot_dicts = []
-        for nuclide in nuclides:
-            ni = nuclides.index(nuclide)
-            ydata = []
-            for minori in minor_indices:
-                if xaxis_val=='time':
-                    ri = majori
-                    ti = minori
-                else:
-                    ri = minori
-                    ti = majori
-                if nuclide in dchain_output['top10'][rank_val]['nuclide'][ri][ti,:]:
-                    tti = dchain_output['top10'][rank_val]['nuclide'][ri][ti,:].tolist().index(nuclide)
-                    #tti = np.where(dchain_output['top10'][rank_val]['nuclide'][ri][ti,:]==nuclide)
-                    if dchain_output['top10'][rank_val]['rank'][ri][ti,tti]<=rank_cutoff:
-                        ydata.append( 1 + rank_cutoff - dchain_output['top10'][rank_val]['rank'][ri][ti,tti] )
-                    else:
-                        ydata.append(np.nan)
-                else:
-                    ydata.append(np.nan)
-            tex_name = nuclide_plain_str_to_latex_str(nuclide)
-            # dict = {'xdata':xdata,'ydata':ydata,'marker':tex_name,'markersize':30,'color':colors_list_12(ni%12)}
-            dict = {'xdata':xdata,'ydata':ydata,'marker':tex_name,'markersize':30}
-            plot_dicts.append(dict)
-        # Now generate plot
-
-        if xaxis_val=='time':
-            title_str = 'Top {} nuclides by {} in region {}'.format(rank_cutoff,rank_val.replace('_',' '),major_values[major_indices.index(majori)])
-        else:
-            title_str = 'Top {} nuclides by {} at t = {} seconds'.format(rank_cutoff,rank_val.replace('_',' '),major_values[major_indices.index(majori)])
-        ystr = 'Rank'
-
-
-        if Hunters_tools_is_available:
-            fig1, ax1 = fancy_plot(
-                                   xdata_lists=None,
-                                   ydata_lists=None,
-                                   dictionaries=plot_dicts,
-                                   figi=figi,
-                                   title_str=title_str,
-                                   x_label_str=xstr,
-                                   y_label_str=ystr,
-                                   x_scale=xscale,
-                                   y_scale='linear',
-                                   fig_height_inch=6.5*(rank_cutoff/10)+0.1*(10-rank_cutoff)
-                                   )
-        else:
-            # For public version, just make this a basic plot rather than using my complicated personal plotting function
-            fig1 = plt.figure()
-            ax1 = plt.subplot(111)
-
-            for entry in plot_dicts:
-                ax1.plot(entry['xdata'],entry['ydata'],marker=entry['marker'],markersize=entry['markersize'],ls='')
-
-            plt.xlabel(xstr,fontsize=14)
-            plt.ylabel(ystr,fontsize=14)
-            plt.xscale(xscale)
-            fig1.tight_layout()
-            fig1.set_size_inches(0.2+6.3*(len(plot_dicts[0]['xdata'])/12),6.5*(rank_cutoff/10)+0.1*(10-rank_cutoff))
-
-
-        ax1.set_yticks(range(1,rank_cutoff+1))
-        ax1.set_yticklabels([str(i) for i in range(rank_cutoff,0,-1)])
-
-        if xaxis_type=='indices':
-            ax1.set_xticks(minor_indices)
-            ax1.set_xticklabels([str(i) for i in minor_indices])
-
-        plt.grid(visible=True, which='major', linestyle='-', alpha=0)#0.25)
-        plt.grid(visible=True, which='minor', linestyle='-', alpha=0)#0.10)
-
-        fig_list.append(fig1)
-        ax_list.append(ax1)
-
-
-    return fig_list #, ax_list
-
-
-
-
 
 
 
@@ -2921,6 +3063,7 @@ def plot_top10_nuclides(dchain_output,rank_val='activity',xaxis_val='time',xaxis
 **************************************************************************************************
 '''
 
+@_deprecated_alias('PHITS_tools.find()')
 def find(target, myList):
     '''
     Description:
@@ -2932,12 +3075,15 @@ def find(target, myList):
 
     Outputs:
         - index of first instance of `target` in `myList`
+
+    Warning:
+        While this function retains its functionality, it has been replaced by [`PHITS_tools.find()`](https://lindt8.github.io/PHITS-Tools/#PHITS_tools.find).
     '''
     for i in range(len(myList)):
         if myList[i] == target:
             return i
 
-
+@_deprecated_alias('PHITS_tools.element_Z_to_symbol()')
 def Element_Z_to_Sym(Z):
     '''
     Description:
@@ -2948,6 +3094,9 @@ def Element_Z_to_Sym(Z):
 
     Outputs:
         - `sym` = string of elemental symbol for element of atomic number Z
+
+    Warning:
+        While this function retains its functionality, it has been replaced by [`PHITS_tools.element_Z_to_symbol()`](https://lindt8.github.io/PHITS-Tools/#PHITS_tools.element_Z_to_symbol).
     '''
     elms = ["n ",\
             "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
@@ -2968,6 +3117,7 @@ def Element_Z_to_Sym(Z):
         return None
     return elms[i].strip()
 
+@_deprecated_alias('PHITS_tools.element_symbol_to_Z()')
 def Element_Sym_to_Z(sym):
     '''
     Description:
@@ -2981,6 +3131,9 @@ def Element_Sym_to_Z(sym):
 
     Outputs:
         - `Z` = atomic number
+
+    Warning:
+        While this function retains its functionality, it has been replaced by [`PHITS_tools.element_symbol_to_Z()`](https://lindt8.github.io/PHITS-Tools/#PHITS_tools.element_symbol_to_Z).
     '''
     elms = ["n ",\
             "H ","He","Li","Be","B ","C ","N ","O ","F ","Ne",\
@@ -3105,6 +3258,7 @@ def nuclide_to_Latex_form(Z,A,m=''):
     latex_str = r"$^{{{}{}}}$".format(A,m) + "{}".format(symbol)
     return latex_str
 
+@_deprecated_alias('PHITS_tools.nuclide_plain_str_to_latex_str()')
 def nuclide_plain_str_to_latex_str(nuc_str,include_Z=False):
     '''
     Description:
@@ -3132,6 +3286,9 @@ def nuclide_plain_str_to_latex_str(nuc_str,include_Z=False):
 
     Outputs:
         - LaTeX-formatted raw string of nuclide
+
+    Warning:
+        While this function retains its functionality, it has been replaced by [`PHITS_tools.nuclide_plain_str_to_latex_str()`](https://lindt8.github.io/PHITS-Tools/#PHITS_tools.nuclide_plain_str_to_latex_str).
     '''
     tex_str = r''
 
@@ -3231,6 +3388,7 @@ def nuclide_plain_str_to_latex_str(nuc_str,include_Z=False):
 
     return tex_str
 
+@_deprecated_alias('PHITS_tools.nuclide_plain_str_to_ZZZAAAM()')
 def nuclide_plain_str_ZZZAAAM(nuc_str):
     '''
     Description:
@@ -3251,6 +3409,9 @@ def nuclide_plain_str_ZZZAAAM(nuc_str):
 
     Outputs:
         - ZZZAAAM integer
+
+    Warning:
+        While this function retains its functionality, it has been replaced by [`PHITS_tools.nuclide_plain_str_to_ZZZAAAM()`](https://lindt8.github.io/PHITS-Tools/#PHITS_tools.nuclide_plain_str_to_latex_str).
     '''
 
     # remove unwanted characters from provided string
@@ -3358,110 +3519,6 @@ def nuclide_plain_str_ZZZAAAM(nuc_str):
     ZZZAAAM = 10000*Z + 10*A + M
 
     return ZZZAAAM
-
-
-def time_str_to_sec_multiplier(time_str):
-    '''
-    Description:
-        Provide a time unit and this function provides what those time units need to be multiplied by to obtain seconds.
-
-    Inputs:
-        - `time_str` = string containing time units character(s) [s,m,h,d,y,ms,us,ns,ps,fs]
-
-    Outputs:
-        - `m` = multiplier to convert a time of the supplied units to seconds
-
-    '''
-    try:
-        if time_str == 's':
-            m = 1
-        elif time_str == 'm':
-            m = 60
-        elif time_str == 'h':
-            m = 60*60
-        elif time_str == 'd':
-            m = 60*60*24
-        elif time_str == 'y':
-            m = 60*60*24*365.25
-        elif time_str == 'ms':
-            m = 1e-3
-        elif time_str == 'us':
-            m = 1e-6
-        elif time_str == 'ns':
-            m = 1e-9
-        elif time_str == 'ps':
-            m = 1e-12
-        elif time_str == 'fs':
-            m = 1e-15
-        return m
-    except:
-        print('"{}" is not a valid time unit; please use one of the following: [s,m,h,d,y,ms,us,ns,ps,fs]'.format(time_str))
-        return None
-
-def seconds_to_dhms(t_sec):
-    '''
-    Description:
-        Provide a time in seconds and obtain a string with the time in days, hours, minutes, and seconds
-
-    Inputs:
-        - `t_sec` = a time in seconds (float or int)
-
-    Outputs:
-        - `time_str` = string containing the time prettily formatted in d/h/m/s format
-
-    '''
-    m, s = divmod(t_sec, 60)
-    h, m = divmod(m, 60)
-    d, h = divmod(h, 24)
-
-    if d != 0:
-        time_str = "{:0.0f}d {:0.0f}h {:0.0f}m {:0.2f}s".format(d,h,m,s)
-    elif h != 0:
-        time_str = "{:0.0f}h {:0.0f}m {:0.2f}s".format(h,m,s)
-    elif m != 0:
-        time_str = "{:0.0f}m {:0.2f}s".format(m,s)
-    elif s != 0:
-        time_str = "{:0.2f}s".format(s)
-    else:
-        time_str = ""
-
-    return time_str
-
-def seconds_to_ydhms(t_sec):
-    '''
-    Description:
-        Provide a time in seconds and obtain a string with the time in years, days, hours, minutes, and seconds
-
-    Inputs:
-        - `t_sec` = a time in seconds (float or int)
-
-    Outputs:
-        - `time_str` = string containing the time prettily formatted in y/d/h/m/s format
-
-    '''
-    m, s = divmod(t_sec, 60)
-    h, m = divmod(m, 60)
-    d, h = divmod(h, 24)
-    y, d = divmod(d, 365)
-
-    if y>=4 : # if leap year occurred
-        n_leap_years = int(y/4)
-        d = d-n_leap_years
-
-    if y != 0:
-        time_str = "{:0.0f}y {:0.0f}d {:0.0f}h {:0.0f}m {:0.2f}s".format(y,d,h,m,s)
-    elif d != 0:
-        time_str = "{:0.0f}d {:0.0f}h {:0.0f}m {:0.2f}s".format(d,h,m,s)
-    elif h != 0:
-        time_str = "{:0.0f}h {:0.0f}m {:0.2f}s".format(h,m,s)
-    elif m != 0:
-        time_str = "{:0.0f}m {:0.2f}s".format(m,s)
-    elif s != 0:
-        time_str = "{:0.2f}s".format(s)
-    else:
-        time_str = ""
-
-    return time_str
 
 
 
