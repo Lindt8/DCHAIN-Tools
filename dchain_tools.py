@@ -55,9 +55,6 @@ control over these options and their extra functionalities.
 - `time_str_to_sec_multiplier`                 : determine multiplier to convert a time unit to seconds
 - `seconds_to_dhms`                            : convert a time in seconds to a string of human-relatable time units
 - `seconds_to_ydhms`                           : convert a time in seconds to a string of human-relatable time units (also with years)
-- `Element_ZorSym_to_name`                     : returns a string of the name of an element provided its atomic number Z or symbol
-- `Element_ZorSym_to_mass`                     : returns the average atomic mass of an element provided its atomic number Z or symbol
-- `nuclide_to_Latex_form`                      : form a LaTeX-formatted string of a nuclide provided its information
 
 ### Deprecated or superseded by PHITS Tools
 - `parse_DCHAIN_act_file_legacy`               : legacy version of `parse_DCHAIN_act_file` from before error implementation
@@ -65,6 +62,9 @@ control over these options and their extra functionalities.
 - `find`                                       : return index of the first instance of a value in a list
 - `Element_Z_to_Sym`                           : returns elemental symbol provided the atomic number Z
 - `Element_Sym_to_Z`                           : returns an atomic number Z provided the elemental symbol
+- `Element_ZorSym_to_name`                     : returns a string of the name of an element provided its atomic number Z or symbol
+- `Element_ZorSym_to_mass`                     : returns the average atomic mass of an element provided its atomic number Z or symbol
+- `nuclide_to_Latex_form`                      : form a LaTeX-formatted string of a nuclide provided its information
 - `nuclide_plain_str_to_latex_str`             : convert a plaintext string for a nuclide to a LaTeX formatted raw string
 - `nuclide_plain_str_ZZZAAAM`                  : convert a plaintext string for a nuclide to an integer ZZZAAAM value
 
@@ -3170,6 +3170,7 @@ def Element_Sym_to_Z(sym):
 
     return Z
 
+@_deprecated_alias('PHITS_tools.element_Z_or_symbol_to_name()')
 def Element_ZorSym_to_name(Z):
     '''
     Description:
@@ -3180,6 +3181,9 @@ def Element_ZorSym_to_name(Z):
 
     Outputs:
         - `name` = element name
+
+    Warning:
+        While this function retains its functionality, it has been replaced by [`PHITS_tools.element_Z_or_symbol_to_name()`](https://lindt8.github.io/PHITS-Tools/#PHITS_tools.element_Z_or_symbol_to_name).
     '''
     element_names = ['neutron','Hydrogen','Helium','Lithium','Beryllium','Boron','Carbon','Nitrogen','Oxygen','Fluorine',
                      'Neon','Sodium','Magnesium','Aluminium','Silicon','Phosphorus','Sulfur','Chlorine','Argon',
@@ -3203,6 +3207,7 @@ def Element_ZorSym_to_name(Z):
 
     return element_names[zi]
 
+@_deprecated_alias('PHITS_tools.element_Z_or_symbol_to_mass()')
 def Element_ZorSym_to_mass(Z):
     '''
     Description:
@@ -3213,6 +3218,9 @@ def Element_ZorSym_to_mass(Z):
 
     Outputs:
         - `A_avg` = average atomic mass
+
+    Warning:
+        While this function retains its functionality, it has been replaced by [`PHITS_tools.element_Z_or_symbol_to_mass()`](https://lindt8.github.io/PHITS-Tools/#PHITS_tools.element_Z_or_symbol_to_mass).
     '''
 
     average_atomic_masses = [1.008664,1.007,4.002602,6.941,9.012182,10.811,12.0107,14.0067,15.9994,18.9984032,
@@ -3233,6 +3241,7 @@ def Element_ZorSym_to_mass(Z):
 
     return average_atomic_masses[zi]
 
+@_deprecated_alias('PHITS_tools.nuclide_Z_and_A_to_latex_str()')
 def nuclide_to_Latex_form(Z,A,m=''):
     '''
     Description:
@@ -3250,6 +3259,9 @@ def nuclide_to_Latex_form(Z,A,m=''):
 
     Outputs:
         - LaTeX-formatted raw string of a nuclide, excellent for plot titles, labels, and auto-generated LaTeX documents
+
+    Warning:
+        While this function retains its functionality, it has been replaced by [`PHITS_tools.nuclide_Z_and_A_to_latex_str()`](https://lindt8.github.io/PHITS-Tools/#PHITS_tools.nuclide_Z_and_A_to_latex_str).
     '''
     if isinstance(A,(int,float)): A = str(int(A))
     if not isinstance(Z,str): symbol = Element_Z_to_Sym(int(Z))
