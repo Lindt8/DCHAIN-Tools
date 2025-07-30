@@ -6,8 +6,8 @@ on:
   pull_request:
     branches: [master]
   workflow_dispatch:
-    repository_dispatch:
-      types: [trigger-docs]
+  repository_dispatch:
+    types: [trigger-docs]
 
 permissions:
   contents: read
