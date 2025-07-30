@@ -5,6 +5,9 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
+    repository_dispatch:
+      types: [trigger-docs]
 
 permissions:
   contents: read
@@ -30,6 +33,10 @@ jobs:
         pip install pdoc3==0.10.0
         pip install numpy
         pip install matplotlib
+        
+    - name: Clone PHITS-Tools for version info
+      run: |
+        git clone --depth 1 https://github.com/Lindt8/PHITS-Tools.git ../PHITS-Tools
 
     - name: Build documentation
       run: |
