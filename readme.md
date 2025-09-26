@@ -10,6 +10,14 @@
 
 This module is a collection of Python 3 functions which serve to automatically process output from the DCHAIN-PHITS code, the nuclide activation, buildup, burnup, and decay code which is coupled to and distributed with the PHITS general purpose Monte Carlo particle transport code. These codes can be obtained at [https://phits.jaea.go.jp/](https://phits.jaea.go.jp/).
 
+If you use/reference this code in a research paper, please cite this paper as follows:
+
+_Ratliff, H. N., (2025). The PHITS Tools Python package for parsing, organizing, and analyzing results from the PHITS radiation transport and DCHAIN activation codes. Journal of Open Source Software, 10(113), 8311, https://doi.org/10.21105/joss.08311_
+
+```bibtex
+@article{Ratliff2025, doi = {10.21105/joss.08311}, url = {https://doi.org/10.21105/joss.08311}, year = {2025}, publisher = {The Open Journal}, volume = {10}, number = {113}, pages = {8311}, author = {Ratliff, Hunter N.}, title = {{The PHITS Tools Python package for parsing, organizing, and analyzing results from the PHITS radiation transport and DCHAIN activation codes}}, journal = {Journal of Open Source Software} } 
+```
+
 ## Installation
 
 DCHAIN Tools is distributed as a submodule of [PHITS Tools](https://github.com/Lindt8/PHITS-Tools) and is primarily intended to be accessed as such, though it is still fully functional on its own.
@@ -39,3 +47,4 @@ I have also written a similar module for (nearly universally) parsing and proces
 These functions are just tools I have developed over time to speed up my usage of PHITS and DCHAIN-PHITS; they are not officially supported by the PHITS development team. 
 
 All of the professionally-relevant Python modules I have developed are summarized [here](https://lindt8.github.io/professional-code-projects/), and more general information about me and the work I do / have done can be found on [my personal webpage](https://lindt8.github.io/).
+
