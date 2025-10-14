@@ -4,7 +4,7 @@
 [![Documentation](https://img.shields.io/badge/Documentation-brightgreen)](https://lindt8.github.io/DCHAIN-Tools/)
 [![status](https://joss.theoj.org/papers/ef67acccadb883867ba60dc9e018ff70/status.svg)](https://joss.theoj.org/papers/ef67acccadb883867ba60dc9e018ff70)
 [![PyPI - Version](https://img.shields.io/pypi/v/PHITS-Tools?logo=pypi&logoColor=fff&label=PyPI)](https://pypi.org/project/PHITS-Tools/)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14267236.svg)](https://doi.org/10.5281/zenodo.14267236)
+<!--[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14267236.svg)](https://doi.org/10.5281/zenodo.14267236)-->
 
 ## Purpose
 
@@ -47,4 +47,5 @@ I have also written a similar module for (nearly universally) parsing and proces
 These functions are just tools I have developed over time to speed up my usage of PHITS and DCHAIN-PHITS; they are not officially supported by the PHITS development team. 
 
 All of the professionally-relevant Python modules I have developed are summarized [here](https://lindt8.github.io/professional-code-projects/), and more general information about me and the work I do / have done can be found on [my personal webpage](https://lindt8.github.io/).
+
 
